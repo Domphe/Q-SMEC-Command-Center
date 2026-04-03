@@ -1,8 +1,7 @@
-"""Gmail API wrapper — OAuth2 authentication and email operations."""
+"""Gmail API wrapper — supports both OAuth2 (desktop) and Service Account auth."""
 
+import json
 import os
-import base64
-from datetime import datetime
 from typing import Optional
 
 from backend.config import settings
@@ -11,8 +10,38 @@ from backend.config import settings
 _service = None
 
 
-def _get_credentials():
-    """Get or refresh Gmail OAuth2 credentials."""
+def _detect_credential_type(path: str) -> Optional[str]:
+    """Detect if a JSON credential file is a service account or OAuth2 client."""
+    if not os.path.exists(path):
+        return None
+    with open(path, "r") as f:
+        data = json.load(f)
+    if data.get("type") == "service_account":
+        return "service_account"
+    if data.get("installed") or data.get("web"):
+        return "oauth2"
+    return None
+
+
+def _get_service_account_credentials():
+    """Build credentials from a service account key with domain-wide delegation."""
+    from google.oauth2 import service_account
+
+    SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
+    sa_path = settings.GMAIL_CLIENT_SECRET_PATH
+
+    creds = service_account.Credentials.from_service_account_file(sa_path, scopes=SCOPES)
+
+    # Delegate to the target user's mailbox
+    delegated_user = settings.GMAIL_USER
+    if delegated_user:
+        creds = creds.with_subject(delegated_user)
+
+    return creds
+
+
+def _get_oauth2_credentials():
+    """Get or refresh OAuth2 credentials (desktop app flow)."""
     from google.oauth2.credentials import Credentials
     from google_auth_oauthlib.flow import InstalledAppFlow
     from google.auth.transport.requests import Request
@@ -44,6 +73,25 @@ def _get_credentials():
     return creds
 
 
+def _get_credentials():
+    """Auto-detect credential type and return appropriate credentials."""
+    secret_path = settings.GMAIL_CLIENT_SECRET_PATH
+    cred_type = _detect_credential_type(secret_path)
+
+    if cred_type == "service_account":
+        return _get_service_account_credentials()
+    elif cred_type == "oauth2":
+        return _get_oauth2_credentials()
+    elif os.path.exists(settings.GMAIL_TOKEN_PATH):
+        # Existing token from previous OAuth2 flow
+        return _get_oauth2_credentials()
+    else:
+        raise FileNotFoundError(
+            "No Gmail credentials found. Place either a service account key "
+            "or OAuth2 client_secret.json at {}".format(secret_path)
+        )
+
+
 def get_gmail_service():
     """Get authenticated Gmail API service (singleton)."""
     global _service
@@ -55,11 +103,16 @@ def get_gmail_service():
 
 
 def is_gmail_configured() -> bool:
-    """Check if Gmail OAuth credentials are available."""
+    """Check if any Gmail credentials are available."""
     return (
         os.path.exists(settings.GMAIL_TOKEN_PATH)
         or os.path.exists(settings.GMAIL_CLIENT_SECRET_PATH)
     )
+
+
+def get_auth_type() -> Optional[str]:
+    """Return which auth method is configured."""
+    return _detect_credential_type(settings.GMAIL_CLIENT_SECRET_PATH)
 
 
 def list_messages(query: str = "", max_results: int = 50) -> list:
@@ -68,8 +121,9 @@ def list_messages(query: str = "", max_results: int = 50) -> list:
         return []
 
     service = get_gmail_service()
+    user_id = settings.GMAIL_USER or "me"
     results = service.users().messages().list(
-        userId="me", q=query, maxResults=max_results
+        userId=user_id, q=query, maxResults=max_results
     ).execute()
 
     messages = results.get("messages", [])
@@ -79,8 +133,9 @@ def list_messages(query: str = "", max_results: int = 50) -> list:
 def get_message(msg_id: str) -> dict:
     """Get full message details by ID."""
     service = get_gmail_service()
+    user_id = settings.GMAIL_USER or "me"
     msg = service.users().messages().get(
-        userId="me", id=msg_id, format="metadata",
+        userId=user_id, id=msg_id, format="metadata",
         metadataHeaders=["From", "To", "Subject", "Date"],
     ).execute()
 
