@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Environment variables
+.env
+client_secret.json
+token.json
+
+# Database
+*.db
+*.db-journal
+
+# Node
+node_modules/
+frontend/dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build output served by backend
+backend/static/*
+!backend/static/.gitkeep
+
+# Bridge files (generated)
+bridge/*.json
+!bridge/README.md
+
+# Logs
+*.log
