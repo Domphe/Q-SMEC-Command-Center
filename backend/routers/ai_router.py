@@ -1,5 +1,7 @@
-"""AI router — complexity scoring and model selection."""
+"""AI router — complexity scoring, model selection, and live execution."""
 
+import asyncio
+from datetime import datetime
 from typing import Optional
 
 from fastapi import APIRouter, Depends
@@ -8,6 +10,8 @@ from sqlmodel import Session
 
 from backend.database import get_session
 from backend.models.task import AITask
+from backend.services.model_router import score_complexity, select_model, select_tool
+from backend.services.ai_service import call_claude, call_gemini, is_anthropic_configured, is_gemini_configured
 
 router = APIRouter()
 
@@ -22,88 +26,6 @@ class ExecuteRequest(BaseModel):
     task_description: str
     model: str
     context: Optional[dict] = None
-
-
-def score_complexity(task: str, context: dict) -> int:
-    """Score task complexity on 0-100 scale."""
-    score = 0
-
-    # Length/depth indicators
-    if len(task) > 500:
-        score += 15
-    if context.get("multi_repo"):
-        score += 20
-    if context.get("file_count", 0) > 5:
-        score += 15
-
-    # Task type indicators
-    research_keywords = ["analyze", "synthesize", "architecture", "design", "strategy", "plan"]
-    routine_keywords = ["categorize", "tag", "status", "check", "list", "format", "summarize"]
-
-    task_lower = task.lower()
-    if any(k in task_lower for k in research_keywords):
-        score += 25
-    if any(k in task_lower for k in routine_keywords):
-        score -= 15
-
-    # Domain complexity
-    if "physics" in task_lower or "dft" in task_lower:
-        score += 20
-    if "playbook" in task_lower:
-        score += 15
-    if context.get("requires_web_search"):
-        score += 10
-
-    # UC count
-    uc_count = context.get("uc_count", 0)
-    if uc_count > 3:
-        score += 15
-
-    return max(0, min(100, score))
-
-
-def select_model(score: int, preferred: Optional[str] = None) -> dict:
-    """Select model based on complexity score."""
-    if preferred:
-        return {
-            "recommended_model": preferred,
-            "confidence": 0.9,
-            "reasoning": "User preferred model: {}".format(preferred),
-        }
-
-    if score <= 30:
-        return {
-            "recommended_model": "sonnet",
-            "confidence": 0.85,
-            "reasoning": "Low complexity ({}) — Sonnet handles routine tasks efficiently".format(score),
-            "alternate": None,
-        }
-    elif score <= 65:
-        return {
-            "recommended_model": "sonnet",
-            "confidence": 0.7,
-            "reasoning": "Medium complexity ({}) — Sonnet default with Opus fallback".format(score),
-            "alternate": "opus",
-        }
-    else:
-        return {
-            "recommended_model": "opus",
-            "confidence": 0.85,
-            "reasoning": "High complexity ({}) — Opus for deep reasoning".format(score),
-            "alternate": "sonnet",
-        }
-
-
-def select_tool(task: str) -> Optional[str]:
-    """Determine which Claude tool should execute the task."""
-    task_lower = task.lower()
-    if any(k in task_lower for k in ["git", "script", "database", "ci", "pipeline", "deploy", "test"]):
-        return "code"
-    if any(k in task_lower for k in ["file", "document", "write", "edit", "bulk"]):
-        return "cowork"
-    if any(k in task_lower for k in ["research", "plan", "web", "strategy"]):
-        return "project"
-    return None
 
 
 @router.post("/route")
@@ -122,22 +44,77 @@ def route_task(req: RouteRequest):
 
 
 @router.post("/execute")
-def execute_task(req: ExecuteRequest, session: Session = Depends(get_session)):
-    """Placeholder for actual AI execution — Phase 5."""
+async def execute_task(req: ExecuteRequest, session: Session = Depends(get_session)):
+    """Execute a task using the specified AI model."""
+    context = req.context or {}
+    score = score_complexity(req.task_description, context)
+
+    # Create task record
     task = AITask(
         description=req.task_description,
-        complexity_score=score_complexity(req.task_description, req.context or {}),
+        complexity_score=score,
         recommended_model=req.model,
         actual_model=req.model,
         tool=select_tool(req.task_description),
-        status="pending",
+        status="executing",
+        created_at=datetime.utcnow(),
     )
     session.add(task)
     session.commit()
     session.refresh(task)
+
+    # Dispatch to the right API
+    model_lower = req.model.lower()
+    if model_lower in ("gemini", "gemini-flash", "gemini-pro"):
+        if not is_gemini_configured():
+            task.status = "failed"
+            task.result = "Gemini API key not configured"
+            session.add(task)
+            session.commit()
+            return {"task_id": task.id, "status": "failed", "error": task.result}
+        result = await call_gemini(req.task_description)
+    else:
+        if not is_anthropic_configured():
+            task.status = "failed"
+            task.result = "Anthropic API key not configured"
+            session.add(task)
+            session.commit()
+            return {"task_id": task.id, "status": "failed", "error": task.result}
+
+        # Map friendly names to model IDs
+        model_map = {
+            "opus": "claude-opus-4-20250514",
+            "sonnet": "claude-sonnet-4-20250514",
+            "haiku": "claude-haiku-4-5-20251001",
+        }
+        model_id = model_map.get(model_lower, model_lower)
+        result = await call_claude(req.task_description, model=model_id)
+
+    # Update task with result
+    task.status = "completed" if not result.get("error") else "failed"
+    task.result = result.get("result") or result.get("error")
+    task.actual_model = result.get("model_used", req.model)
+    task.tokens_used = result.get("tokens_used")
+    task.duration_ms = result.get("duration_ms")
+    task.completed_at = datetime.utcnow()
+    session.add(task)
+    session.commit()
+    session.refresh(task)
+
     return {
         "task_id": task.id,
-        "status": "queued",
-        "model": req.model,
-        "message": "AI execution not yet wired — see Phase 5 in spec",
+        "status": task.status,
+        "result": task.result,
+        "model_used": task.actual_model,
+        "tokens_used": task.tokens_used,
+        "duration_ms": task.duration_ms,
+    }
+
+
+@router.get("/status")
+def ai_status():
+    """Check which AI services are configured."""
+    return {
+        "anthropic": is_anthropic_configured(),
+        "gemini": is_gemini_configured(),
     }
