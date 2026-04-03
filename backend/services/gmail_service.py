@@ -6,6 +6,16 @@ from typing import Optional
 
 from backend.config import settings
 
+# Full Gmail access — read, send, modify, labels, settings
+GMAIL_SCOPES = [
+    "https://www.googleapis.com/auth/gmail.readonly",
+    "https://www.googleapis.com/auth/gmail.send",
+    "https://www.googleapis.com/auth/gmail.modify",
+    "https://www.googleapis.com/auth/gmail.labels",
+    "https://www.googleapis.com/auth/gmail.settings.basic",
+    "https://mail.google.com/",  # full mailbox access
+]
+
 # Lazy imports — these are heavy and only needed when Gmail is configured
 _service = None
 
@@ -27,7 +37,7 @@ def _get_service_account_credentials():
     """Build credentials from a service account key with domain-wide delegation."""
     from google.oauth2 import service_account
 
-    SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
+    SCOPES = GMAIL_SCOPES
     sa_path = settings.GMAIL_CLIENT_SECRET_PATH
 
     creds = service_account.Credentials.from_service_account_file(sa_path, scopes=SCOPES)
@@ -46,7 +56,7 @@ def _get_oauth2_credentials():
     from google_auth_oauthlib.flow import InstalledAppFlow
     from google.auth.transport.requests import Request
 
-    SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
+    SCOPES = GMAIL_SCOPES
     creds = None
 
     token_path = settings.GMAIL_TOKEN_PATH
@@ -115,19 +125,30 @@ def get_auth_type() -> Optional[str]:
     return _detect_credential_type(settings.GMAIL_CLIENT_SECRET_PATH)
 
 
-def list_messages(query: str = "", max_results: int = 50) -> list:
-    """List Gmail messages matching a query."""
+def list_messages(query: str = "", max_results: int = 500) -> list:
+    """List Gmail messages matching a query. Paginates for >500 results."""
     if not is_gmail_configured():
         return []
 
     service = get_gmail_service()
     user_id = settings.GMAIL_USER or "me"
-    results = service.users().messages().list(
-        userId=user_id, q=query, maxResults=max_results
-    ).execute()
+    messages = []
+    page_token = None
+    page_size = min(max_results, 500)
 
-    messages = results.get("messages", [])
-    return messages
+    while len(messages) < max_results:
+        request_args = {"userId": user_id, "q": query, "maxResults": page_size}
+        if page_token:
+            request_args["pageToken"] = page_token
+
+        results = service.users().messages().list(**request_args).execute()
+        messages.extend(results.get("messages", []))
+        page_token = results.get("nextPageToken")
+
+        if not page_token:
+            break
+
+    return messages[:max_results]
 
 
 def get_message(msg_id: str) -> dict:
@@ -168,7 +189,7 @@ def get_message(msg_id: str) -> dict:
     }
 
 
-def sync_recent_emails(max_results: int = 50) -> list:
+def sync_recent_emails(max_results: int = 500) -> list:
     """Fetch recent emails and return parsed list."""
     if not is_gmail_configured():
         return []

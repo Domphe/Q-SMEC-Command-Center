@@ -41,7 +41,7 @@ def list_emails(
 
 
 @router.post("/sync")
-def sync_emails_endpoint(session: Session = Depends(get_session)):
+def sync_emails_endpoint(limit: int = 500, session: Session = Depends(get_session)):
     """Trigger Gmail pull — fetches recent emails and categorizes them."""
     if not is_gmail_configured():
         return {
@@ -50,7 +50,7 @@ def sync_emails_endpoint(session: Session = Depends(get_session)):
         }
 
     try:
-        raw_emails = sync_recent_emails(max_results=50)
+        raw_emails = sync_recent_emails(max_results=limit)
     except Exception as e:
         logger.error("Gmail sync failed: %s", e)
         return {"synced": 0, "new": 0, "error": str(e)}
