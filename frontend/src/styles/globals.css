@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #111827; }
+::-webkit-scrollbar-thumb { background: #1e2d3d; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+/* Focus styles */
+textarea:focus, input:focus, select:focus {
+  outline: none;
+  border-color: #3b82f6 !important;
+}
+
+/* Smooth transitions */
+.transition-colors { transition: color 0.15s, background-color 0.15s, border-color 0.15s; }
