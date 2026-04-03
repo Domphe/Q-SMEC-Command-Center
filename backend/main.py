@@ -1,5 +1,6 @@
 """Q-SMEC Command Center — FastAPI application entry point."""
 
+import logging
 import os
 from contextlib import asynccontextmanager
 
@@ -11,13 +12,42 @@ from backend.database import init_db
 from backend.seed import seed_if_empty
 from backend.routers import overview, emails, clients, pipeline, repos, notes, ai_router
 
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
+logger = logging.getLogger(__name__)
+
+# APScheduler — optional, only if running in production
+_scheduler = None
+
+
+def _start_scheduler():
+    """Start background job scheduler."""
+    global _scheduler
+    try:
+        from apscheduler.schedulers.background import BackgroundScheduler
+        from backend.jobs.email_sync import run_email_sync
+        from backend.jobs.repo_health import run_repo_health_check
+        from backend.jobs.note_export import run_note_export
+
+        _scheduler = BackgroundScheduler()
+        _scheduler.add_job(run_email_sync, "interval", minutes=15, id="email_sync")
+        _scheduler.add_job(run_repo_health_check, "interval", hours=1, id="repo_health")
+        _scheduler.add_job(run_note_export, "interval", minutes=5, id="note_export")
+        _scheduler.start()
+        logger.info("Background scheduler started (email:15m, repos:1h, notes:5m)")
+    except Exception as e:
+        logger.warning("Scheduler not started: %s", e)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Initialize database and seed data on startup."""
+    """Initialize database, seed data, and start scheduler on startup."""
     init_db()
     seed_if_empty()
+    _start_scheduler()
     yield
+    if _scheduler:
+        _scheduler.shutdown(wait=False)
+        logger.info("Background scheduler stopped")
 
 
 app = FastAPI(
@@ -48,7 +78,12 @@ app.include_router(ai_router.router, prefix="/api/ai", tags=["ai"])
 
 @app.get("/api/health")
 def health_check():
-    return {"status": "ok", "version": "2.0.0", "app": "Q-SMEC Command Center"}
+    return {
+        "status": "ok",
+        "version": "2.0.0",
+        "app": "Q-SMEC Command Center",
+        "scheduler": _scheduler is not None and _scheduler.running if _scheduler else False,
+    }
 
 
 # Serve built frontend from backend/static if it exists

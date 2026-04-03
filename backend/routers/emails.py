@@ -1,5 +1,7 @@
 """Email triage router — Gmail cache with categorization."""
 
+import logging
+from datetime import datetime
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -7,7 +9,10 @@ from sqlmodel import Session, select, func
 
 from backend.database import get_session
 from backend.models.email_cache import EmailCache
+from backend.services.gmail_service import is_gmail_configured, sync_recent_emails
+from backend.services.email_triage import categorize_email as triage_email
 
+logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
@@ -22,7 +27,6 @@ def list_emails(
     if category:
         statement = statement.where(EmailCache.category == category)
     if search:
-        pattern = "%{}%".format(search)
         statement = statement.where(
             EmailCache.subject.contains(search) | EmailCache.snippet.contains(search)  # type: ignore
         )
@@ -37,13 +41,57 @@ def list_emails(
 
 
 @router.post("/sync")
-def sync_emails():
-    """Trigger Gmail pull. Placeholder until Gmail OAuth is configured (Phase 4)."""
-    return {"synced": 0, "new": 0, "message": "Gmail sync not configured yet — see Phase 4 in spec"}
+def sync_emails_endpoint(session: Session = Depends(get_session)):
+    """Trigger Gmail pull — fetches recent emails and categorizes them."""
+    if not is_gmail_configured():
+        return {
+            "synced": 0, "new": 0,
+            "message": "Gmail not configured. Place client_secret.json in the repo root and run the OAuth flow.",
+        }
+
+    try:
+        raw_emails = sync_recent_emails(max_results=50)
+    except Exception as e:
+        logger.error("Gmail sync failed: %s", e)
+        return {"synced": 0, "new": 0, "error": str(e)}
+
+    new_count = 0
+    for raw in raw_emails:
+        existing = session.get(EmailCache, raw["id"])
+        if existing:
+            continue
+
+        # Triage
+        triage = triage_email(raw)
+
+        email = EmailCache(
+            id=raw["id"],
+            thread_id=raw.get("thread_id"),
+            from_addr=raw.get("from_addr"),
+            from_name=raw.get("from_name"),
+            to_addr=raw.get("to_addr"),
+            subject=raw.get("subject"),
+            snippet=raw.get("snippet"),
+            date=datetime.utcnow(),  # Could parse raw["date"] properly
+            has_attachment=raw.get("has_attachment", False),
+            is_unread=raw.get("is_unread", True),
+            raw_labels=raw.get("raw_labels"),
+            category=triage["category"],
+            uc=triage["uc"],
+            client=triage["client"],
+            action_required=triage["action_required"],
+            categorized_by=triage["categorized_by"],
+            synced_at=datetime.utcnow(),
+        )
+        session.add(email)
+        new_count += 1
+
+    session.commit()
+    return {"synced": len(raw_emails), "new": new_count}
 
 
 @router.post("/{email_id}/categorize")
-def categorize_email(
+def categorize_email_endpoint(
     email_id: str,
     category: Optional[str] = None,
     uc: Optional[str] = None,
@@ -73,7 +121,6 @@ def categorize_email(
 def create_note_from_email(email_id: str, session: Session = Depends(get_session)):
     """Create a note from email content, pre-tagged with UC/client."""
     from backend.models.note import Note
-    from datetime import datetime
 
     email = session.get(EmailCache, email_id)
     if not email:
