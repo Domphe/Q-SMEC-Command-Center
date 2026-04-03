@@ -14,10 +14,10 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
 
-# Frontend deps
+# Frontend deps (NODE_ENV=development ensures devDeps install)
 echo "Installing frontend dependencies..."
 cd "$ROOT/frontend"
-npm install
+NODE_ENV=development npm install
 
 # .env
 if [ ! -f "$ROOT/.env" ]; then

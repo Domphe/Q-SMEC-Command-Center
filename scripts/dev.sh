@@ -17,7 +17,7 @@ BACKEND_PID=$!
 # Start frontend
 echo "Starting frontend on :5173..."
 cd "$ROOT/frontend"
-npm run dev &
+NODE_ENV=development npm run dev &
 FRONTEND_PID=$!
 
 echo ""
