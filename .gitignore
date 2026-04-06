@@ -45,3 +45,6 @@ bridge/*.json
 
 # Logs
 *.log
+
+# Standard exclusions
+desktop.ini
