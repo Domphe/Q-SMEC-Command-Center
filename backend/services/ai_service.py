@@ -21,11 +21,11 @@ async def call_claude(prompt: str, model: str = "claude-sonnet-4-20250514", max_
 
     import anthropic
 
-    client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
+    client = anthropic.AsyncAnthropic(api_key=settings.ANTHROPIC_API_KEY)
     start = time.time()
 
     try:
-        response = client.messages.create(
+        response = await client.messages.create(
             model=model,
             max_tokens=max_tokens,
             messages=[{"role": "user", "content": prompt}],
@@ -55,13 +55,16 @@ async def call_gemini(prompt: str, model: str = "gemini-2.0-flash", max_tokens: 
     if not is_gemini_configured():
         return {"error": "Gemini API key not configured", "result": None}
 
+    import asyncio
     from google import genai
 
     client = genai.Client(api_key=settings.GEMINI_API_KEY)
     start = time.time()
 
     try:
-        response = client.models.generate_content(
+        # genai Client is sync — wrap in thread to avoid blocking event loop
+        response = await asyncio.to_thread(
+            client.models.generate_content,
             model=model,
             contents=prompt,
         )
