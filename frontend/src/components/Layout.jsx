@@ -5,7 +5,6 @@ const NAV_ITEMS = [
   { path: '/emails', label: 'Email Triage', icon: '📧' },
   { path: '/clients', label: 'Clients', icon: '🤝' },
   { path: '/pipeline', label: 'Pipeline', icon: '🔬' },
-  { path: '/repos', label: 'Repos', icon: '📦' },
   { path: '/notes', label: 'Notes', icon: '📝' },
   { path: '/command-center', label: 'Cmd Center', icon: '🎯' },
 ]

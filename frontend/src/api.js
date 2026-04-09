@@ -29,6 +29,7 @@ export const api = {
   syncEmails: () => request('/emails/sync', { method: 'POST' }),
   categorizeEmail: (id, data) => request(`/emails/${id}/categorize`, { method: 'POST', body: JSON.stringify(data) }),
   createNoteFromEmail: (id) => request(`/emails/${id}/create-note`, { method: 'POST' }),
+  patchEmail: (id, data) => request(`/emails/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
 
   // Clients
   getClients: (params = {}) => {
@@ -37,6 +38,7 @@ export const api = {
   },
   createClient: (data) => request('/clients', { method: 'POST', body: JSON.stringify(data) }),
   updateClient: (id, data) => request(`/clients/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  getClientEmails: (id) => request(`/clients/${id}/emails`),
 
   // Pipeline
   getPipeline: (params = {}) => {
@@ -59,6 +61,10 @@ export const api = {
   deleteNote: (id) => request(`/notes/${id}`, { method: 'DELETE' }),
   routeNote: (id) => request(`/notes/${id}/route`, { method: 'POST' }),
   exportNotes: () => request('/notes/export', { method: 'POST' }),
+
+  // Agent
+  getAgentDigest: () => request('/agent/digest'),
+  getLearningStats: () => request('/emails/learning-stats'),
 
   // AI Router
   routeTask: (data) => request('/ai/route', { method: 'POST', body: JSON.stringify(data) }),

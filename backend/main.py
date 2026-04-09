@@ -10,7 +10,10 @@ from fastapi.staticfiles import StaticFiles
 
 from backend.database import init_db
 from backend.seed import seed_if_empty
-from backend.routers import overview, emails, clients, pipeline, repos, notes, ai_router
+from backend.routers import (
+    overview, emails, clients, pipeline,
+    notes, ai_router, agent,
+)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
@@ -25,23 +28,61 @@ def _start_scheduler():
     try:
         from apscheduler.schedulers.background import BackgroundScheduler
         from backend.jobs.email_sync import run_email_sync
-        from backend.jobs.repo_health import run_repo_health_check
         from backend.jobs.note_export import run_note_export
+        from backend.jobs.agent_digest import (
+            run_agent_digest, run_morning_brief,
+        )
 
         _scheduler = BackgroundScheduler()
-        _scheduler.add_job(run_email_sync, "interval", minutes=15, id="email_sync")
-        _scheduler.add_job(run_repo_health_check, "interval", hours=1, id="repo_health")
-        _scheduler.add_job(run_note_export, "interval", minutes=5, id="note_export")
+        _scheduler.add_job(
+            run_email_sync, "interval",
+            minutes=15, id="email_sync",
+        )
+        _scheduler.add_job(
+            run_note_export, "interval",
+            minutes=5, id="note_export",
+        )
+        _scheduler.add_job(
+            run_agent_digest, "interval",
+            minutes=30, id="agent_digest",
+        )
+        _scheduler.add_job(
+            run_morning_brief, "cron",
+            hour=7, minute=0, id="morning_brief",
+        )
         _scheduler.start()
-        logger.info("Background scheduler started (email:15m, repos:1h, notes:5m)")
+        logger.info(
+            "Scheduler started "
+            "(email:15m, notes:5m, digest:30m, "
+            "brief:7am)"
+        )
     except Exception as e:
         logger.warning("Scheduler not started: %s", e)
+
+
+def _run_migrations():
+    """Add new columns safely — no-op if they already exist."""
+    from backend.database import engine
+    import sqlalchemy as sa
+    with engine.connect() as conn:
+        for stmt in [
+            "ALTER TABLE email_cache "
+            "ADD COLUMN urgency TEXT DEFAULT 'review'",
+            "ALTER TABLE email_cache "
+            "ADD COLUMN confidence REAL DEFAULT 0.5",
+        ]:
+            try:
+                conn.execute(sa.text(stmt))
+                conn.commit()
+            except Exception:
+                conn.rollback()
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Initialize database, seed data, and start scheduler on startup."""
     init_db()
+    _run_migrations()
     seed_if_empty()
     _start_scheduler()
     yield
@@ -71,9 +112,13 @@ app.include_router(overview.router, prefix="/api", tags=["overview"])
 app.include_router(emails.router, prefix="/api/emails", tags=["emails"])
 app.include_router(clients.router, prefix="/api/clients", tags=["clients"])
 app.include_router(pipeline.router, prefix="/api/pipeline", tags=["pipeline"])
-app.include_router(repos.router, prefix="/api/repos", tags=["repos"])
 app.include_router(notes.router, prefix="/api/notes", tags=["notes"])
-app.include_router(ai_router.router, prefix="/api/ai", tags=["ai"])
+app.include_router(
+    ai_router.router, prefix="/api/ai", tags=["ai"],
+)
+app.include_router(
+    agent.router, prefix="/api/agent", tags=["agent"],
+)
 
 
 @app.get("/api/health")
