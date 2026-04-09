@@ -21,7 +21,11 @@ class EmailCacheBase(SQLModel):
     has_attachment: bool = False
     is_unread: bool = True
     action_required: bool = False
-    raw_labels: Optional[list] = Field(default=None, sa_column=Column(JSON))
+    urgency: Optional[str] = "review"  # respond|review|archive
+    confidence: float = 0.5
+    raw_labels: Optional[list] = Field(
+        default=None, sa_column=Column(JSON),
+    )
     categorized_by: Optional[str] = None  # rule|ai|manual
 
 

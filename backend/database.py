@@ -22,5 +22,10 @@ def get_session():
 def init_db():
     """Create all tables defined by SQLModel metadata."""
     # Import models so they register with SQLModel
-    from backend.models import Note, EmailCache, Client, PipelineStatus, AITask  # noqa: F401
+    from backend.models import (  # noqa: F401
+        Note, EmailCache, Client, PipelineStatus, AITask,
+    )
+    from backend.models.email_feedback import (  # noqa: F401
+        EmailFeedback, LearnedSenderRule,
+    )
     SQLModel.metadata.create_all(engine)

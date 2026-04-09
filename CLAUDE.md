@@ -21,6 +21,16 @@ Full-stack web app (FastAPI + React) serving as NIKET NA LLC's unified operation
 - Build: cd frontend && npm run build (output -> backend/static/)
 - DB init: python -c "from backend.database import init_db; init_db()"
 
+## Dependency Management
+
+- **Source of truth**: `pyproject.toml`
+- **Lock file**: `uv.lock` — regenerate with `uv lock` after any dep change
+- **Validation**: `deptry .` before committing
+- **Package mapping**: `import dotenv` → `python-dotenv`
+- **Runtime deps**: uvicorn is the ASGI server — flagged as "unused" by deptry but required at runtime. Excluded via `[tool.deptry.per_rule_ignores] DEP002`
+- **Local modules**: backend, client, email_cache, note, pipeline, task excluded via DEP001 ignores
+- **Audit baseline**: `E:/Data1/Niket-Work-Documents/AUDITS/env-audit-reports/Q-SMEC-Command-Center_audit.json`
+
 ## Related
 - Prototype: Niket-Work-Documents/BUSINESS/qsmec-command-center.html
 - Spec: Niket-Work-Documents/SPECS/COMMAND_CENTER_APP_SPEC.md

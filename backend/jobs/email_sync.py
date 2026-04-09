@@ -2,6 +2,7 @@
 
 import logging
 from datetime import datetime
+import email.utils
 
 from sqlmodel import Session, select
 
@@ -43,7 +44,7 @@ def run_email_sync():
                 to_addr=raw.get("to_addr"),
                 subject=raw.get("subject"),
                 snippet=raw.get("snippet"),
-                date=datetime.utcnow(),
+                date=email.utils.parsedate_to_datetime(raw.get("date", "")) if raw.get("date") else datetime.utcnow(),
                 has_attachment=raw.get("has_attachment", False),
                 is_unread=raw.get("is_unread", True),
                 raw_labels=raw.get("raw_labels"),

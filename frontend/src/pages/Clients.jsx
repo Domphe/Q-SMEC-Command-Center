@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { api } from '../api'
 import Card from '../components/Card'
 import Badge from '../components/Badge'
+import ClientDrawer from '../components/ClientDrawer'
+import EmailDrawer from '../components/EmailDrawer'
 
 const STATUS_COLORS = { active: 'green', prospect: 'amber', early: 'cyan', inactive: 'gray' }
 const PRIORITY_COLORS = { high: 'red', medium: 'amber', low: 'gray' }
@@ -11,6 +13,8 @@ export default function Clients() {
   const [data, setData] = useState(null)
   const [filter, setFilter] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [selectedClient, setSelectedClient] = useState(null)
+  const [selectedEmail, setSelectedEmail] = useState(null)
 
   useEffect(() => {
     const params = {}
@@ -56,8 +60,11 @@ export default function Clients() {
       {/* Client cards */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
         {clients.map(client => (
-          <Card key={client.id} className="hover:border-border-active transition-colors">
-            <div>
+          <Card
+            key={client.id}
+            className="hover:border-border-active transition-colors cursor-pointer"
+          >
+            <div onClick={() => setSelectedClient(client)}>
               <div className="flex items-center gap-2 mb-2">
                 <Badge color={STATUS_COLORS[client.status] || 'gray'}>{client.status}</Badge>
                 <Badge color={PRIORITY_COLORS[client.priority] || 'gray'}>{client.priority}</Badge>
@@ -83,6 +90,24 @@ export default function Clients() {
           </Card>
         ))}
       </div>
+
+      {/* Client drawer */}
+      {selectedClient && !selectedEmail && (
+        <ClientDrawer
+          client={selectedClient}
+          onClose={() => setSelectedClient(null)}
+          onEmailClick={(email) => setSelectedEmail(email)}
+        />
+      )}
+
+      {/* Email drawer (opened from client timeline) */}
+      {selectedEmail && (
+        <EmailDrawer
+          email={selectedEmail}
+          onClose={() => setSelectedEmail(null)}
+          onUpdate={(updated) => setSelectedEmail(updated)}
+        />
+      )}
     </div>
   )
 }
