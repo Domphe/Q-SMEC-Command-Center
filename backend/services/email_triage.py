@@ -362,8 +362,8 @@ def maybe_learn_sender_rule(sender, session):
             if existing:
                 existing.category = row[0]
                 existing.sample_count = row[1]
-                from datetime import datetime
-                existing.updated_at = datetime.utcnow()
+                from datetime import datetime, timezone
+                existing.updated_at = datetime.now(timezone.utc)
             else:
                 rule = LearnedSenderRule(
                     sender=sender,

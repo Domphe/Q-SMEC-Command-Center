@@ -38,11 +38,10 @@ def get_repo_info(repo_name: str) -> Optional[dict]:
         repo = gh.get_repo(full_name)
 
         # Last commit
-        commits = list(repo.get_commits()[:1])
         last_commit = None
         commit_age = None
-        if commits:
-            c = commits[0]
+        c = next(iter(repo.get_commits()), None)
+        if c:
             last_commit = c.commit.message.split("\n")[0][:80]
             commit_date = c.commit.committer.date.replace(tzinfo=timezone.utc)
             age_days = (datetime.now(timezone.utc) - commit_date).days
@@ -95,7 +94,7 @@ def list_org_repos() -> list:
         return []
 
     try:
-        org = gh.get_user(settings.GITHUB_ORG)
+        org = gh.get_organization(settings.GITHUB_ORG)
         repos = []
         for repo in org.get_repos(sort="updated", direction="desc"):
             repos.append({

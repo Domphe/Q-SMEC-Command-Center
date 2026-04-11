@@ -8,6 +8,7 @@ from backend.models.note import Note
 from backend.models.email_cache import EmailCache
 from backend.models.client import Client
 from backend.models.pipeline import PipelineStatus
+from backend.services.file_bridge import export_state
 
 router = APIRouter()
 
@@ -51,15 +52,23 @@ def get_overview(session: Session = Depends(get_session)):
     recent_notes_stmt = select(Note).order_by(Note.created_at.desc()).limit(5)
     recent_notes = session.exec(recent_notes_stmt).all()
 
+    kpis = {
+        "emails": {"total": email_count, "action_required": action_emails},
+        "clients": {"total": client_count, "active": active_clients},
+        "notes": {"total": note_count, "pending": pending_notes},
+        "pipeline": {"total_ucs": uc_count, "avg_progress": round(avg_progress, 1)},
+        "repos": 18,
+        "elements": 32,
+    }
+
+    # Export state to bridge for other Claude tools (P1-04)
+    try:
+        export_state(kpis, phase_counts)
+    except Exception:
+        pass  # non-critical — do not break overview endpoint
+
     return {
-        "kpis": {
-            "emails": {"total": email_count, "action_required": action_emails},
-            "clients": {"total": client_count, "active": active_clients},
-            "notes": {"total": note_count, "pending": pending_notes},
-            "pipeline": {"total_ucs": uc_count, "avg_progress": round(avg_progress, 1)},
-            "repos": 18,
-            "elements": 32,
-        },
+        "kpis": kpis,
         "phase_summary": phase_counts,
         "action_emails": recent_action_emails,
         "recent_notes": recent_notes,

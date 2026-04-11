@@ -7,7 +7,7 @@ Also generates a morning brief note at 7 AM daily.
 import json
 import logging
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 logger = logging.getLogger("agent_digest")
 
@@ -29,7 +29,7 @@ def _run_digest():
     from sqlmodel import Session, select
     from backend.models.email_cache import EmailCache
 
-    cutoff = datetime.utcnow() - timedelta(minutes=35)
+    cutoff = datetime.now(timezone.utc) - timedelta(minutes=35)
 
     with Session(engine) as session:
         stmt = (
@@ -50,7 +50,7 @@ def _run_digest():
         summaries.append(summary)
 
     digest = {
-        "generated_at": datetime.utcnow().isoformat(),
+        "generated_at": datetime.now(timezone.utc).isoformat(),
         "period_minutes": 35,
         "email_count": len(summaries),
         "summaries": summaries,
@@ -134,7 +134,7 @@ def run_morning_brief():
         logger.info("Skipping morning brief: no API key")
         return
 
-    yesterday = datetime.utcnow() - timedelta(hours=24)
+    yesterday = datetime.now(timezone.utc) - timedelta(hours=24)
 
     with Session(engine) as session:
         from backend.models.email_cache import EmailCache
@@ -206,8 +206,8 @@ def run_morning_brief():
             text="[{}]\n\n{}".format(title, brief_text),
             tag="action",
             status="pending",
-            created_at=datetime.utcnow(),
-            updated_at=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
+            updated_at=datetime.now(timezone.utc),
         )
         session.add(note)
         session.commit()

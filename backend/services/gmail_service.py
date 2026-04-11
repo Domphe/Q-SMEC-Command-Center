@@ -1,10 +1,13 @@
 """Gmail API wrapper — supports both OAuth2 (desktop) and Service Account auth."""
 
 import json
+import logging
 import os
 from typing import Optional
 
 from backend.config import settings
+
+logger = logging.getLogger(__name__)
 
 # Full Gmail access — read, send, modify, labels, settings
 GMAIL_SCOPES = [
@@ -162,10 +165,16 @@ def get_message(msg_id: str) -> dict:
 
     headers = {h["name"]: h["value"] for h in msg.get("payload", {}).get("headers", [])}
 
-    # Parse from field
+    # Parse from field using stdlib for robustness
     from_raw = headers.get("From", "")
-    from_name = from_raw.split("<")[0].strip().strip('"') if "<" in from_raw else from_raw
-    from_addr = from_raw.split("<")[1].rstrip(">") if "<" in from_raw else from_raw
+    try:
+        import email.utils as _email_utils
+        _parsed_name, _parsed_addr = _email_utils.parseaddr(from_raw)
+        from_name = _parsed_name or _parsed_addr
+        from_addr = _parsed_addr or from_raw
+    except Exception:
+        from_name = from_raw
+        from_addr = from_raw
 
     # Check for attachments
     parts = msg.get("payload", {}).get("parts", [])
@@ -199,6 +208,7 @@ def sync_recent_emails(max_results: int = 500) -> list:
     for msg_ref in messages:
         try:
             parsed.append(get_message(msg_ref["id"]))
-        except Exception:
+        except Exception as e:
+            logger.warning("Failed to parse message %s: %s", msg_ref.get("id"), e)
             continue
     return parsed

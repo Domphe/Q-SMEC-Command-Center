@@ -2,7 +2,7 @@
 
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 from backend.config import settings
 
@@ -18,7 +18,7 @@ def export_state(kpis: dict, pipeline_summary: dict) -> str:
     os.makedirs(os.path.dirname(path), exist_ok=True)
 
     payload = {
-        "exported_at": datetime.utcnow().isoformat() + "Z",
+        "exported_at": datetime.now(timezone.utc).isoformat() + "Z",
         "kpis": kpis,
         "pipeline_summary": pipeline_summary,
     }
@@ -35,7 +35,7 @@ def export_email_digest(emails: list) -> str:
     os.makedirs(os.path.dirname(path), exist_ok=True)
 
     payload = {
-        "exported_at": datetime.utcnow().isoformat() + "Z",
+        "exported_at": datetime.now(timezone.utc).isoformat() + "Z",
         "emails": emails,
         "total": len(emails),
     }

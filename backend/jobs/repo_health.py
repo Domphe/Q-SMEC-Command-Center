@@ -1,6 +1,7 @@
 """Background job: check GitHub repo health every hour."""
 
 import logging
+import threading
 
 from backend.services.github_service import is_github_configured, get_repo_info
 
@@ -19,8 +20,9 @@ REPO_NAMES = [
     "Q-SMEC-Benchmarks", "Q-SMEC-Publications",
 ]
 
-# Cache for last health check results
+# Cache for last health check results — guarded by lock
 _last_health = {}
+_health_lock = threading.Lock()
 
 
 def run_repo_health_check():
@@ -42,10 +44,12 @@ def run_repo_health_check():
             logger.warning("Failed to check %s: %s", name, e)
             results[name] = {"name": name, "health": "error", "error": str(e)}
 
-    _last_health = results
+    with _health_lock:
+        _last_health = results
     logger.info("Repo health check complete: %d/%d repos checked", len(results), len(REPO_NAMES))
 
 
 def get_cached_health() -> dict:
     """Return cached health results (empty if no check has run)."""
-    return _last_health
+    with _health_lock:
+        return dict(_last_health)

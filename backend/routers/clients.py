@@ -1,6 +1,6 @@
 """Clients CRUD router."""
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -30,8 +30,8 @@ def list_clients(
 @router.post("", status_code=201)
 def create_client(client_in: ClientCreate, session: Session = Depends(get_session)):
     client = Client.model_validate(client_in)
-    client.created_at = datetime.utcnow()
-    client.updated_at = datetime.utcnow()
+    client.created_at = datetime.now(timezone.utc)
+    client.updated_at = datetime.now(timezone.utc)
     session.add(client)
     session.commit()
     session.refresh(client)
@@ -54,7 +54,7 @@ def update_client(client_id: int, client_in: ClientUpdate, session: Session = De
     update_data = client_in.model_dump(exclude_unset=True)
     for key, value in update_data.items():
         setattr(client, key, value)
-    client.updated_at = datetime.utcnow()
+    client.updated_at = datetime.now(timezone.utc)
     session.add(client)
     session.commit()
     session.refresh(client)

@@ -34,7 +34,7 @@ jobs:
       - name: Install dependencies
         run: uv sync --locked
       - name: Audit dependencies
-        run: uv run pip-audit || true
+        run: uv run pip-audit
 
   security-scan:
     runs-on: ubuntu-latest

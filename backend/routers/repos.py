@@ -93,7 +93,7 @@ def _get_repo_health(folder: str) -> dict:
             "commit_age": commit_age,
             "dirty": dirty,
         }
-    except (subprocess.SubprocessError, OSError):
+    except (subprocess.SubprocessError, subprocess.CalledProcessError, OSError):
         return {"health": "error", "branch": None, "last_commit": None, "dirty": False}
 
 

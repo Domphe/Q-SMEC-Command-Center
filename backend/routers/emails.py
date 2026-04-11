@@ -1,7 +1,7 @@
 """Email triage router — Gmail cache with categorization."""
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 import email.utils
 from typing import Optional
 
@@ -10,7 +10,8 @@ from sqlmodel import Session, select, func
 
 from backend.database import get_session
 from backend.models.email_cache import EmailCache
-from backend.services.gmail_service import is_gmail_configured, sync_recent_emails
+from backend.services.gmail_service import is_gmail_configured
+from backend.services.email_sync_service import sync_and_persist_emails
 from backend.services.email_triage import (
     categorize_email as triage_email,
     maybe_learn_sender_rule,
@@ -54,7 +55,7 @@ def learning_stats(
     )
     from datetime import timedelta
 
-    cutoff = datetime.utcnow() - timedelta(days=7)
+    cutoff = datetime.now(timezone.utc) - timedelta(days=7)
 
     total_fb = session.exec(
         select(func.count(EmailFeedback.id))
@@ -96,46 +97,12 @@ def sync_emails_endpoint(limit: int = 500, session: Session = Depends(get_sessio
         }
 
     try:
-        raw_emails = sync_recent_emails(max_results=limit)
+        result = sync_and_persist_emails(session, max_results=limit)
     except Exception as e:
         logger.error("Gmail sync failed: %s", e)
-        return {"synced": 0, "new": 0, "error": str(e)}
+        return {"synced": 0, "new": 0, "error": "sync failed"}
 
-    new_count = 0
-    for raw in raw_emails:
-        existing = session.get(EmailCache, raw["id"])
-        if existing:
-            continue
-
-        # Triage
-        triage = triage_email(raw)
-
-        email = EmailCache(
-            id=raw["id"],
-            thread_id=raw.get("thread_id"),
-            from_addr=raw.get("from_addr"),
-            from_name=raw.get("from_name"),
-            to_addr=raw.get("to_addr"),
-            subject=raw.get("subject"),
-            snippet=raw.get("snippet"),
-            date=email.utils.parsedate_to_datetime(raw.get("date", "")) if raw.get("date") else datetime.utcnow(),
-            has_attachment=raw.get("has_attachment", False),
-            is_unread=raw.get("is_unread", True),
-            raw_labels=raw.get("raw_labels"),
-            category=triage["category"],
-            uc=triage["uc"],
-            client=triage["client"],
-            action_required=triage["action_required"],
-            urgency=triage.get("urgency", "review"),
-            confidence=triage.get("confidence", 0.5),
-            categorized_by=triage["categorized_by"],
-            synced_at=datetime.utcnow(),
-        )
-        session.add(email)
-        new_count += 1
-
-    session.commit()
-    return {"synced": len(raw_emails), "new": new_count}
+    return {"synced": result["synced"], "new": result["new"]}
 
 
 @router.post("/{email_id}/categorize")
@@ -242,8 +209,8 @@ def create_note_from_email(email_id: str, session: Session = Depends(get_session
         tag="action" if email.action_required else "research",
         status="pending" if email.action_required else "note",
         context=context if context else None,
-        created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow(),
+        created_at=datetime.now(timezone.utc),
+        updated_at=datetime.now(timezone.utc),
     )
     session.add(note)
     session.commit()

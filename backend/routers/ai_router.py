@@ -1,7 +1,7 @@
 """AI router — complexity scoring, model selection, and live execution."""
 
 import asyncio
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 
 from fastapi import APIRouter, Depends
@@ -57,7 +57,7 @@ async def execute_task(req: ExecuteRequest, session: Session = Depends(get_sessi
         actual_model=req.model,
         tool=select_tool(req.task_description),
         status="executing",
-        created_at=datetime.utcnow(),
+        created_at=datetime.now(timezone.utc),
     )
     session.add(task)
     session.commit()
@@ -96,7 +96,7 @@ async def execute_task(req: ExecuteRequest, session: Session = Depends(get_sessi
     task.actual_model = result.get("model_used", req.model)
     task.tokens_used = result.get("tokens_used")
     task.duration_ms = result.get("duration_ms")
-    task.completed_at = datetime.utcnow()
+    task.completed_at = datetime.now(timezone.utc)
     session.add(task)
     session.commit()
     session.refresh(task)

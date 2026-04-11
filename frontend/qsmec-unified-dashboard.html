@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Q-SMEC Command Center</title>
+<style>
+/* ── CSS Variables / Theme ───────────────────────────────────── */
+:root {
+  --bg-primary: #0a0e1a;
+  --bg-secondary: #111827;
+  --bg-card: #1a2235;
+  --bg-card-hover: #1f2a40;
+  --bg-input: #0f172a;
+  --border: #2a3550;
+  --border-accent: #3b82f6;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent-blue: #3b82f6;
+  --accent-cyan: #06b6d4;
+  --accent-green: #10b981;
+  --accent-yellow: #f59e0b;
+  --accent-red: #ef4444;
+  --accent-purple: #8b5cf6;
+  --accent-orange: #f97316;
+  --glow-blue: rgba(59, 130, 246, 0.15);
+  --glow-green: rgba(16, 185, 129, 0.15);
+  --radius: 10px;
+  --radius-sm: 6px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --transition: 0.2s ease;
+}
+
+/* ── Reset & Base ────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; }
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+a { color: var(--accent-cyan); text-decoration: none; transition: color var(--transition); }
+a:hover { color: var(--accent-blue); text-decoration: underline; }
+button {
+  font-family: inherit; cursor: pointer; border: none;
+  transition: all var(--transition);
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-secondary); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── Header ──────────────────────────────────────────────────── */
+.header {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.logo {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 16px; color: #fff;
+  letter-spacing: -1px;
+}
+.header-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.5px;
+}
+.header-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: -2px;
+}
+.header-center {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.service-dot {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+.service-dot .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent-red);
+  flex-shrink: 0;
+}
+.service-dot .dot.up { background: var(--accent-green); box-shadow: 0 0 6px var(--accent-green); }
+.service-dot .dot.checking { background: var(--accent-yellow); animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.clock {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.quick-links {
+  display: flex;
+  gap: 6px;
+}
+.quick-link {
+  font-size: 0.72rem;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+.quick-link:hover {
+  background: var(--bg-card-hover);
+  color: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+  text-decoration: none;
+}
+
+/* ── Grid Layout ─────────────────────────────────────────────── */
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 16px;
+  padding: 16px 20px 32px;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+@media (max-width: 1200px) {
+  .dashboard { grid-template-columns: 1fr 1fr; }
+  .panel.uc-panel { grid-column: 1 / -1; }
+}
+@media (max-width: 800px) {
+  .dashboard { grid-template-columns: 1fr; }
+}
+
+/* ── Panel Card ──────────────────────────────────────────────── */
+.panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: border-color var(--transition);
+}
+.panel:hover { border-color: rgba(59,130,246,0.3); }
+.panel-header {
+  padding: 14px 18px 10px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.panel-header h2 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.panel-header h2 .icon {
+  font-size: 1.05rem;
+}
+.panel-badge {
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+.panel-badge.live {
+  background: var(--glow-green);
+  color: var(--accent-green);
+  border: 1px solid rgba(16,185,129,0.3);
+}
+.panel-badge.static {
+  background: var(--glow-blue);
+  color: var(--accent-blue);
+  border: 1px solid rgba(59,130,246,0.3);
+}
+.panel-body {
+  padding: 14px 18px;
+  flex: 1;
+  overflow-y: auto;
+  max-height: 420px;
+}
+
+/* ── KPI Row ─────────────────────────────────────────────────── */
+.kpi-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.kpi {
+  flex: 1;
+  min-width: 80px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  text-align: center;
+}
+.kpi-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--accent-cyan);
+  line-height: 1;
+}
+.kpi-label {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ── Table ────────────────────────────────────────────────────── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+.data-table th {
+  text-align: left;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border);
+}
+.data-table td {
+  padding: 8px 8px;
+  border-bottom: 1px solid rgba(42,53,80,0.5);
+  vertical-align: top;
+}
+.data-table tbody tr {
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.data-table tbody tr:hover {
+  background: var(--bg-card-hover);
+}
+.data-table .subject {
+  color: var(--accent-cyan);
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.data-table .date {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  white-space: nowrap;
+}
+.urgency-badge {
+  font-size: 0.65rem;
+  padding: 2px 7px;
+  border-radius: 8px;
+  font-weight: 600;
+  display: inline-block;
+}
+.urgency-high { background: rgba(239,68,68,0.15); color: var(--accent-red); border: 1px solid rgba(239,68,68,0.3); }
+.urgency-medium { background: rgba(245,158,11,0.15); color: var(--accent-yellow); border: 1px solid rgba(245,158,11,0.3); }
+.urgency-low { background: rgba(16,185,129,0.15); color: var(--accent-green); border: 1px solid rgba(16,185,129,0.3); }
+
+/* ── UC Grid ─────────────────────────────────────────────────── */
+.uc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 8px;
+}
+.uc-card {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.uc-card:hover {
+  border-color: var(--accent-cyan);
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(6,182,212,0.15);
+}
+.uc-card .uc-id {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+.uc-card .uc-name {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+  line-height: 1.3;
+  max-height: 2.6em;
+  overflow: hidden;
+}
+.uc-card .uc-phase {
+  margin-top: 6px;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+.uc-card .uc-mats {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+.uc-card .phase-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  border-radius: 0 0 0 var(--radius-sm);
+  transition: width 0.5s ease;
+}
+.phase-complete { color: var(--accent-green); }
+.phase-in-progress { color: var(--accent-yellow); }
+.phase-pending { color: var(--text-muted); }
+
+/* ── Domain Legend ────────────────────────────────────────────── */
+.domain-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.domain-tag {
+  font-size: 0.65rem;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: 1px solid;
+}
+
+/* ── Neo4j Panel ─────────────────────────────────────────────── */
+.cypher-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.cypher-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  text-align: left;
+  text-decoration: none;
+}
+.cypher-btn:hover {
+  border-color: var(--accent-purple);
+  color: var(--accent-purple);
+  background: var(--bg-card-hover);
+  text-decoration: none;
+}
+.cypher-btn .cypher-icon { font-size: 1rem; flex-shrink: 0; }
+.cypher-btn .cypher-label { font-weight: 600; }
+.cypher-btn .cypher-query {
+  font-family: 'Cascadia Code', 'Fira Code', monospace;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.neo-stats {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.neo-stat {
+  flex: 1;
+  text-align: center;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+}
+.neo-stat-val { font-size: 1.2rem; font-weight: 800; color: var(--accent-purple); }
+.neo-stat-lbl { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; }
+
+/* ── Search Panel ────────────────────────────────────────────── */
+.search-box {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.search-box input {
+  flex: 1;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color var(--transition);
+}
+.search-box input:focus { border-color: var(--accent-blue); }
+.search-box input::placeholder { color: var(--text-muted); }
+.search-box button {
+  background: var(--accent-blue);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.search-box button:hover { background: #2563eb; }
+.search-result {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.search-result:hover {
+  border-color: var(--accent-blue);
+  background: var(--bg-card-hover);
+}
+.search-result .sr-name {
+  font-weight: 700;
+  color: var(--accent-cyan);
+  font-size: 0.8rem;
+}
+.search-result .sr-snippet {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+.search-result .sr-score {
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ── Research / QCITE Panel ──────────────────────────────────── */
+.research-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.research-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.research-item:hover {
+  border-color: var(--accent-orange);
+  background: var(--bg-card-hover);
+}
+.research-item .ri-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.research-item .ri-type {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+}
+.doi-link {
+  font-size: 0.7rem;
+  color: var(--accent-orange);
+  text-decoration: none;
+  padding: 2px 6px;
+  border: 1px solid rgba(249,115,22,0.3);
+  border-radius: 4px;
+  background: rgba(249,115,22,0.08);
+}
+.doi-link:hover {
+  background: rgba(249,115,22,0.2);
+  text-decoration: none;
+}
+.section-label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 14px 0 8px;
+  font-weight: 700;
+}
+
+/* ── Loading / Error states ──────────────────────────────────── */
+.loading {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+.loading::after {
+  content: '';
+  display: inline-block;
+  width: 16px; height: 16px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent-blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.error-msg {
+  text-align: center;
+  padding: 16px;
+  color: var(--accent-red);
+  font-size: 0.75rem;
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: var(--radius-sm);
+}
+.empty-state {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+/* ── Refresh indicator ───────────────────────────────────────── */
+.refresh-bar {
+  height: 2px;
+  background: var(--bg-secondary);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+}
+.refresh-bar .fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+  width: 0%;
+  transition: width 1s linear;
+}
+</style>
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────────────── -->
+<header class="header">
+  <div class="header-left">
+    <div class="logo">QS</div>
+    <div>
+      <div class="header-title">Q-SMEC Command Center</div>
+      <div class="header-subtitle">Unified Intelligence Dashboard</div>
+    </div>
+  </div>
+  <div class="header-center" id="serviceIndicators">
+    <!-- Populated by JS -->
+  </div>
+  <div class="header-right">
+    <div class="clock" id="clock"></div>
+    <div class="quick-links">
+      <a class="quick-link" href="http://localhost:3001" target="_blank">Grafana</a>
+      <a class="quick-link" href="http://localhost:7474" target="_blank">Neo4j</a>
+      <a class="quick-link" href="http://localhost:8080" target="_blank">RAGFlow</a>
+      <a class="quick-link" href="obsidian://open?vault=Niket%20NA%20LLC" target="_blank">Obsidian</a>
+      <a class="quick-link" href="http://localhost:4200" target="_blank">Prefect</a>
+    </div>
+  </div>
+</header>
+
+<!-- ── Dashboard Grid ─────────────────────────────────────── -->
+<main class="dashboard">
+
+  <!-- ── 1. Email Intelligence (left col) ──────────────────── -->
+  <section class="panel email-panel">
+    <div class="panel-header">
+      <h2><span class="icon">&#9993;</span> Email Intelligence</h2>
+      <span class="panel-badge live">LIVE</span>
+    </div>
+    <div class="panel-body" id="emailPanel">
+      <div class="loading">Connecting to Email API</div>
+    </div>
+  </section>
+
+  <!-- ── 2. Use Case Status (center) ──────────────────────── -->
+  <section class="panel uc-panel">
+    <div class="panel-header">
+      <h2><span class="icon">&#9881;</span> Use Case Pipeline &mdash; 23 UCs</h2>
+      <span class="panel-badge live">LIVE</span>
+    </div>
+    <div class="panel-body" id="ucPanel">
+      <div class="loading">Loading use case data</div>
+    </div>
+  </section>
+
+  <!-- ── 3. Knowledge Graph (right col) ───────────────────── -->
+  <section class="panel neo4j-panel">
+    <div class="panel-header">
+      <h2><span class="icon">&#11042;</span> Knowledge Graph</h2>
+      <span class="panel-badge static">NEO4J</span>
+    </div>
+    <div class="panel-body" id="neo4jPanel">
+      <div class="loading">Connecting to Neo4j</div>
+    </div>
+  </section>
+
+  <!-- ── 4. Document Search (bottom left) ─────────────────── -->
+  <section class="panel search-panel">
+    <div class="panel-header">
+      <h2><span class="icon">&#128269;</span> Document Search</h2>
+      <span class="panel-badge static">RAGFLOW</span>
+    </div>
+    <div class="panel-body" id="searchPanel">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search Q-SMEC documents..." onkeydown="if(event.key==='Enter')doSearch()">
+        <button onclick="doSearch()">Search</button>
+      </div>
+      <div id="searchResults" class="empty-state">Enter a query to search across all Q-SMEC documents</div>
+    </div>
+  </section>
+
+  <!-- ── 5. Research & QCITE (bottom center) ──────────────── -->
+  <section class="panel research-panel">
+    <div class="panel-header">
+      <h2><span class="icon">&#128218;</span> Research &amp; QCITE</h2>
+      <span class="panel-badge static">OBSIDIAN</span>
+    </div>
+    <div class="panel-body" id="researchPanel">
+      <div class="loading">Loading research topics</div>
+    </div>
+  </section>
+
+  <!-- ── 6. System Overview (bottom right) ────────────────── -->
+  <section class="panel overview-panel">
+    <div class="panel-header">
+      <h2><span class="icon">&#128200;</span> System Overview</h2>
+      <span class="panel-badge live">LIVE</span>
+    </div>
+    <div class="panel-body" id="overviewPanel">
+      <div class="loading">Fetching overview KPIs</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── Refresh progress bar ──────────────────────────────── -->
+<div class="refresh-bar"><div class="fill" id="refreshFill"></div></div>
+
+<script>
+/* ================================================================
+   Q-SMEC Unified Dashboard — Vanilla JS
+   All API calls, rendering, deep links, auto-refresh
+   ================================================================ */
+
+// ── Configuration ──────────────────────────────────────────────
+// Auto-detect: if opened from Windows browser, use WSL IP; from WSL, use localhost
+var WSL_IP = '172.19.233.109';
+var HOST = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:') ? WSL_IP : 'localhost';
+
+var CONFIG = {
+  emailApi:       'http://' + HOST + ':8091',
+  commandCenter:  'http://' + HOST + ':8088',
+  neo4jBrowser:   'http://' + HOST + ':7474',
+  neo4jBolt:      'bolt://' + HOST + ':7687',
+  ragflowApi:     'http://' + HOST + ':9380',
+  ragflowUi:      'http://' + HOST + ':8080',
+  prefect:        'http://' + HOST + ':4200',
+  grafana:        'http://' + HOST + ':3001',
+  obsidianVault:  'Niket%20NA%20LLC',
+  refreshMs:      60000,
+  dataRoot:       'E:/Data1'
+};
+
+// ── Service health tracking ────────────────────────────────────
+var SERVICES = [
+  { id: 'email',   name: 'Email',   url: CONFIG.emailApi + '/docs',               status: 'checking' },
+  { id: 'cc',      name: 'CC API',  url: CONFIG.commandCenter + '/docs',           status: 'checking' },
+  { id: 'neo4j',   name: 'Neo4j',   url: CONFIG.neo4jBrowser,                      status: 'checking' },
+  { id: 'ragflow', name: 'RAGFlow', url: CONFIG.ragflowApi + '/api/v1/datasets',   status: 'checking' },
+  { id: 'prefect', name: 'Prefect', url: CONFIG.prefect + '/api/health',           status: 'checking' },
+  { id: 'grafana', name: 'Grafana', url: CONFIG.grafana + '/api/health',           status: 'checking' }
+];
+
+// ── Static UC data (from intake JSONs — always available) ──────
+var UC_DATA = [
+  { id: 'UC01', name: 'MWIR Cascade Laser', domain: 'Optical Warfare / DE', mats: 15, folder: 'UC01_MWIR_Cascade_Laser' },
+  { id: 'UC02', name: '1MW DEW Thermal Management', domain: 'Optical Warfare / DE', mats: 15, folder: 'UC02_1MW_DEW_Thermal' },
+  { id: 'UC03', name: 'Optical FPA ROIC Sensor', domain: 'Optical Warfare / DE', mats: 16, folder: 'UC03_SFPA_ROIC_Sensor' },
+  { id: 'UC04', name: 'MEMS 10-DOF IMU', domain: 'Counter UAS', mats: 12, folder: 'UC04_MEMS_10DOF_IMU' },
+  { id: 'UC05', name: '1GHz-5THz VCO', domain: 'Logical Warfare / EW', mats: 13, folder: 'UC05_GHz_THz_VCO' },
+  { id: 'UC06', name: 'EW/SATCOM Converter', domain: 'Logical Warfare / EW', mats: 15, folder: 'UC06_EW_SATCOM_Converter' },
+  { id: 'UC07', name: '0.1-45GHz RF Front End', domain: 'Deep Underground', mats: 15, folder: 'UC07_RF_Frontend_45GHz' },
+  { id: 'UC08', name: 'RF Data Link', domain: 'Counter UAS', mats: 15, folder: 'UC08_RF_Data_Link' },
+  { id: 'UC09', name: '16x16 Aperture Translator', domain: 'Optical Warfare / DE', mats: 15, folder: 'UC09_Aperture_Translator' },
+  { id: 'UC10', name: '32CH Channelizer', domain: 'Logical Warfare / EW', mats: 14, folder: 'UC10_Channelizer_32CH' },
+  { id: 'UC11', name: '8CH EW Processor', domain: 'Logical Warfare / EW', mats: 13, folder: 'UC11_EW_Processor_8CH' },
+  { id: 'UC12', name: 'High-Power RF Transceiver', domain: 'Logical Warfare / EW', mats: 14, folder: 'UC12_High_Power_RF' },
+  { id: 'UC13', name: 'Waveguide Modulator', domain: 'Logical Warfare / EW', mats: 13, folder: 'UC13_Waveguide_Modulator' },
+  { id: 'UC14', name: 'Rad-Hard 6-Axis IMU', domain: 'PNT', mats: 13, folder: 'UC14_Rad_Hard_6Axis_IMU' },
+  { id: 'UC15', name: 'Waveguide Atomic Clock', domain: 'PNT', mats: 15, folder: 'UC15_Waveguide_Atomic_Clock' },
+  { id: 'UC16', name: '16x16 Phased Array', domain: 'Logical Warfare / EW', mats: 14, folder: 'UC16_Phased_Array_16x16' },
+  { id: 'UC17', name: 'IR Low-Cost Seeker', domain: 'Counter UAS', mats: 15, folder: 'UC17_IR_Seeker_LowCost' },
+  { id: 'UC18', name: 'LWIR Bolometer', domain: 'Optical Warfare / DE', mats: 11, folder: 'UC18_LWIR_Bolometer' },
+  { id: 'UC19', name: 'Low Cost Seeker', domain: 'Optical Warfare / DE', mats: 13, folder: 'UC19_LowCost_Seeker' },
+  { id: 'UC20', name: 'LiDAR Mission Module', domain: 'Optical Warfare / DE', mats: 15, folder: 'UC20_LiDAR_Module' },
+  { id: 'UC21', name: 'Rail Net Monitor', domain: 'Deep Underground', mats: 10, folder: 'UC21_Rail_Net_Monitor' },
+  { id: 'UC22', name: 'Rotary Machine Sensor', domain: 'Deep Underground', mats: 12, folder: 'UC22_Rotary_Machine_Sensor' },
+  { id: 'UC23', name: 'PCB Motor Technology', domain: 'Logical Warfare / EW', mats: 13, folder: 'UC23_PCB_Motor' }
+];
+
+var DOMAIN_COLORS = {
+  'Optical Warfare / DE':  '#ef4444',
+  'Logical Warfare / EW':  '#f59e0b',
+  'Counter UAS':           '#10b981',
+  'Deep Underground':      '#06b6d4',
+  'PNT':                   '#8b5cf6'
+};
+
+// ── Research topics (Obsidian vault structure) ─────────────────
+var RESEARCH_TOPICS = [
+  { title: 'III-V Semiconductor Heterostructures', file: '05-Research/III-V-Heterostructures' },
+  { title: 'Phonon Transport in SiC/AlN', file: '05-Research/Phonon-Transport-SiC-AlN' },
+  { title: 'GaN HEMT Reliability Physics', file: '05-Research/GaN-HEMT-Reliability' },
+  { title: 'InSb Detector Quantum Efficiency', file: '05-Research/InSb-Detector-QE' },
+  { title: 'Metamaterial Absorber Design', file: '05-Research/Metamaterial-Absorber' },
+  { title: 'Type-II Superlattice Band Engineering', file: '05-Research/T2SL-Band-Engineering' },
+  { title: 'DFT Methods for Defect Energetics', file: '05-Research/DFT-Defect-Energetics' },
+  { title: 'Thermal Interface Materials', file: '05-Research/Thermal-Interface-Materials' },
+  { title: 'MEMS Piezoelectric Transduction', file: '05-Research/MEMS-Piezo-Transduction' },
+  { title: 'Quantum Cascade Laser Design', file: '05-Research/QCL-Design' }
+];
+
+var QCITE_ENTRIES = [
+  { title: 'Vurgaftman et al. (2001) - III-V Band Parameters', doi: '10.1063/1.1368156' },
+  { title: 'Morelli et al. (2002) - SiC Thermal Conductivity', doi: '10.1063/1.1524305' },
+  { title: 'Slack (1973) - Nonmetallic Crystals Thermal', doi: '10.1016/0022-3697(73)90092-9' },
+  { title: 'Faist et al. (1994) - Quantum Cascade Laser', doi: '10.1126/science.264.5158.553' },
+  { title: 'Rogalski (2005) - HgCdTe IR Detectors', doi: '10.1016/j.infrared.2005.01.003' },
+  { title: 'Ambacher et al. (1999) - GaN Pyroelectric', doi: '10.1063/1.371866' },
+  { title: 'Razeghi & Nguyen (2014) - T2SL Photodetectors', doi: '10.1088/0034-4885/77/8/082401' },
+  { title: 'Lindsay et al. (2013) - First-Principles Phonon', doi: '10.1103/PhysRevB.87.165201' }
+];
+
+// ── Neo4j Cypher quick queries ─────────────────────────────────
+var NEO4J_QUERIES = [
+  { label: 'All Materials',          icon: '\u26C6', cypher: 'MATCH (m:Material) RETURN m LIMIT 100' },
+  { label: 'UC01 Relationships',     icon: '\u2B21', cypher: 'MATCH (uc:UseCase {id:"UC01"})-[r]-(n) RETURN uc,r,n' },
+  { label: 'SMES Connections',       icon: '\u26A1', cypher: 'MATCH (s:SMES)-[r]-(n) RETURN s,r,n LIMIT 50' },
+  { label: 'Material-Property Map',  icon: '\u2B22', cypher: 'MATCH (m:Material)-[r:HAS_PROPERTY]->(p) RETURN m,r,p LIMIT 100' },
+  { label: 'Cross-UC Materials',     icon: '\u2194', cypher: 'MATCH (m:Material)<-[:USES]-(uc:UseCase) WITH m, count(uc) as cnt WHERE cnt > 1 RETURN m, cnt ORDER BY cnt DESC' },
+  { label: 'Full Graph (50 nodes)',  icon: '\u2B50', cypher: 'MATCH (n)-[r]->(m) RETURN n,r,m LIMIT 50' }
+];
+
+
+/* ================================================================
+   Utility Functions
+   ================================================================ */
+
+function $(id) { return document.getElementById(id); }
+
+function safeJSON(response) {
+  if (!response.ok) throw new Error('HTTP ' + response.status);
+  return response.json();
+}
+
+function tryFetch(url, opts) {
+  var options = Object.assign({ mode: 'cors', signal: AbortSignal.timeout(8000) }, opts || {});
+  return fetch(url, options).then(safeJSON);
+}
+
+function encodeObs(filePath) {
+  return 'obsidian://open?vault=' + CONFIG.obsidianVault + '&file=' + encodeURIComponent(filePath);
+}
+
+function encodeGmail(subject) {
+  return 'https://mail.google.com/mail/u/0/#search/' + encodeURIComponent(subject);
+}
+
+function encodeNeo4j(cypher) {
+  return CONFIG.neo4jBrowser + '/browser/?cmd=' + encodeURIComponent(':play\n' + cypher).replace(/%20/g, '+');
+}
+
+function fileLink(relPath) {
+  return 'file:///' + CONFIG.dataRoot + '/' + relPath;
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  var d = new Date(dateStr);
+  var month = d.toLocaleString('en-US', { month: 'short' });
+  return month + ' ' + d.getDate();
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  var div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+
+/* ================================================================
+   Clock
+   ================================================================ */
+
+function updateClock() {
+  var now = new Date();
+  var h = String(now.getHours()).padStart(2, '0');
+  var m = String(now.getMinutes()).padStart(2, '0');
+  var s = String(now.getSeconds()).padStart(2, '0');
+  $('clock').textContent = h + ':' + m + ':' + s + '  ' +
+    now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+
+/* ================================================================
+   Service Health Checks
+   ================================================================ */
+
+function renderServiceIndicators() {
+  var html = '';
+  SERVICES.forEach(function(svc) {
+    var cls = svc.status === 'up' ? 'up' : (svc.status === 'checking' ? 'checking' : '');
+    html += '<div class="service-dot"><span class="dot ' + cls + '"></span>' + escapeHtml(svc.name) + '</div>';
+  });
+  $('serviceIndicators').innerHTML = html;
+}
+
+function checkService(svc) {
+  fetch(svc.url, { mode: 'no-cors', signal: AbortSignal.timeout(5000) })
+    .then(function() { svc.status = 'up'; })
+    .catch(function() { svc.status = 'down'; })
+    .finally(renderServiceIndicators);
+}
+
+function checkAllServices() {
+  SERVICES.forEach(function(svc) {
+    svc.status = 'checking';
+    checkService(svc);
+  });
+}
+
+
+/* ================================================================
+   1. Email Intelligence Panel
+   ================================================================ */
+
+function renderEmailPanel(data) {
+  var panel = $('emailPanel');
+  if (!data) {
+    panel.innerHTML = '<div class="error-msg">Email API unavailable. Start the service at localhost:8091</div>';
+    return;
+  }
+
+  var kpis = data.kpis || {};
+  var emails = kpis.emails || {};
+  var actionEmails = data.action_emails || [];
+
+  var html = '<div class="kpi-row">';
+  html += '<div class="kpi"><div class="kpi-value">' + (emails.total || 0) + '</div><div class="kpi-label">Total Emails</div></div>';
+  html += '<div class="kpi"><div class="kpi-value" style="color:var(--accent-red)">' + (emails.action_required || 0) + '</div><div class="kpi-label">Action Required</div></div>';
+  html += '<div class="kpi"><div class="kpi-value" style="color:var(--accent-green)">' + (emails.total && emails.action_required != null ? Math.round(((emails.total - emails.action_required) / emails.total) * 100) : 0) + '%</div><div class="kpi-label">Classified</div></div>';
+  html += '</div>';
+
+  if (actionEmails.length > 0) {
+    html += '<table class="data-table"><thead><tr><th>Subject</th><th>Date</th><th>Urgency</th></tr></thead><tbody>';
+    actionEmails.forEach(function(email) {
+      var urgency = email.urgency || 'medium';
+      var gmailUrl = encodeGmail(email.subject || '');
+      html += '<tr onclick="window.open(\'' + gmailUrl.replace(/'/g, "\\'") + '\', \'_blank\')">';
+      html += '<td class="subject" title="' + escapeHtml(email.subject) + '">' + escapeHtml(email.subject || 'No subject') + '</td>';
+      html += '<td class="date">' + formatDate(email.date) + '</td>';
+      html += '<td><span class="urgency-badge urgency-' + urgency + '">' + urgency.toUpperCase() + '</span></td>';
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+  } else {
+    html += '<div class="empty-state">No action-required emails</div>';
+  }
+
+  panel.innerHTML = html;
+}
+
+function fetchEmailData() {
+  tryFetch(CONFIG.commandCenter + '/api/overview')
+    .then(function(data) { renderEmailPanel(data); })
+    .catch(function() {
+      // Fallback: try the email API directly
+      tryFetch(CONFIG.emailApi + '/api/pipeline-health')
+        .then(function(data) { renderEmailPanel({ kpis: { emails: data }, action_emails: data.recent_actions || [] }); })
+        .catch(function() { renderEmailPanel(null); });
+    });
+}
+
+
+/* ================================================================
+   2. Use Case Status Panel
+   ================================================================ */
+
+function renderUCPanel(pipelineData) {
+  var panel = $('ucPanel');
+
+  // Merge pipeline data (from API) with static UC data
+  var pipelineMap = {};
+  if (pipelineData && pipelineData.pipeline) {
+    pipelineData.pipeline.forEach(function(item) {
+      pipelineMap[item.uc] = item;
+    });
+  }
+
+  // Domain legend
+  var html = '<div class="domain-legend">';
+  Object.keys(DOMAIN_COLORS).forEach(function(domain) {
+    html += '<span class="domain-tag" style="color:' + DOMAIN_COLORS[domain] + '; border-color:' + DOMAIN_COLORS[domain] + '30; background:' + DOMAIN_COLORS[domain] + '15">' + domain + '</span>';
+  });
+  html += '</div>';
+
+  html += '<div class="uc-grid">';
+  UC_DATA.forEach(function(uc) {
+    var pipe = pipelineMap[uc.id] || {};
+    var phase = pipe.phase || 'Phase 0';
+    var progress = pipe.progress || 0;
+    var domainColor = DOMAIN_COLORS[uc.domain] || '#64748b';
+
+    var phaseClass = 'phase-pending';
+    if (progress >= 100) phaseClass = 'phase-complete';
+    else if (progress > 0) phaseClass = 'phase-in-progress';
+
+    var obsUrl = encodeObs('01-Use-Cases/' + uc.id);
+    var fileUrl = fileLink('Q-SMEC-Orchestration-Engine/use-cases/' + uc.folder);
+
+    html += '<div class="uc-card" onclick="window.open(\'' + obsUrl + '\', \'_blank\')" title="' + escapeHtml(uc.name) + '\nDomain: ' + uc.domain + '\nPhase: ' + phase + ' (' + progress + '%)\nMaterials: ' + uc.mats + '\nClick: open in Obsidian">';
+    html += '<div class="uc-id" style="color:' + domainColor + '">' + uc.id + '</div>';
+    html += '<div class="uc-name">' + escapeHtml(uc.name) + '</div>';
+    html += '<div class="uc-phase ' + phaseClass + '">' + phase + '</div>';
+    html += '<div class="uc-mats">' + uc.mats + ' materials</div>';
+    html += '<div class="phase-bar" style="width:' + progress + '%; background:' + domainColor + '"></div>';
+    html += '</div>';
+  });
+  html += '</div>';
+
+  panel.innerHTML = html;
+}
+
+function fetchUCData() {
+  tryFetch(CONFIG.commandCenter + '/api/pipeline')
+    .then(function(data) { renderUCPanel(data); })
+    .catch(function() {
+      // Try email API
+      tryFetch(CONFIG.emailApi + '/api/uc-mapping')
+        .then(function(data) { renderUCPanel(data); })
+        .catch(function() { renderUCPanel(null); });
+    });
+}
+
+
+/* ================================================================
+   3. Knowledge Graph Panel
+   ================================================================ */
+
+function renderNeo4jPanel(stats) {
+  var panel = $('neo4jPanel');
+  var nodeCount = (stats && stats.nodes) || '--';
+  var relCount = (stats && stats.relationships) || '--';
+  var labelCount = (stats && stats.labels) || '--';
+
+  var html = '<div class="neo-stats">';
+  html += '<div class="neo-stat"><div class="neo-stat-val">' + nodeCount + '</div><div class="neo-stat-lbl">Nodes</div></div>';
+  html += '<div class="neo-stat"><div class="neo-stat-val">' + relCount + '</div><div class="neo-stat-lbl">Relationships</div></div>';
+  html += '<div class="neo-stat"><div class="neo-stat-val">' + labelCount + '</div><div class="neo-stat-lbl">Labels</div></div>';
+  html += '</div>';
+
+  html += '<div class="cypher-list">';
+  NEO4J_QUERIES.forEach(function(q) {
+    var url = CONFIG.neo4jBrowser + '/browser/?cmd=edit&arg=' + encodeURIComponent(q.cypher);
+    html += '<a class="cypher-btn" href="' + url + '" target="_blank">';
+    html += '<span class="cypher-icon">' + q.icon + '</span>';
+    html += '<div><div class="cypher-label">' + escapeHtml(q.label) + '</div>';
+    html += '<div class="cypher-query">' + escapeHtml(q.cypher.substring(0, 60)) + (q.cypher.length > 60 ? '...' : '') + '</div></div>';
+    html += '</a>';
+  });
+  html += '</div>';
+
+  panel.innerHTML = html;
+}
+
+function fetchNeo4jStats() {
+  // Try to get stats via Neo4j HTTP API
+  tryFetch(CONFIG.neo4jBrowser + '/db/neo4j/tx', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Basic ' + btoa('neo4j:password') },
+    body: JSON.stringify({ statements: [
+      { statement: 'MATCH (n) RETURN count(n) as cnt' },
+      { statement: 'MATCH ()-[r]->() RETURN count(r) as cnt' },
+      { statement: 'CALL db.labels() YIELD label RETURN count(label) as cnt' }
+    ]})
+  })
+  .then(function(data) {
+    var results = data.results || [];
+    renderNeo4jPanel({
+      nodes: results[0] && results[0].data[0] ? results[0].data[0].row[0] : '--',
+      relationships: results[1] && results[1].data[0] ? results[1].data[0].row[0] : '--',
+      labels: results[2] && results[2].data[0] ? results[2].data[0].row[0] : '--'
+    });
+  })
+  .catch(function() {
+    renderNeo4jPanel(null);
+  });
+}
+
+
+/* ================================================================
+   4. Document Search Panel (RAGFlow)
+   ================================================================ */
+
+function doSearch() {
+  var query = $('searchInput').value.trim();
+  if (!query) return;
+
+  var resultsDiv = $('searchResults');
+  resultsDiv.innerHTML = '<div class="loading">Searching</div>';
+
+  // Try RAGFlow API
+  tryFetch(CONFIG.ragflowApi + '/api/v1/retrieval', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ question: query, dataset_ids: [], top_k: 8 })
+  })
+  .then(function(data) {
+    var chunks = (data.data && data.data.chunks) || data.chunks || [];
+    if (chunks.length === 0) {
+      resultsDiv.innerHTML = '<div class="empty-state">No results found for "' + escapeHtml(query) + '"</div>';
+      return;
+    }
+    var html = '';
+    chunks.forEach(function(chunk) {
+      var docName = chunk.document_name || chunk.doc_name || 'Unknown';
+      var snippet = chunk.content || chunk.text || '';
+      if (snippet.length > 200) snippet = snippet.substring(0, 200) + '...';
+      var score = chunk.similarity || chunk.score || 0;
+      var filePath = chunk.file_path || '';
+
+      html += '<div class="search-result"' + (filePath ? ' onclick="window.open(\'file:///' + CONFIG.dataRoot + '/' + filePath.replace(/'/g, "\\'") + '\', \'_blank\')"' : '') + '>';
+      html += '<div class="sr-name">' + escapeHtml(docName) + '</div>';
+      html += '<div class="sr-snippet">' + escapeHtml(snippet) + '</div>';
+      html += '<div class="sr-score">Relevance: ' + (score * 100).toFixed(1) + '%</div>';
+      html += '</div>';
+    });
+    resultsDiv.innerHTML = html;
+  })
+  .catch(function() {
+    // Fallback: try Command Center search
+    tryFetch(CONFIG.commandCenter + '/api/notes?q=' + encodeURIComponent(query))
+      .then(function(data) {
+        var notes = data.notes || data || [];
+        if (!Array.isArray(notes) || notes.length === 0) {
+          resultsDiv.innerHTML = '<div class="empty-state">RAGFlow unavailable. No cached results for "' + escapeHtml(query) + '"</div>';
+          return;
+        }
+        var html = '';
+        notes.forEach(function(note) {
+          var obsUrl = encodeObs(note.path || note.title || '');
+          html += '<div class="search-result" onclick="window.open(\'' + obsUrl + '\', \'_blank\')">';
+          html += '<div class="sr-name">' + escapeHtml(note.title || note.name || 'Untitled') + '</div>';
+          html += '<div class="sr-snippet">' + escapeHtml((note.content || note.body || '').substring(0, 200)) + '</div>';
+          html += '</div>';
+        });
+        resultsDiv.innerHTML = html;
+      })
+      .catch(function() {
+        resultsDiv.innerHTML = '<div class="error-msg">Both RAGFlow and Command Center are unavailable. Start RAGFlow at localhost:9380</div>';
+      });
+  });
+}
+
+
+/* ================================================================
+   5. Research & QCITE Panel
+   ================================================================ */
+
+function renderResearchPanel() {
+  var panel = $('researchPanel');
+  var html = '';
+
+  html += '<div class="section-label">Research Topics</div>';
+  html += '<div class="research-list">';
+  RESEARCH_TOPICS.forEach(function(topic) {
+    var obsUrl = encodeObs(topic.file);
+    html += '<a class="research-item" href="' + obsUrl + '" style="text-decoration:none">';
+    html += '<div><div class="ri-title">' + escapeHtml(topic.title) + '</div><div class="ri-type">Obsidian Note</div></div>';
+    html += '</a>';
+  });
+  html += '</div>';
+
+  html += '<div class="section-label">QCITE Citations</div>';
+  html += '<div class="research-list">';
+  QCITE_ENTRIES.forEach(function(cite) {
+    var doiUrl = 'https://doi.org/' + cite.doi;
+    html += '<div class="research-item">';
+    html += '<div><div class="ri-title">' + escapeHtml(cite.title) + '</div><div class="ri-type">DOI: ' + escapeHtml(cite.doi) + '</div></div>';
+    html += '<a class="doi-link" href="' + doiUrl + '" target="_blank" onclick="event.stopPropagation()">Open DOI</a>';
+    html += '</div>';
+  });
+  html += '</div>';
+
+  panel.innerHTML = html;
+}
+
+
+/* ================================================================
+   6. System Overview Panel
+   ================================================================ */
+
+function renderOverviewPanel(data) {
+  var panel = $('overviewPanel');
+  if (!data) {
+    panel.innerHTML = '<div class="error-msg">Command Center API unavailable. Start the service at localhost:8088</div>';
+    return;
+  }
+
+  var kpis = data.kpis || {};
+  var phases = data.phase_summary || {};
+  var notes = data.recent_notes || [];
+
+  var html = '<div class="kpi-row">';
+  html += '<div class="kpi"><div class="kpi-value">' + (kpis.repos || 18) + '</div><div class="kpi-label">Repositories</div></div>';
+  html += '<div class="kpi"><div class="kpi-value">' + (kpis.elements || 32) + '</div><div class="kpi-label">Elements</div></div>';
+  html += '<div class="kpi"><div class="kpi-value">' + ((kpis.clients || {}).active || 0) + '</div><div class="kpi-label">Active Clients</div></div>';
+  html += '<div class="kpi"><div class="kpi-value" style="color:var(--accent-yellow)">' + ((kpis.pipeline || {}).avg_progress || 0) + '%</div><div class="kpi-label">Avg Progress</div></div>';
+  html += '</div>';
+
+  // Phase summary
+  var phaseKeys = Object.keys(phases);
+  if (phaseKeys.length > 0) {
+    html += '<div class="section-label">Phase Distribution</div>';
+    html += '<div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px">';
+    phaseKeys.forEach(function(p) {
+      var phaseColors = { 'Phase 0': '#64748b', 'Phase 1': '#f59e0b', 'Phase 2': '#3b82f6', 'Phase 3': '#10b981' };
+      var c = phaseColors[p] || '#94a3b8';
+      html += '<div style="flex:1; min-width:70px; text-align:center; background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); padding:8px">';
+      html += '<div style="font-size:1.1rem; font-weight:800; color:' + c + '">' + phases[p] + '</div>';
+      html += '<div style="font-size:0.6rem; color:var(--text-muted)">' + p + '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+
+  // Recent notes
+  if (notes.length > 0) {
+    html += '<div class="section-label">Recent Notes</div>';
+    notes.forEach(function(note) {
+      var obsUrl = encodeObs(note.path || note.title || '');
+      html += '<div class="search-result" onclick="window.open(\'' + obsUrl + '\', \'_blank\')">';
+      html += '<div class="sr-name">' + escapeHtml(note.title || 'Untitled') + '</div>';
+      html += '<div class="sr-score">' + formatDate(note.created_at) + ' &middot; ' + escapeHtml(note.status || '') + '</div>';
+      html += '</div>';
+    });
+  }
+
+  // Quick links
+  html += '<div class="section-label">Quick Access</div>';
+  html += '<div style="display:flex; flex-wrap:wrap; gap:6px">';
+  var quickPaths = [
+    { label: 'Playbook', path: 'Q-SMEC-Orchestration-Engine/Playbook/PLAYBOOK.md' },
+    { label: 'Ecosystem Registry', path: 'Q-SMEC-Orchestration-Docs/ECOSYSTEM_REGISTRY.md' },
+    { label: 'Session Logs', path: 'Q-SMEC-Testing-Workflow-Docs/session-logs' },
+    { label: 'Audits', path: 'Niket-Work-Documents/AUDITS' },
+    { label: 'Pipeline Config', path: 'Q-SMEC-Orchestration-Engine/scripts/config' }
+  ];
+  quickPaths.forEach(function(qp) {
+    html += '<a class="quick-link" href="' + fileLink(qp.path) + '" target="_blank" style="font-size:0.72rem">' + qp.label + '</a>';
+  });
+  html += '</div>';
+
+  panel.innerHTML = html;
+}
+
+function fetchOverview() {
+  tryFetch(CONFIG.commandCenter + '/api/overview')
+    .then(function(data) { renderOverviewPanel(data); })
+    .catch(function() { renderOverviewPanel(null); });
+}
+
+
+/* ================================================================
+   Refresh Cycle
+   ================================================================ */
+
+var refreshTimer = null;
+var refreshStart = 0;
+
+function refreshAll() {
+  refreshStart = Date.now();
+  $('refreshFill').style.width = '0%';
+
+  checkAllServices();
+  fetchEmailData();
+  fetchUCData();
+  fetchNeo4jStats();
+  renderResearchPanel();
+  fetchOverview();
+
+  // Animate the refresh progress bar
+  if (refreshTimer) clearInterval(refreshTimer);
+  refreshTimer = setInterval(function() {
+    var elapsed = Date.now() - refreshStart;
+    var pct = Math.min((elapsed / CONFIG.refreshMs) * 100, 100);
+    $('refreshFill').style.width = pct + '%';
+    if (pct >= 100) {
+      clearInterval(refreshTimer);
+      refreshAll();
+    }
+  }, 1000);
+}
+
+
+/* ================================================================
+   Boot
+   ================================================================ */
+
+renderServiceIndicators();
+refreshAll();
+</script>
+</body>
+</html>

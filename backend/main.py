@@ -91,20 +91,28 @@ async def lifespan(app: FastAPI):
         logger.info("Background scheduler stopped")
 
 
+_is_debug = os.getenv("DEBUG", "false").lower() in ("true", "1", "yes")
+
 app = FastAPI(
     title="Q-SMEC Command Center",
     version="2.0.0",
     description="Unified operational hub for NIKET NA LLC's 18-repo Q-SMEC ecosystem",
     lifespan=lifespan,
+    docs_url="/docs" if _is_debug else None,
+    redoc_url="/redoc" if _is_debug else None,
 )
 
-# CORS — allow frontend dev server
+# CORS — configurable via CORS_ORIGINS env var (comma-separated)
+_default_origins = "http://localhost:5173,http://localhost:8000,http://niket-hv-01:8000"
+_cors_origins = [
+    o.strip() for o in os.getenv("CORS_ORIGINS", _default_origins).split(",") if o.strip()
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:8000", "http://niket-hv-01:8000"],
+    allow_origins=_cors_origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allow_headers=["Authorization", "Content-Type"],
 )
 
 # API routers
