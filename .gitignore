@@ -48,3 +48,6 @@ bridge/*.json
 
 # Standard exclusions
 desktop.ini
+
+# Claude Code worktree state (machine-specific)
+.claude/
