@@ -55,9 +55,9 @@ def _get_service_account_credentials():
 
 def _get_oauth2_credentials():
     """Get or refresh OAuth2 credentials (desktop app flow)."""
+    from google.auth.transport.requests import Request
     from google.oauth2.credentials import Credentials
     from google_auth_oauthlib.flow import InstalledAppFlow
-    from google.auth.transport.requests import Request
 
     SCOPES = GMAIL_SCOPES
     creds = None
@@ -74,8 +74,7 @@ def _get_oauth2_credentials():
         else:
             if not os.path.exists(secret_path):
                 raise FileNotFoundError(
-                    "Gmail client_secret.json not found at {}. "
-                    "Download from Google Cloud Console.".format(secret_path)
+                    "Gmail client_secret.json not found at {}. Download from Google Cloud Console.".format(secret_path)
                 )
             flow = InstalledAppFlow.from_client_secrets_file(secret_path, SCOPES)
             creds = flow.run_local_server(port=0)
@@ -100,8 +99,9 @@ def _get_credentials():
         return _get_oauth2_credentials()
     else:
         raise FileNotFoundError(
-            "No Gmail credentials found. Place either a service account key "
-            "or OAuth2 client_secret.json at {}".format(secret_path)
+            "No Gmail credentials found. Place either a service account key or OAuth2 client_secret.json at {}".format(
+                secret_path
+            )
         )
 
 
@@ -110,6 +110,7 @@ def get_gmail_service():
     global _service
     if _service is None:
         from googleapiclient.discovery import build
+
         creds = _get_credentials()
         _service = build("gmail", "v1", credentials=creds)
     return _service
@@ -117,10 +118,7 @@ def get_gmail_service():
 
 def is_gmail_configured() -> bool:
     """Check if any Gmail credentials are available."""
-    return (
-        os.path.exists(settings.GMAIL_TOKEN_PATH)
-        or os.path.exists(settings.GMAIL_CLIENT_SECRET_PATH)
-    )
+    return os.path.exists(settings.GMAIL_TOKEN_PATH) or os.path.exists(settings.GMAIL_CLIENT_SECRET_PATH)
 
 
 def get_auth_type() -> Optional[str]:
@@ -158,10 +156,17 @@ def get_message(msg_id: str) -> dict:
     """Get full message details by ID."""
     service = get_gmail_service()
     user_id = settings.GMAIL_USER or "me"
-    msg = service.users().messages().get(
-        userId=user_id, id=msg_id, format="metadata",
-        metadataHeaders=["From", "To", "Subject", "Date"],
-    ).execute()
+    msg = (
+        service.users()
+        .messages()
+        .get(
+            userId=user_id,
+            id=msg_id,
+            format="metadata",
+            metadataHeaders=["From", "To", "Subject", "Date"],
+        )
+        .execute()
+    )
 
     headers = {h["name"]: h["value"] for h in msg.get("payload", {}).get("headers", [])}
 
@@ -169,6 +174,7 @@ def get_message(msg_id: str) -> dict:
     from_raw = headers.get("From", "")
     try:
         import email.utils as _email_utils
+
         _parsed_name, _parsed_addr = _email_utils.parseaddr(from_raw)
         from_name = _parsed_name or _parsed_addr
         from_addr = _parsed_addr or from_raw
@@ -178,10 +184,7 @@ def get_message(msg_id: str) -> dict:
 
     # Check for attachments
     parts = msg.get("payload", {}).get("parts", [])
-    has_attachment = any(
-        p.get("filename") and p["filename"] != ""
-        for p in parts
-    ) if parts else False
+    has_attachment = any(p.get("filename") and p["filename"] != "" for p in parts) if parts else False
 
     return {
         "id": msg["id"],

@@ -6,9 +6,9 @@ from sqlmodel import Session, select
 
 from backend.database import engine
 from backend.models.email_cache import EmailCache
-from backend.services.gmail_service import is_gmail_configured
 from backend.services.email_sync_service import sync_and_persist_emails
 from backend.services.file_bridge import export_email_digest
+from backend.services.gmail_service import is_gmail_configured
 
 logger = logging.getLogger(__name__)
 
@@ -34,8 +34,12 @@ def run_email_sync():
             action_emails = session.exec(action_stmt).all()
             digest = [
                 {
-                    "id": e.id, "subject": e.subject, "from": e.from_name,
-                    "category": e.category, "uc": e.uc, "client": e.client,
+                    "id": e.id,
+                    "subject": e.subject,
+                    "from": e.from_name,
+                    "category": e.category,
+                    "uc": e.uc,
+                    "client": e.client,
                 }
                 for e in action_emails
             ]
@@ -43,7 +47,8 @@ def run_email_sync():
 
         logger.info(
             "Email sync complete: %d fetched, %d new",
-            result["synced"], result["new"],
+            result["synced"],
+            result["new"],
         )
     except Exception as e:
         logger.error("Gmail sync failed: %s", e)

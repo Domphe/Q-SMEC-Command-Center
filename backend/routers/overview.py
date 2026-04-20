@@ -1,12 +1,12 @@
 """Overview router — KPIs, summaries, and dashboard aggregation."""
 
 from fastapi import APIRouter, Depends
-from sqlmodel import Session, select, func
+from sqlmodel import Session, func, select
 
 from backend.database import get_session
-from backend.models.note import Note
-from backend.models.email_cache import EmailCache
 from backend.models.client import Client
+from backend.models.email_cache import EmailCache
+from backend.models.note import Note
 from backend.models.pipeline import PipelineStatus
 from backend.services.file_bridge import export_state
 
@@ -21,13 +21,9 @@ def get_overview(session: Session = Depends(get_session)):
         select(func.count(EmailCache.id)).where(EmailCache.action_required == True)  # noqa: E712
     ).one()
     client_count = session.exec(select(func.count(Client.id))).one()
-    active_clients = session.exec(
-        select(func.count(Client.id)).where(Client.status == "active")
-    ).one()
+    active_clients = session.exec(select(func.count(Client.id)).where(Client.status == "active")).one()
     note_count = session.exec(select(func.count(Note.id))).one()
-    pending_notes = session.exec(
-        select(func.count(Note.id)).where(Note.status == "pending")
-    ).one()
+    pending_notes = session.exec(select(func.count(Note.id)).where(Note.status == "pending")).one()
     uc_count = session.exec(select(func.count(PipelineStatus.uc))).one()
 
     # Pipeline phase breakdown

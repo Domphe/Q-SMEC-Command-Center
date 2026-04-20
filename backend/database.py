@@ -1,6 +1,6 @@
 """SQLModel database engine, session management, and initialization."""
 
-from sqlmodel import SQLModel, Session, create_engine
+from sqlmodel import Session, SQLModel, create_engine
 
 from backend.config import settings
 
@@ -23,9 +23,15 @@ def init_db():
     """Create all tables defined by SQLModel metadata."""
     # Import models so they register with SQLModel
     from backend.models import (  # noqa: F401
-        Note, EmailCache, Client, PipelineStatus, AITask,
+        AITask,
+        Client,
+        EmailCache,
+        Note,
+        PipelineStatus,
     )
     from backend.models.email_feedback import (  # noqa: F401
-        EmailFeedback, LearnedSenderRule,
+        EmailFeedback,
+        LearnedSenderRule,
     )
+
     SQLModel.metadata.create_all(engine)

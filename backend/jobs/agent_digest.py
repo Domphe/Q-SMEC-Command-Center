@@ -11,9 +11,7 @@ from datetime import datetime, timedelta, timezone
 
 logger = logging.getLogger("agent_digest")
 
-BRIDGE_PATH = os.getenv(
-    "BRIDGE_PATH", "./bridge"
-)
+BRIDGE_PATH = os.getenv("BRIDGE_PATH", "./bridge")
 
 
 def run_agent_digest():
@@ -25,8 +23,9 @@ def run_agent_digest():
 
 
 def _run_digest():
-    from backend.database import engine
     from sqlmodel import Session, select
+
+    from backend.database import engine
     from backend.models.email_cache import EmailCache
 
     cutoff = datetime.now(timezone.utc) - timedelta(minutes=35)
@@ -35,10 +34,7 @@ def _run_digest():
         stmt = (
             select(EmailCache)
             .where(EmailCache.date > cutoff)
-            .where(
-                (EmailCache.urgency == "respond")
-                | (EmailCache.confidence < 0.6)
-            )
+            .where((EmailCache.urgency == "respond") | (EmailCache.confidence < 0.6))
             .order_by(EmailCache.date.desc())
             .limit(20)
         )
@@ -54,10 +50,7 @@ def _run_digest():
         "period_minutes": 35,
         "email_count": len(summaries),
         "summaries": summaries,
-        "action_items": [
-            s for s in summaries
-            if s.get("urgency") == "respond"
-        ],
+        "action_items": [s for s in summaries if s.get("urgency") == "respond"],
     }
 
     os.makedirs(BRIDGE_PATH, exist_ok=True)
@@ -75,8 +68,10 @@ def _run_digest():
 def _summarize_email(email):
     """Generate one-sentence summary via Claude Sonnet."""
     import asyncio
+
     from backend.services.ai_service import (
-        call_claude, is_anthropic_configured,
+        call_claude,
+        is_anthropic_configured,
     )
 
     base = {
@@ -108,9 +103,7 @@ def _summarize_email(email):
 
     try:
         loop = asyncio.new_event_loop()
-        result = loop.run_until_complete(
-            call_claude(prompt, max_tokens=60)
-        )
+        result = loop.run_until_complete(call_claude(prompt, max_tokens=60))
         loop.close()
         text = result.get("result", "")
         base["summary"] = (text or email.subject).strip()
@@ -123,12 +116,15 @@ def _summarize_email(email):
 def run_morning_brief():
     """Generate morning briefing note at 7 AM daily."""
     import asyncio
+
+    from sqlmodel import Session, select
+
     from backend.database import engine
     from backend.models.note import Note
     from backend.services.ai_service import (
-        call_claude, is_anthropic_configured,
+        call_claude,
+        is_anthropic_configured,
     )
-    from sqlmodel import Session, select
 
     if not is_anthropic_configured():
         logger.info("Skipping morning brief: no API key")
@@ -138,29 +134,24 @@ def run_morning_brief():
 
     with Session(engine) as session:
         from backend.models.email_cache import EmailCache
-        stmt = (
-            select(EmailCache)
-            .where(EmailCache.date > yesterday)
-            .order_by(EmailCache.date.desc())
-        )
+
+        stmt = select(EmailCache).where(EmailCache.date > yesterday).order_by(EmailCache.date.desc())
         emails = session.exec(stmt).all()
 
-    respond = [
-        e for e in emails if e.urgency == "respond"
-    ]
-    review = [
-        e for e in emails if e.urgency == "review"
-    ][:5]
+    respond = [e for e in emails if e.urgency == "respond"]
+    review = [e for e in emails if e.urgency == "review"][:5]
 
     respond_lines = "\n".join(
         "- {} | {}".format(
-            e.from_name or e.from_addr, e.subject,
+            e.from_name or e.from_addr,
+            e.subject,
         )
         for e in respond[:10]
     )
     review_lines = "\n".join(
         "- {} | {}".format(
-            e.from_name or e.from_addr, e.subject,
+            e.from_name or e.from_addr,
+            e.subject,
         )
         for e in review
     )
@@ -185,9 +176,7 @@ def run_morning_brief():
 
     try:
         loop = asyncio.new_event_loop()
-        result = loop.run_until_complete(
-            call_claude(prompt, max_tokens=300)
-        )
+        result = loop.run_until_complete(call_claude(prompt, max_tokens=300))
         loop.close()
         brief_text = result.get("result", "")
         if not brief_text:

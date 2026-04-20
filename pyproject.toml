@@ -28,6 +28,7 @@ dev = [
     "pytest>=8.0",
     "httpx>=0.27",
     "ruff>=0.3",
+    "pip-audit",
 ]
 
 [tool.setuptools.packages.find]
@@ -45,7 +46,7 @@ google-auth = "google"
 
 [tool.deptry.per_rule_ignores]
 DEP001 = ["backend", "client", "email_cache", "note", "pipeline", "task"]
-DEP002 = ["uvicorn", "httpx", "google-genai", "jinja2", "aiosqlite", "deptry", "pytest", "ruff"]
+DEP002 = ["uvicorn", "httpx", "google-genai", "jinja2", "aiosqlite", "deptry", "pytest", "ruff", "pip-audit"]
 
 [tool.ruff]
 line-length = 120

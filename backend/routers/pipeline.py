@@ -11,12 +11,17 @@ from backend.models.pipeline import PipelineStatus
 router = APIRouter()
 
 UC_CATEGORIES = [
-    {"cat": "Optical Warfare / DE / C-UAS", "color": "#ef4444",
-     "ucs": ["UC01", "UC02", "UC03", "UC04", "UC09", "UC18", "UC19", "UC20"]},
-    {"cat": "Electronic Warfare / C / NKE", "color": "#f59e0b",
-     "ucs": ["UC05", "UC06", "UC08", "UC10", "UC11", "UC12", "UC13", "UC16", "UC23"]},
-    {"cat": "Deep Underground / Infrastructure", "color": "#06b6d4",
-     "ucs": ["UC07", "UC21", "UC22"]},
+    {
+        "cat": "Optical Warfare / DE / C-UAS",
+        "color": "#ef4444",
+        "ucs": ["UC01", "UC02", "UC03", "UC04", "UC09", "UC18", "UC19", "UC20"],
+    },
+    {
+        "cat": "Electronic Warfare / C / NKE",
+        "color": "#f59e0b",
+        "ucs": ["UC05", "UC06", "UC08", "UC10", "UC11", "UC12", "UC13", "UC16", "UC23"],
+    },
+    {"cat": "Deep Underground / Infrastructure", "color": "#06b6d4", "ucs": ["UC07", "UC21", "UC22"]},
     {"cat": "PNT", "color": "#8b5cf6", "ucs": ["UC14", "UC15"]},
     {"cat": "Counter-UAS", "color": "#10b981", "ucs": ["UC04", "UC08", "UC17"]},
 ]

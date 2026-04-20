@@ -3,21 +3,30 @@
 import logging
 import threading
 
-from backend.services.github_service import is_github_configured, get_repo_info
+from backend.services.github_service import get_repo_info, is_github_configured
 
 logger = logging.getLogger(__name__)
 
 # The 18 repos to check
 REPO_NAMES = [
-    "Q-SMEC-Orchestration-Engine", "Q-SMEC-Orchestration-Docs",
-    "NIKET-Q-SMEC-Product", "Q-SMEC-Quantum-Tools",
-    "Q-SMEC-Quantum-Tools-Docs", "Q-SMEC-Client-Databases",
-    "Q-SMEC-Client-Databases-Docs", "Q-SMEC-Testing-Workflow-Sequence",
-    "Q-SMEC-Testing-Workflow-Docs", "Niket-Work-Documents",
-    "Computer-Infrastructure-Docs", "Q-SMEC-Agentic-AI-Tools",
-    "Q-SMEC-MCP-Server", "Q-SMEC-Materials-Database",
-    "Q-SMEC-EW-Sensor-Models", "Q-SMEC-ML-Potentials",
-    "Q-SMEC-Benchmarks", "Q-SMEC-Publications",
+    "Q-SMEC-Orchestration-Engine",
+    "Q-SMEC-Orchestration-Docs",
+    "NIKET-Q-SMEC-Product",
+    "Q-SMEC-Quantum-Tools",
+    "Q-SMEC-Quantum-Tools-Docs",
+    "Q-SMEC-Client-Databases",
+    "Q-SMEC-Client-Databases-Docs",
+    "Q-SMEC-Testing-Workflow-Sequence",
+    "Q-SMEC-Testing-Workflow-Docs",
+    "Niket-Work-Documents",
+    "Computer-Infrastructure-Docs",
+    "Q-SMEC-Agentic-AI-Tools",
+    "Q-SMEC-MCP-Server",
+    "Q-SMEC-Materials-Database",
+    "Q-SMEC-EW-Sensor-Models",
+    "Q-SMEC-ML-Potentials",
+    "Q-SMEC-Benchmarks",
+    "Q-SMEC-Publications",
 ]
 
 # Cache for last health check results — guarded by lock

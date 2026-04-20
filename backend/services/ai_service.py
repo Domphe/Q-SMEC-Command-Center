@@ -1,7 +1,6 @@
 """AI service — Anthropic (Claude) and Google (Gemini) API wrappers."""
 
 import time
-from typing import Optional
 
 from backend.config import settings
 
@@ -56,6 +55,7 @@ async def call_gemini(prompt: str, model: str = "gemini-2.0-flash", max_tokens: 
         return {"error": "Gemini API key not configured", "result": None}
 
     import asyncio
+
     from google import genai
 
     client = genai.Client(api_key=settings.GEMINI_API_KEY)
@@ -74,7 +74,8 @@ async def call_gemini(prompt: str, model: str = "gemini-2.0-flash", max_tokens: 
             "result": response.text,
             "model_used": model,
             "tokens_used": getattr(response, "usage_metadata", {}).get("total_token_count", 0)
-                if hasattr(response, "usage_metadata") else 0,
+            if hasattr(response, "usage_metadata")
+            else 0,
             "duration_ms": duration_ms,
             "error": None,
         }

@@ -11,8 +11,8 @@ from datetime import datetime, timezone
 
 from sqlmodel import Session, select
 
-from backend.models.note import Note
 from backend.config import settings
+from backend.models.note import Note
 
 logger = logging.getLogger(__name__)
 

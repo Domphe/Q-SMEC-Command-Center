@@ -4,15 +4,15 @@ Extracts the duplicated email fetch-triage-persist logic from
 jobs/email_sync.py and routers/emails.py into a single function.
 """
 
+import email.utils
 import logging
 from datetime import datetime, timezone
-import email.utils
 
-from sqlmodel import Session, select
+from sqlmodel import Session
 
 from backend.models.email_cache import EmailCache
-from backend.services.gmail_service import sync_recent_emails
 from backend.services.email_triage import categorize_email as triage_email
+from backend.services.gmail_service import sync_recent_emails
 
 logger = logging.getLogger(__name__)
 

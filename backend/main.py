@@ -9,11 +9,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from backend.database import init_db
-from backend.seed import seed_if_empty
 from backend.routers import (
-    overview, emails, clients, pipeline,
-    notes, ai_router, agent,
+    agent,
+    ai_router,
+    clients,
+    emails,
+    notes,
+    overview,
+    pipeline,
 )
+from backend.seed import seed_if_empty
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
@@ -27,49 +32,56 @@ def _start_scheduler():
     global _scheduler
     try:
         from apscheduler.schedulers.background import BackgroundScheduler
+
+        from backend.jobs.agent_digest import (
+            run_agent_digest,
+            run_morning_brief,
+        )
         from backend.jobs.email_sync import run_email_sync
         from backend.jobs.note_export import run_note_export
-        from backend.jobs.agent_digest import (
-            run_agent_digest, run_morning_brief,
-        )
 
         _scheduler = BackgroundScheduler()
         _scheduler.add_job(
-            run_email_sync, "interval",
-            minutes=15, id="email_sync",
+            run_email_sync,
+            "interval",
+            minutes=15,
+            id="email_sync",
         )
         _scheduler.add_job(
-            run_note_export, "interval",
-            minutes=5, id="note_export",
+            run_note_export,
+            "interval",
+            minutes=5,
+            id="note_export",
         )
         _scheduler.add_job(
-            run_agent_digest, "interval",
-            minutes=30, id="agent_digest",
+            run_agent_digest,
+            "interval",
+            minutes=30,
+            id="agent_digest",
         )
         _scheduler.add_job(
-            run_morning_brief, "cron",
-            hour=7, minute=0, id="morning_brief",
+            run_morning_brief,
+            "cron",
+            hour=7,
+            minute=0,
+            id="morning_brief",
         )
         _scheduler.start()
-        logger.info(
-            "Scheduler started "
-            "(email:15m, notes:5m, digest:30m, "
-            "brief:7am)"
-        )
+        logger.info("Scheduler started (email:15m, notes:5m, digest:30m, brief:7am)")
     except Exception as e:
         logger.warning("Scheduler not started: %s", e)
 
 
 def _run_migrations():
     """Add new columns safely — no-op if they already exist."""
-    from backend.database import engine
     import sqlalchemy as sa
+
+    from backend.database import engine
+
     with engine.connect() as conn:
         for stmt in [
-            "ALTER TABLE email_cache "
-            "ADD COLUMN urgency TEXT DEFAULT 'review'",
-            "ALTER TABLE email_cache "
-            "ADD COLUMN confidence REAL DEFAULT 0.5",
+            "ALTER TABLE email_cache ADD COLUMN urgency TEXT DEFAULT 'review'",
+            "ALTER TABLE email_cache ADD COLUMN confidence REAL DEFAULT 0.5",
         ]:
             try:
                 conn.execute(sa.text(stmt))
@@ -104,9 +116,7 @@ app = FastAPI(
 
 # CORS — configurable via CORS_ORIGINS env var (comma-separated)
 _default_origins = "http://localhost:5173,http://localhost:8000,http://niket-hv-01:8000"
-_cors_origins = [
-    o.strip() for o in os.getenv("CORS_ORIGINS", _default_origins).split(",") if o.strip()
-]
+_cors_origins = [o.strip() for o in os.getenv("CORS_ORIGINS", _default_origins).split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=_cors_origins,
@@ -122,10 +132,14 @@ app.include_router(clients.router, prefix="/api/clients", tags=["clients"])
 app.include_router(pipeline.router, prefix="/api/pipeline", tags=["pipeline"])
 app.include_router(notes.router, prefix="/api/notes", tags=["notes"])
 app.include_router(
-    ai_router.router, prefix="/api/ai", tags=["ai"],
+    ai_router.router,
+    prefix="/api/ai",
+    tags=["ai"],
 )
 app.include_router(
-    agent.router, prefix="/api/agent", tags=["agent"],
+    agent.router,
+    prefix="/api/agent",
+    tags=["agent"],
 )
 
 

@@ -1,6 +1,7 @@
 """Application configuration loaded from environment variables."""
 
 import os
+
 from dotenv import load_dotenv
 
 # Project root is one level up from backend/
@@ -25,9 +26,7 @@ class Settings:
     GMAIL_CLIENT_SECRET_PATH: str = os.getenv(
         "GMAIL_CLIENT_SECRET_PATH", os.path.join(_PROJECT_ROOT, "client_secret.json")
     )
-    GMAIL_TOKEN_PATH: str = os.getenv(
-        "GMAIL_TOKEN_PATH", os.path.join(_PROJECT_ROOT, "token.json")
-    )
+    GMAIL_TOKEN_PATH: str = os.getenv("GMAIL_TOKEN_PATH", os.path.join(_PROJECT_ROOT, "token.json"))
     GMAIL_USER: str = os.getenv("GMAIL_USER", "s.dely@niketllc.com")
 
     # GitHub

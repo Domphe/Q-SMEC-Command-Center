@@ -2,20 +2,18 @@
 
 import logging
 from datetime import datetime, timezone
-import email.utils
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException
-from sqlmodel import Session, select, func
+from sqlmodel import Session, func, select
 
 from backend.database import get_session
 from backend.models.email_cache import EmailCache
-from backend.services.gmail_service import is_gmail_configured
 from backend.services.email_sync_service import sync_and_persist_emails
 from backend.services.email_triage import (
-    categorize_email as triage_email,
     maybe_learn_sender_rule,
 )
+from backend.services.gmail_service import is_gmail_configured
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -50,20 +48,18 @@ def learning_stats(
     session: Session = Depends(get_session),
 ):
     """Return feedback and learning metrics."""
-    from backend.models.email_feedback import (
-        EmailFeedback, LearnedSenderRule,
-    )
     from datetime import timedelta
+
+    from backend.models.email_feedback import (
+        EmailFeedback,
+        LearnedSenderRule,
+    )
 
     cutoff = datetime.now(timezone.utc) - timedelta(days=7)
 
-    total_fb = session.exec(
-        select(func.count(EmailFeedback.id))
-    ).one()
+    total_fb = session.exec(select(func.count(EmailFeedback.id))).one()
 
-    learned = session.exec(
-        select(func.count(LearnedSenderRule.sender))
-    ).one()
+    learned = session.exec(select(func.count(LearnedSenderRule.sender))).one()
 
     ai_recent = session.exec(
         select(func.count(EmailCache.id)).where(
@@ -92,7 +88,8 @@ def sync_emails_endpoint(limit: int = 500, session: Session = Depends(get_sessio
     """Trigger Gmail pull — fetches recent emails and categorizes them."""
     if not is_gmail_configured():
         return {
-            "synced": 0, "new": 0,
+            "synced": 0,
+            "new": 0,
             "message": "Gmail not configured. Place client_secret.json in the repo root and run the OAuth flow.",
         }
 
@@ -120,7 +117,8 @@ def categorize_email_endpoint(
     email = session.get(EmailCache, email_id)
     if not email:
         raise HTTPException(
-            status_code=404, detail="Email not found",
+            status_code=404,
+            detail="Email not found",
         )
 
     original_cat = email.category
@@ -157,7 +155,8 @@ def categorize_email_endpoint(
     # Trigger learning check
     if category and category != original_cat:
         maybe_learn_sender_rule(
-            email.from_addr, session,
+            email.from_addr,
+            session,
         )
 
     return email
@@ -175,7 +174,8 @@ def patch_email(
     email = session.get(EmailCache, email_id)
     if not email:
         raise HTTPException(
-            status_code=404, detail="Email not found",
+            status_code=404,
+            detail="Email not found",
         )
     if action_required is not None:
         email.action_required = action_required

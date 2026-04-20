@@ -5,37 +5,38 @@ import json
 import logging
 import os
 import re
-from typing import Optional
 
 logger = logging.getLogger(__name__)
 
-AI_FALLBACK_ENABLED = (
-    os.getenv("AI_FALLBACK_ENABLED", "true").lower() == "true"
-)
-AI_FALLBACK_THRESHOLD = float(
-    os.getenv("AI_FALLBACK_THRESHOLD", "0.5")
-)
+AI_FALLBACK_ENABLED = os.getenv("AI_FALLBACK_ENABLED", "true").lower() == "true"
+AI_FALLBACK_THRESHOLD = float(os.getenv("AI_FALLBACK_THRESHOLD", "0.5"))
 
 
 # Known sender patterns
 SENDER_RULES = {
     "adely@cii-international.com": {
-        "default": "research", "weight": 0.6,
+        "default": "research",
+        "weight": 0.6,
     },
     "a.dely@niketllc.com": {
-        "default": "business", "weight": 0.7,
+        "default": "business",
+        "weight": 0.7,
     },
     "mrisik@goprecise.com": {
-        "default": "opportunity", "weight": 0.8,
+        "default": "opportunity",
+        "weight": 0.8,
     },
     "boulat@arizona.edu": {
-        "default": "research", "weight": 0.7,
+        "default": "research",
+        "weight": 0.7,
     },
     "jbh@blueridgenetworks.com": {
-        "default": "business", "weight": 0.6,
+        "default": "business",
+        "weight": 0.6,
     },
     "tlfinefrock@cii-international.com": {
-        "default": "client", "weight": 0.6,
+        "default": "client",
+        "weight": 0.6,
     },
 }
 
@@ -44,7 +45,9 @@ UC_PATTERNS = {
     r"directed energy|DEW|laser weapon": ["UC01", "UC02"],
     r"MWIR|cascade laser|infrared": ["UC01", "UC03"],
     r"EW|electronic warfare|jammer": [
-        "UC05", "UC06", "UC10-UC13",
+        "UC05",
+        "UC06",
+        "UC10-UC13",
     ],
     r"VCO|oscillator|resonator": ["UC05"],
     r"underground|mining|infrastructure": ["UC07"],
@@ -59,48 +62,73 @@ UC_PATTERNS = {
 CLIENT_PATTERNS = {
     r"precise|golden dome|SHIELD": "Precise Systems",
     r"blue marble|geraci": "Blue Marble Technologies",
-    r"carothers|RAMTDR|dcphotonics|InP": (
-        "Dan Carothers / RAMTDR"
-    ),
+    r"carothers|RAMTDR|dcphotonics|InP": ("Dan Carothers / RAMTDR"),
     r"TEP|tucson electric": "TEP (Tucson Electric Power)",
-    r"CII|energy vertical|utility cyber": (
-        "Optimal Cities / CII"
-    ),
+    r"CII|energy vertical|utility cyber": ("Optimal Cities / CII"),
     r"arizona|UofA|boulat": "University of Arizona",
     r"NBU|kolarov|bulgaria": "NBU Bulgaria",
     r"anello|DeUVe|AMIGA": "ANELLO Photonics",
-    r"blue ridge|dragonfly|higginbotham": (
-        "Blue Ridge Networks"
-    ),
+    r"blue ridge|dragonfly|higginbotham": ("Blue Ridge Networks"),
     r"airtronics": "Airtronics",
     r"nikolay|drone.?laser": "Nikolay / Drone-Laser",
 }
 
 # Content keyword groups for override detection
 OPPORTUNITY_KEYWORDS = [
-    "opportunity", "rfp", "rfq", "solicitation",
-    "open call", "procurement", "contract",
-    "proposal", "bid", "sow", "statement of work",
+    "opportunity",
+    "rfp",
+    "rfq",
+    "solicitation",
+    "open call",
+    "procurement",
+    "contract",
+    "proposal",
+    "bid",
+    "sow",
+    "statement of work",
 ]
 
 CLIENT_KEYWORDS = [
-    "invoice", "deliverable", "milestone",
-    "status update", "review meeting", "nda",
-    "follow up", "follow-up",
+    "invoice",
+    "deliverable",
+    "milestone",
+    "status update",
+    "review meeting",
+    "nda",
+    "follow up",
+    "follow-up",
 ]
 
 PIPELINE_KEYWORDS = [
-    "dft", "simulation", "benchmark", "phase 0",
-    "phase 1", "phase 2", "phase 3", "pipeline",
-    "use case", "uc_", "workflow",
+    "dft",
+    "simulation",
+    "benchmark",
+    "phase 0",
+    "phase 1",
+    "phase 2",
+    "phase 3",
+    "pipeline",
+    "use case",
+    "uc_",
+    "workflow",
 ]
 
 # Trimmed action keywords — removed overly broad terms
 ACTION_KEYWORDS = [
-    "urgent", "deadline", "by end of day", "eod",
-    "need by", "waiting on you", "respond", "sign",
-    "approve", "contract", "proposal due", "asap",
-    "action required", "reply needed",
+    "urgent",
+    "deadline",
+    "by end of day",
+    "eod",
+    "need by",
+    "waiting on you",
+    "respond",
+    "sign",
+    "approve",
+    "contract",
+    "proposal due",
+    "asap",
+    "action required",
+    "reply needed",
 ]
 
 
@@ -151,15 +179,9 @@ def categorize_email(email):
     content_category = None
     content_score = 0
 
-    opp_hits = sum(
-        1 for k in OPPORTUNITY_KEYWORDS if k in text_lower
-    )
-    cli_hits = sum(
-        1 for k in CLIENT_KEYWORDS if k in text_lower
-    )
-    pip_hits = sum(
-        1 for k in PIPELINE_KEYWORDS if k in text_lower
-    )
+    opp_hits = sum(1 for k in OPPORTUNITY_KEYWORDS if k in text_lower)
+    cli_hits = sum(1 for k in CLIENT_KEYWORDS if k in text_lower)
+    pip_hits = sum(1 for k in PIPELINE_KEYWORDS if k in text_lower)
 
     best_hits = max(opp_hits, cli_hits, pip_hits)
     if best_hits >= 2:
@@ -198,7 +220,7 @@ def categorize_email(email):
             ai_conf = ai_result.get("confidence", 0)
             if ai_conf > confidence:
                 category = ai_result["category"]
-                urgency_hint = ai_result.get("urgency")
+                ai_result.get("urgency")
                 confidence = ai_conf
                 categorized_by = "ai"
 
@@ -211,7 +233,9 @@ def categorize_email(email):
 
     # Step 6: Three-tier urgency
     urgency = _compute_urgency(
-        category, action_required, text_lower,
+        category,
+        action_required,
+        text_lower,
     )
 
     return {
@@ -231,8 +255,12 @@ def _compute_urgency(category, action_required, text_lower):
         return "respond"
 
     deadline_keywords = [
-        "urgent", "deadline", "eod", "asap",
-        "by end of day", "need by",
+        "urgent",
+        "deadline",
+        "eod",
+        "asap",
+        "by end of day",
+        "need by",
     ]
     if any(k in text_lower for k in deadline_keywords):
         return "respond"
@@ -252,11 +280,13 @@ def _compute_urgency(category, action_required, text_lower):
 def _check_learned_rules(from_addr):
     """Check learned_sender_rules table for this sender."""
     try:
-        from backend.database import engine
         from sqlmodel import Session, select
+
+        from backend.database import engine
         from backend.models.email_feedback import (
             LearnedSenderRule,
         )
+
         with Session(engine) as session:
             stmt = select(LearnedSenderRule).where(
                 LearnedSenderRule.sender == from_addr,
@@ -275,8 +305,10 @@ def ai_categorize(email_dict):
     Runs synchronously via asyncio for background job compat.
     """
     import asyncio
+
     from backend.services.ai_service import (
-        call_claude, is_anthropic_configured,
+        call_claude,
+        is_anthropic_configured,
     )
 
     if not is_anthropic_configured():
@@ -311,9 +343,7 @@ def ai_categorize(email_dict):
 
     try:
         loop = asyncio.new_event_loop()
-        result = loop.run_until_complete(
-            call_claude(prompt, max_tokens=200)
-        )
+        result = loop.run_until_complete(call_claude(prompt, max_tokens=200))
         loop.close()
 
         text = result.get("result")
@@ -330,11 +360,13 @@ def ai_categorize(email_dict):
 def maybe_learn_sender_rule(sender, session):
     """If 3+ manual corrections for same sender -> same
     category, add to learned_sender_rules."""
-    from sqlmodel import select, func
-    from backend.models.email_feedback import (
-        EmailFeedback, LearnedSenderRule,
-    )
+    from sqlmodel import func, select
+
     from backend.models.email_cache import EmailCache
+    from backend.models.email_feedback import (
+        EmailFeedback,
+        LearnedSenderRule,
+    )
 
     try:
         stmt = (
@@ -357,12 +389,14 @@ def maybe_learn_sender_rule(sender, session):
         row = session.exec(stmt).first()
         if row and row[1] >= 3:
             existing = session.get(
-                LearnedSenderRule, sender,
+                LearnedSenderRule,
+                sender,
             )
             if existing:
                 existing.category = row[0]
                 existing.sample_count = row[1]
                 from datetime import datetime, timezone
+
                 existing.updated_at = datetime.now(timezone.utc)
             else:
                 rule = LearnedSenderRule(
@@ -375,7 +409,9 @@ def maybe_learn_sender_rule(sender, session):
             session.commit()
             logger.info(
                 "Learned rule: %s -> %s (%d samples)",
-                sender, row[0], row[1],
+                sender,
+                row[0],
+                row[1],
             )
     except Exception as e:
         logger.warning("Learn rule failed: %s", e)

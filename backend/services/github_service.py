@@ -1,6 +1,5 @@
 """GitHub API wrapper — repo health, commits, PRs via PyGitHub."""
 
-import os
 from datetime import datetime, timezone
 from typing import Optional
 
@@ -17,6 +16,7 @@ def _get_github():
         if not token or token.startswith("ghp_REPLACE"):
             return None
         from github import Github
+
         _github = Github(token)
     return _github
 
@@ -97,14 +97,16 @@ def list_org_repos() -> list:
         org = gh.get_organization(settings.GITHUB_ORG)
         repos = []
         for repo in org.get_repos(sort="updated", direction="desc"):
-            repos.append({
-                "name": repo.name,
-                "full_name": repo.full_name,
-                "description": repo.description,
-                "default_branch": repo.default_branch,
-                "updated_at": repo.updated_at.isoformat() if repo.updated_at else None,
-                "size_kb": repo.size,
-            })
+            repos.append(
+                {
+                    "name": repo.name,
+                    "full_name": repo.full_name,
+                    "description": repo.description,
+                    "default_branch": repo.default_branch,
+                    "updated_at": repo.updated_at.isoformat() if repo.updated_at else None,
+                    "size_kb": repo.size,
+                }
+            )
         return repos
     except Exception:
         return []

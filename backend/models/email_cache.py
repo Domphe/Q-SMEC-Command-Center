@@ -3,8 +3,8 @@
 from datetime import datetime
 from typing import Optional
 
-from sqlmodel import SQLModel, Field, Column
 from sqlalchemy import JSON
+from sqlmodel import Column, Field, SQLModel
 
 
 class EmailCacheBase(SQLModel):
@@ -24,7 +24,8 @@ class EmailCacheBase(SQLModel):
     urgency: Optional[str] = "review"  # respond|review|archive
     confidence: float = 0.5
     raw_labels: Optional[list] = Field(
-        default=None, sa_column=Column(JSON),
+        default=None,
+        sa_column=Column(JSON),
     )
     categorized_by: Optional[str] = None  # rule|ai|manual
 

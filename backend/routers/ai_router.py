@@ -1,6 +1,5 @@
 """AI router — complexity scoring, model selection, and live execution."""
 
-import asyncio
 from datetime import datetime, timezone
 from typing import Optional
 
@@ -10,8 +9,8 @@ from sqlmodel import Session
 
 from backend.database import get_session
 from backend.models.task import AITask
-from backend.services.model_router import score_complexity, select_model, select_tool
 from backend.services.ai_service import call_claude, call_gemini, is_anthropic_configured, is_gemini_configured
+from backend.services.model_router import score_complexity, select_model, select_tool
 
 router = APIRouter()
 
