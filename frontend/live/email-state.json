@@ -1,0 +1,470 @@
+{
+  "generated_at": "2026-04-24 02:03:02 UTC",
+  "email": {
+    "total": 3904,
+    "triaged": 3904,
+    "unclassified": 0,
+    "by_triage_category": [
+      {
+        "k": "noise",
+        "n": 1162
+      },
+      {
+        "k": "action",
+        "n": 1124
+      },
+      {
+        "k": "FYI",
+        "n": 693
+      },
+      {
+        "k": "opportunity",
+        "n": 542
+      },
+      {
+        "k": "deal",
+        "n": 203
+      },
+      {
+        "k": "risk",
+        "n": 180
+      }
+    ],
+    "by_entity_tag": [
+      {
+        "k": "NIKET",
+        "n": 1817
+      },
+      {
+        "k": "CII",
+        "n": 1388
+      },
+      {
+        "k": "Joint",
+        "n": 697
+      }
+    ],
+    "by_urgency": [
+      {
+        "k": "low",
+        "n": 1697
+      },
+      {
+        "k": "high",
+        "n": 1119
+      },
+      {
+        "k": "normal",
+        "n": 984
+      },
+      {
+        "k": "critical",
+        "n": 104
+      }
+    ],
+    "by_triage_engine": [
+      {
+        "k": "claude",
+        "n": 3810
+      },
+      {
+        "k": "ollama",
+        "n": 94
+      }
+    ],
+    "top_projects": [
+      {
+        "project_id": "PROJ-TEP-ENERGY-VERTICAL",
+        "total": 410,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "PROJ-CII-JMTC-WEEKLY-OPS",
+        "total": 372,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "PROJ-NIKET-GOVERNANCE",
+        "total": 364,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "DEMO-CENTCOMM-EXTIC-26-2",
+        "total": 247,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "META-MARKET-WATCH",
+        "total": 193,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "DEMO-CAPTURE-STANDING-LIST",
+        "total": 176,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "DEMO-JMTC-DOW-WHITE-PAPERS",
+        "total": 148,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "PROJ-UA-OPSCI-NANOSCRIBE-3D-PRINT",
+        "total": 107,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "PROJ-FPS-CII-CMA-MEMBERSHIP",
+        "total": 63,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "PROJ-UAVC-HEALTHCARE-VERTICAL",
+        "total": 55,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "PROJ-BMT-HYDROLITH-WATER",
+        "total": 47,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "PROJ-MICROCHIP-HPIC-SR-LEADERSHIP",
+        "total": 37,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "PROJ-AIRTRONICS-THERMAL-BATTERY",
+        "total": 31,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "PROJ-MERCURY-QUANTUM-MATERIALS",
+        "total": 22,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "PROJ-HEALTHCARE-VERTICAL",
+        "total": 16,
+        "emails_7d": 0
+      }
+    ],
+    "open_commits": 6754,
+    "overdue_commits": 2247,
+    "commits_by_kind": [
+      {
+        "k": "deliverable",
+        "n": 2503
+      },
+      {
+        "k": "meeting",
+        "n": 2263
+      },
+      {
+        "k": "review",
+        "n": 698
+      },
+      {
+        "k": "research",
+        "n": 620
+      },
+      {
+        "k": "intro",
+        "n": 300
+      },
+      {
+        "k": "signature",
+        "n": 160
+      },
+      {
+        "k": "payment",
+        "n": 129
+      },
+      {
+        "k": "action",
+        "n": 53
+      },
+      {
+        "k": "presentation",
+        "n": 9
+      },
+      {
+        "k": "coordination",
+        "n": 3
+      }
+    ],
+    "overdue_list": [
+      {
+        "kind": "meeting",
+        "owner": "Alex Dely",
+        "due": "2023-01-20",
+        "text": "CII JMTC Weekly Zoom Meeting",
+        "project_id": "PROJ-CII-JMTC-WEEKLY-OPS"
+      },
+      {
+        "kind": "meeting",
+        "owner": "P10/Geoff",
+        "due": "2023-02-08",
+        "text": "Weekly Planning cadence meeting for CII Campus at P10 Tech Park",
+        "project_id": "PROJ-CII-JMTC-WEEKLY-OPS"
+      },
+      {
+        "kind": "meeting",
+        "owner": "P10/Geoff",
+        "due": "2023-02-08",
+        "text": "Weekly Engineering Proposal Mtg for TEP Cyber project",
+        "project_id": "PROJ-CII-JMTC-WEEKLY-OPS"
+      },
+      {
+        "kind": "meeting",
+        "owner": "Dan Geraci",
+        "due": "2023-03-07",
+        "text": "CII 2026 Strategy Deep Dive meeting with new CII President/CEO",
+        "project_id": "PROJ-CII-JMTC-WEEKLY-OPS"
+      },
+      {
+        "kind": "meeting",
+        "owner": "CII/UAVC Team",
+        "due": "2023-04-07",
+        "text": "Attend CII Weekly JMTC meeting",
+        "project_id": "PROJ-CII-JMTC-WEEKLY-OPS"
+      },
+      {
+        "kind": "meeting",
+        "owner": "Alex",
+        "due": "2023-09-26",
+        "text": "Report on the Arizona Tech Council Optics Valley Quarterly Members Meeting",
+        "project_id": "DEMO-JMTC-DOW-WHITE-PAPERS"
+      },
+      {
+        "kind": "meeting",
+        "owner": "Team Member",
+        "due": "2023-09-26",
+        "text": "Report on SWMAC FUSE Defense Tech Accelerator Cohort 2 Mentor Mixer",
+        "project_id": "DEMO-JMTC-DOW-WHITE-PAPERS"
+      },
+      {
+        "kind": "meeting",
+        "owner": "Team Member",
+        "due": "2023-09-26",
+        "text": "Report on Golden Dome Capture Meeting",
+        "project_id": "DEMO-JMTC-DOW-WHITE-PAPERS"
+      },
+      {
+        "kind": "meeting",
+        "owner": "Alex",
+        "due": "2023-09-30",
+        "text": "Report on the Golden Dome Capture Status and other updates.",
+        "project_id": "DEMO-JMTC-DOW-WHITE-PAPERS"
+      },
+      {
+        "kind": "meeting",
+        "owner": "Alex",
+        "due": "2023-10-01",
+        "text": "CII CoW Proposal Prime Precise Systems Proposal Capabilities Matrix Updates/Guidance",
+        "project_id": "DEMO-JMTC-DOW-WHITE-PAPERS"
+      },
+      {
+        "kind": "meeting",
+        "owner": "Alex",
+        "due": "2023-10-28",
+        "text": "CII/UAVC JMTC meeting at 4 PM (AZ) to discuss updates and new CII partner firm capabilities brief.",
+        "project_id": "DEMO-JMTC-DOW-WHITE-PAPERS"
+      },
+      {
+        "kind": "presentation",
+        "owner": "John Higginbotham, CEO of Blue Ridge Networks",
+        "due": "2023-10-28",
+        "text": "Blue Ridge Networks presentation during JMTC meeting.",
+        "project_id": "DEMO-JMTC-DOW-WHITE-PAPERS"
+      },
+      {
+        "kind": "presentation",
+        "owner": "Ryan Dudack, CEO of Foam Packaging Specialties",
+        "due": "2023-10-28",
+        "text": "Foam Packaging Specialties presentation during JMTC meeting.",
+        "project_id": "DEMO-JMTC-DOW-WHITE-PAPERS"
+      },
+      {
+        "kind": "meeting",
+        "owner": "CII/UAVC Team",
+        "due": "2023-10-29",
+        "text": "Rescheduled Tiberius DIU Project GI Capture Meeting at 10 AM on Wednesday October 29.",
+        "project_id": "DEMO-JMTC-DOW-WHITE-PAPERS"
+      },
+      {
+        "kind": "meeting",
+        "owner": "Alex",
+        "due": "2023-11-05",
+        "text": "Rescheduled Tiberius DIU Project GI Capture Meeting at Tiberius.",
+        "project_id": "PROJ-UAVC-HEALTHCARE-VERTICAL"
+      }
+    ],
+    "recent_triage": [
+      {
+        "at": "2026-04-24T00:23:12.566627+00:00",
+        "engine": "claude",
+        "cat": "action",
+        "entity": "NIKET",
+        "urgency": "high",
+        "subject": "You have a new Google account for niketllc.com"
+      },
+      {
+        "at": "2026-04-24T00:22:56.399800+00:00",
+        "engine": "claude",
+        "cat": "FYI",
+        "entity": "Joint",
+        "urgency": "low",
+        "subject": "NIST Photonic Chip Packaging, Quantum Sensing"
+      },
+      {
+        "at": "2026-04-24T00:22:37.319923+00:00",
+        "engine": "claude",
+        "cat": "FYI",
+        "entity": "NIKET",
+        "urgency": "low",
+        "subject": "NIST Photonic Chip Packaging, Quantum Sensing"
+      },
+      {
+        "at": "2026-04-24T00:22:19.983512+00:00",
+        "engine": "claude",
+        "cat": "FYI",
+        "entity": "NIKET",
+        "urgency": "low",
+        "subject": "Multifactor enrollment added"
+      },
+      {
+        "at": "2026-04-24T00:22:04.800201+00:00",
+        "engine": "claude",
+        "cat": "noise",
+        "entity": "NIKET",
+        "urgency": "low",
+        "subject": "Alert Notification: User account changed"
+      },
+      {
+        "at": "2026-04-24T00:21:49.383166+00:00",
+        "engine": "claude",
+        "cat": "noise",
+        "entity": "NIKET",
+        "urgency": "low",
+        "subject": "[AUTO GENERATED] Ticket Closed #20251223-4# (Google Drive is\n encountering sync issues)"
+      },
+      {
+        "at": "2026-04-24T00:21:34.129924+00:00",
+        "engine": "claude",
+        "cat": "FYI",
+        "entity": "NIKET",
+        "urgency": "low",
+        "subject": "[AUTO GENERATED] Ticket Closed #20260113-10# (Set up RDP shortcut to\n access NIKET-HV-01 on NIKET-WK"
+      },
+      {
+        "at": "2026-04-24T00:21:18.691276+00:00",
+        "engine": "claude",
+        "cat": "noise",
+        "entity": "NIKET",
+        "urgency": "low",
+        "subject": "Reset your IBMid password"
+      },
+      {
+        "at": "2026-04-24T00:21:03.365143+00:00",
+        "engine": "claude",
+        "cat": "noise",
+        "entity": "NIKET",
+        "urgency": "low",
+        "subject": "Your receipt from Lumi.new #2371-5407"
+      },
+      {
+        "at": "2026-04-24T00:20:46.986551+00:00",
+        "engine": "claude",
+        "cat": "noise",
+        "entity": "NIKET",
+        "urgency": "low",
+        "subject": "[Software Engineer] Chapter 3 of 5: Engineer Secrets"
+      },
+      {
+        "at": "2026-04-24T00:20:31.499395+00:00",
+        "engine": "claude",
+        "cat": "noise",
+        "entity": "NIKET",
+        "urgency": "low",
+        "subject": "The workflow developers wish they had"
+      },
+      {
+        "at": "2026-04-24T00:20:16.325156+00:00",
+        "engine": "claude",
+        "cat": "noise",
+        "entity": "NIKET",
+        "urgency": "low",
+        "subject": "You have no events scheduled today."
+      },
+      {
+        "at": "2026-04-24T00:20:09.072130+00:00",
+        "engine": "claude",
+        "cat": "noise",
+        "entity": "NIKET",
+        "urgency": "low",
+        "subject": "Templates to get started and how to stay in the loop"
+      },
+      {
+        "at": "2026-04-24T00:19:59.549853+00:00",
+        "engine": "claude",
+        "cat": "noise",
+        "entity": "NIKET",
+        "urgency": "low",
+        "subject": "AZTW Day 1 Download"
+      },
+      {
+        "at": "2026-04-24T00:19:56.469941+00:00",
+        "engine": "claude",
+        "cat": "FYI",
+        "entity": "NIKET",
+        "urgency": "low",
+        "subject": ""
+      },
+      {
+        "at": "2026-04-24T00:19:38.403573+00:00",
+        "engine": "claude",
+        "cat": "risk",
+        "entity": "NIKET",
+        "urgency": "high",
+        "subject": "Your Supabase Project Niket 2026 is going to be paused."
+      },
+      {
+        "at": "2026-04-24T00:19:33.753688+00:00",
+        "engine": "claude",
+        "cat": "action",
+        "entity": "CII",
+        "urgency": "normal",
+        "subject": "CII Notional CMA Aerospace and Defense 22 week Arizona Contact Plan"
+      },
+      {
+        "at": "2026-04-24T00:19:11.755653+00:00",
+        "engine": "claude",
+        "cat": "noise",
+        "entity": "NIKET",
+        "urgency": "low",
+        "subject": "Sign in to your Microsoft Learn account for more features"
+      },
+      {
+        "at": "2026-04-24T00:19:10.001449+00:00",
+        "engine": "claude",
+        "cat": "risk",
+        "entity": "NIKET",
+        "urgency": "high",
+        "subject": "Your Supabase Project Niket 2026 is going to be paused."
+      },
+      {
+        "at": "2026-04-24T00:18:52.575912+00:00",
+        "engine": "claude",
+        "cat": "noise",
+        "entity": "NIKET",
+        "urgency": "low",
+        "subject": "2888798: 8522 E Helen Place, Tucson, AZ  85715: Salvatore M Dely\n and Katelyn B Dely"
+      }
+    ]
+  },
+  "cost_today": {
+    "runs": 33,
+    "total_usd": 1.475
+  }
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<meta http-equiv="refresh" content="30">
+<title>Email Agent Orchestrator — Q-SMEC</title>
+<style>
+:root {
+  --bg-primary: #0a0e1a; --bg-secondary: #111827; --bg-card: #1a2235;
+  --bg-card-hover: #1f2a40; --bg-input: #0f172a; --border: #2a3550;
+  --border-accent: #3b82f6; --text-primary: #e2e8f0; --text-secondary: #94a3b8;
+  --text-muted: #64748b; --accent-blue: #3b82f6; --accent-cyan: #06b6d4;
+  --accent-green: #10b981; --accent-yellow: #f59e0b; --accent-red: #ef4444;
+  --accent-purple: #8b5cf6; --accent-orange: #f97316;
+  --radius: 10px; --radius-sm: 6px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg-primary); color: var(--text-primary);
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+  font-size: 13px; line-height: 1.4; min-height: 100vh; padding: 20px; }
+h1 { font-size: 22px; color: var(--text-primary); margin-bottom: 4px;
+  display: flex; align-items: center; gap: 12px; }
+h1 .pulse { width: 10px; height: 10px; background: var(--accent-green);
+  border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.sub { color: var(--text-muted); font-size: 12px; margin-bottom: 20px; }
+.grid { display: grid; gap: 16px; }
+.grid-2 { grid-template-columns: 1fr 1fr; }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.card { background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px; }
+.card h2 { font-size: 13px; color: var(--accent-cyan); margin-bottom: 10px;
+  text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.kpi { font-size: 28px; font-weight: 700; color: var(--text-primary); }
+.kpi-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; padding: 6px 8px; color: var(--text-secondary);
+  border-bottom: 1px solid var(--border); font-weight: 500; font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.3px; }
+td { padding: 6px 8px; border-bottom: 1px solid rgba(42,53,80,0.3); }
+tr:hover td { background: rgba(42,53,80,0.2); }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+.badge-green { background: rgba(16,185,129,0.15); color: var(--accent-green);
+  border: 1px solid rgba(16,185,129,0.3); }
+.badge-yellow { background: rgba(245,158,11,0.15); color: var(--accent-yellow);
+  border: 1px solid rgba(245,158,11,0.3); }
+.badge-red { background: rgba(239,68,68,0.15); color: var(--accent-red);
+  border: 1px solid rgba(239,68,68,0.3); }
+.badge-blue { background: rgba(59,130,246,0.15); color: var(--accent-blue);
+  border: 1px solid rgba(59,130,246,0.3); }
+.badge-purple { background: rgba(139,92,246,0.15); color: var(--accent-purple);
+  border: 1px solid rgba(139,92,246,0.3); }
+.badge-gray { background: rgba(100,116,139,0.15); color: var(--text-muted);
+  border: 1px solid rgba(100,116,139,0.3); }
+.led { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+.led-green { background: var(--accent-green); box-shadow: 0 0 4px var(--accent-green); }
+.led-yellow { background: var(--accent-yellow); box-shadow: 0 0 4px var(--accent-yellow); }
+.led-red { background: var(--accent-red); box-shadow: 0 0 4px var(--accent-red); }
+.led-gray { background: var(--text-muted); }
+.bar { height: 16px; background: var(--bg-input); border-radius: 4px;
+  overflow: hidden; position: relative; }
+.bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+  transition: width 0.4s ease; }
+.bar-label { position: absolute; inset: 0; display: flex; align-items: center;
+  justify-content: center; font-size: 10px; font-weight: 600; }
+.mono { font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 11px; }
+.muted { color: var(--text-muted); }
+.right { text-align: right; }
+.nowrap { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px; }
+</style>
+</head><body>
+<h1><span class="pulse"></span>Email Agent Orchestrator</h1>
+<div class="sub">generated 2026-04-24 02:03:02 UTC · auto-refresh 30s</div>
+
+<div class="grid grid-4" style="margin-bottom:16px">
+  <div class="card"><h2>Triaged</h2><div class="kpi">3,904</div><div class="kpi-sub">of 3,904 total (100.0%)</div>
+    <div class="bar" style="margin-top:8px"><div class="bar-fill" style="width:100.0%"></div><div class="bar-label">100.0%</div></div>
+  </div>
+  <div class="card"><h2>Unclassified</h2><div class="kpi" style="color:var(--accent-yellow)">0</div><div class="kpi-sub">in triage backlog</div></div>
+  <div class="card"><h2>Commitments</h2><div class="kpi">6,754</div><div class="kpi-sub"><span style="color:var(--accent-red)">2247 overdue</span></div></div>
+  <div class="card"><h2>Claude Cost Today</h2><div class="kpi" style="color:var(--accent-green)">$1.48</div><div class="kpi-sub">33 batch runs</div></div>
+</div>
+
+<div class="grid grid-4" style="margin-bottom:16px">
+  <div class="card"><h2>By Category</h2><table><tr><td><span class="badge badge-blue">noise</span></td><td class="right">1162</td></tr><tr><td><span class="badge badge-blue">action</span></td><td class="right">1124</td></tr><tr><td><span class="badge badge-blue">FYI</span></td><td class="right">693</td></tr><tr><td><span class="badge badge-blue">opportunity</span></td><td class="right">542</td></tr><tr><td><span class="badge badge-blue">deal</span></td><td class="right">203</td></tr><tr><td><span class="badge badge-blue">risk</span></td><td class="right">180</td></tr></table></div>
+  <div class="card"><h2>By Entity (CII/Joint/NIKET)</h2><table><tr><td><span class="badge badge-purple">NIKET</span></td><td class="right">1817</td></tr><tr><td><span class="badge badge-purple">CII</span></td><td class="right">1388</td></tr><tr><td><span class="badge badge-purple">Joint</span></td><td class="right">697</td></tr></table></div>
+  <div class="card"><h2>By Urgency</h2><table><tr><td><span class="badge badge-gray">low</span></td><td class="right">1697</td></tr><tr><td><span class="badge badge-yellow">high</span></td><td class="right">1119</td></tr><tr><td><span class="badge badge-green">normal</span></td><td class="right">984</td></tr><tr><td><span class="badge badge-red">critical</span></td><td class="right">104</td></tr></table></div>
+  <div class="card"><h2>By Engine</h2><table><tr><td><span class="badge badge-green">claude</span></td><td class="right">3810</td></tr><tr><td><span class="badge badge-yellow">ollama</span></td><td class="right">94</td></tr></table></div>
+</div>
+
+<div class="grid grid-2" style="margin-bottom:16px">
+  <div class="card"><h2>Top Projects (by email volume)</h2>
+    <table><thead><tr><th>Project ID</th><th class="right">Total</th><th class="right">7d</th></tr></thead>
+    <tbody><tr><td class="mono">PROJ-TEP-ENERGY-VERTICAL</td><td class="right">410</td><td class="right" style="color:var(--accent-cyan)">0</td></tr><tr><td class="mono">PROJ-CII-JMTC-WEEKLY-OPS</td><td class="right">372</td><td class="right" style="color:var(--accent-cyan)">0</td></tr><tr><td class="mono">PROJ-NIKET-GOVERNANCE</td><td class="right">364</td><td class="right" style="color:var(--accent-cyan)">0</td></tr><tr><td class="mono">DEMO-CENTCOMM-EXTIC-26-2</td><td class="right">247</td><td class="right" style="color:var(--accent-cyan)">0</td></tr><tr><td class="mono">META-MARKET-WATCH</td><td class="right">193</td><td class="right" style="color:var(--accent-cyan)">0</td></tr><tr><td class="mono">DEMO-CAPTURE-STANDING-LIST</td><td class="right">176</td><td class="right" style="color:var(--accent-cyan)">0</td></tr><tr><td class="mono">DEMO-JMTC-DOW-WHITE-PAPERS</td><td class="right">148</td><td class="right" style="color:var(--accent-cyan)">0</td></tr><tr><td class="mono">PROJ-UA-OPSCI-NANOSCRIBE-3D-PRINT</td><td class="right">107</td><td class="right" style="color:var(--accent-cyan)">0</td></tr><tr><td class="mono">PROJ-FPS-CII-CMA-MEMBERSHIP</td><td class="right">63</td><td class="right" style="color:var(--accent-cyan)">0</td></tr><tr><td class="mono">PROJ-UAVC-HEALTHCARE-VERTICAL</td><td class="right">55</td><td class="right" style="color:var(--accent-cyan)">0</td></tr><tr><td class="mono">PROJ-BMT-HYDROLITH-WATER</td><td class="right">47</td><td class="right" style="color:var(--accent-cyan)">0</td></tr><tr><td class="mono">PROJ-MICROCHIP-HPIC-SR-LEADERSHIP</td><td class="right">37</td><td class="right" style="color:var(--accent-cyan)">0</td></tr><tr><td class="mono">PROJ-AIRTRONICS-THERMAL-BATTERY</td><td class="right">31</td><td class="right" style="color:var(--accent-cyan)">0</td></tr><tr><td class="mono">PROJ-MERCURY-QUANTUM-MATERIALS</td><td class="right">22</td><td class="right" style="color:var(--accent-cyan)">0</td></tr><tr><td class="mono">PROJ-HEALTHCARE-VERTICAL</td><td class="right">16</td><td class="right" style="color:var(--accent-cyan)">0</td></tr></tbody></table>
+  </div>
+  <div class="card"><h2>Commitments by Kind</h2>
+    <table><thead><tr><th>Kind</th><th class="right">Open</th></tr></thead>
+    <tbody><tr><td>deliverable</td><td class="right">2503</td></tr><tr><td>meeting</td><td class="right">2263</td></tr><tr><td>review</td><td class="right">698</td></tr><tr><td>research</td><td class="right">620</td></tr><tr><td>intro</td><td class="right">300</td></tr><tr><td>signature</td><td class="right">160</td></tr><tr><td>payment</td><td class="right">129</td></tr><tr><td>action</td><td class="right">53</td></tr><tr><td>presentation</td><td class="right">9</td></tr><tr><td>coordination</td><td class="right">3</td></tr></tbody></table>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:16px">
+  <h2>🔴 Overdue Commitments (2247)</h2>
+  <table><thead><tr><th>Kind</th><th>Due</th><th>Owner</th><th>Text</th><th>Project</th></tr></thead>
+  <tbody><tr><td><span class="badge badge-red">meeting</span></td><td class="mono">2023-01-20</td><td>Alex Dely</td><td class="nowrap" title="CII JMTC Weekly Zoom Meeting">CII JMTC Weekly Zoom Meeting</td><td class="mono muted">PROJ-CII-JMTC-WEEKLY-OPS</td></tr><tr><td><span class="badge badge-red">meeting</span></td><td class="mono">2023-02-08</td><td>P10/Geoff</td><td class="nowrap" title="Weekly Planning cadence meeting for CII Campus at P10 Tech Park">Weekly Planning cadence meeting for CII Campus at P10 Tech Park</td><td class="mono muted">PROJ-CII-JMTC-WEEKLY-OPS</td></tr><tr><td><span class="badge badge-red">meeting</span></td><td class="mono">2023-02-08</td><td>P10/Geoff</td><td class="nowrap" title="Weekly Engineering Proposal Mtg for TEP Cyber project">Weekly Engineering Proposal Mtg for TEP Cyber project</td><td class="mono muted">PROJ-CII-JMTC-WEEKLY-OPS</td></tr><tr><td><span class="badge badge-red">meeting</span></td><td class="mono">2023-03-07</td><td>Dan Geraci</td><td class="nowrap" title="CII 2026 Strategy Deep Dive meeting with new CII President/CEO">CII 2026 Strategy Deep Dive meeting with new CII President/CEO</td><td class="mono muted">PROJ-CII-JMTC-WEEKLY-OPS</td></tr><tr><td><span class="badge badge-red">meeting</span></td><td class="mono">2023-04-07</td><td>CII/UAVC Team</td><td class="nowrap" title="Attend CII Weekly JMTC meeting">Attend CII Weekly JMTC meeting</td><td class="mono muted">PROJ-CII-JMTC-WEEKLY-OPS</td></tr><tr><td><span class="badge badge-red">meeting</span></td><td class="mono">2023-09-26</td><td>Alex</td><td class="nowrap" title="Report on the Arizona Tech Council Optics Valley Quarterly Members Meeting">Report on the Arizona Tech Council Optics Valley Quarterly Members Meeting</td><td class="mono muted">DEMO-JMTC-DOW-WHITE-PAPERS</td></tr><tr><td><span class="badge badge-red">meeting</span></td><td class="mono">2023-09-26</td><td>Team Member</td><td class="nowrap" title="Report on SWMAC FUSE Defense Tech Accelerator Cohort 2 Mentor Mixer">Report on SWMAC FUSE Defense Tech Accelerator Cohort 2 Mentor Mixer</td><td class="mono muted">DEMO-JMTC-DOW-WHITE-PAPERS</td></tr><tr><td><span class="badge badge-red">meeting</span></td><td class="mono">2023-09-26</td><td>Team Member</td><td class="nowrap" title="Report on Golden Dome Capture Meeting">Report on Golden Dome Capture Meeting</td><td class="mono muted">DEMO-JMTC-DOW-WHITE-PAPERS</td></tr><tr><td><span class="badge badge-red">meeting</span></td><td class="mono">2023-09-30</td><td>Alex</td><td class="nowrap" title="Report on the Golden Dome Capture Status and other updates.">Report on the Golden Dome Capture Status and other updates.</td><td class="mono muted">DEMO-JMTC-DOW-WHITE-PAPERS</td></tr><tr><td><span class="badge badge-red">meeting</span></td><td class="mono">2023-10-01</td><td>Alex</td><td class="nowrap" title="CII CoW Proposal Prime Precise Systems Proposal Capabilities Matrix Updates/Guidance">CII CoW Proposal Prime Precise Systems Proposal Capabilities Matrix Updates/Guidance</td><td class="mono muted">DEMO-JMTC-DOW-WHITE-PAPERS</td></tr><tr><td><span class="badge badge-red">meeting</span></td><td class="mono">2023-10-28</td><td>Alex</td><td class="nowrap" title="CII/UAVC JMTC meeting at 4 PM (AZ) to discuss updates and new CII partner firm capabilities brief.">CII/UAVC JMTC meeting at 4 PM (AZ) to discuss updates and new CII partner firm capabilities brief.</td><td class="mono muted">DEMO-JMTC-DOW-WHITE-PAPERS</td></tr><tr><td><span class="badge badge-red">presentation</span></td><td class="mono">2023-10-28</td><td>John Higginbotham, CEO of Blue</td><td class="nowrap" title="Blue Ridge Networks presentation during JMTC meeting.">Blue Ridge Networks presentation during JMTC meeting.</td><td class="mono muted">DEMO-JMTC-DOW-WHITE-PAPERS</td></tr><tr><td><span class="badge badge-red">presentation</span></td><td class="mono">2023-10-28</td><td>Ryan Dudack, CEO of Foam Packa</td><td class="nowrap" title="Foam Packaging Specialties presentation during JMTC meeting.">Foam Packaging Specialties presentation during JMTC meeting.</td><td class="mono muted">DEMO-JMTC-DOW-WHITE-PAPERS</td></tr><tr><td><span class="badge badge-red">meeting</span></td><td class="mono">2023-10-29</td><td>CII/UAVC Team</td><td class="nowrap" title="Rescheduled Tiberius DIU Project GI Capture Meeting at 10 AM on Wednesday October 29.">Rescheduled Tiberius DIU Project GI Capture Meeting at 10 AM on Wednesday October 29.</td><td class="mono muted">DEMO-JMTC-DOW-WHITE-PAPERS</td></tr><tr><td><span class="badge badge-red">meeting</span></td><td class="mono">2023-11-05</td><td>Alex</td><td class="nowrap" title="Rescheduled Tiberius DIU Project GI Capture Meeting at Tiberius.">Rescheduled Tiberius DIU Project GI Capture Meeting at Tiberius.</td><td class="mono muted">PROJ-UAVC-HEALTHCARE-VERTICAL</td></tr></tbody></table>
+</div>
+
+<div class="card">
+  <h2>Recent Triage (last 15)</h2>
+  <table><thead><tr><th>When (UTC)</th><th>Engine</th><th>Category</th><th>Entity</th><th>Subject</th></tr></thead>
+  <tbody><tr><td class="mono muted">2026-04-24T00:23</td><td><span class="badge badge-green">claude</span></td><td><span class="badge badge-blue">action</span></td><td><span class="badge badge-purple">NIKET</span></td><td class="nowrap">You have a new Google account for niketllc.com</td></tr><tr><td class="mono muted">2026-04-24T00:22</td><td><span class="badge badge-green">claude</span></td><td><span class="badge badge-blue">FYI</span></td><td><span class="badge badge-purple">Joint</span></td><td class="nowrap">NIST Photonic Chip Packaging, Quantum Sensing</td></tr><tr><td class="mono muted">2026-04-24T00:22</td><td><span class="badge badge-green">claude</span></td><td><span class="badge badge-blue">FYI</span></td><td><span class="badge badge-purple">NIKET</span></td><td class="nowrap">NIST Photonic Chip Packaging, Quantum Sensing</td></tr><tr><td class="mono muted">2026-04-24T00:22</td><td><span class="badge badge-green">claude</span></td><td><span class="badge badge-blue">FYI</span></td><td><span class="badge badge-purple">NIKET</span></td><td class="nowrap">Multifactor enrollment added</td></tr><tr><td class="mono muted">2026-04-24T00:22</td><td><span class="badge badge-green">claude</span></td><td><span class="badge badge-blue">noise</span></td><td><span class="badge badge-purple">NIKET</span></td><td class="nowrap">Alert Notification: User account changed</td></tr><tr><td class="mono muted">2026-04-24T00:21</td><td><span class="badge badge-green">claude</span></td><td><span class="badge badge-blue">noise</span></td><td><span class="badge badge-purple">NIKET</span></td><td class="nowrap">[AUTO GENERATED] Ticket Closed #20251223-4# (Google Drive is
+ encountering sync issues)</td></tr><tr><td class="mono muted">2026-04-24T00:21</td><td><span class="badge badge-green">claude</span></td><td><span class="badge badge-blue">FYI</span></td><td><span class="badge badge-purple">NIKET</span></td><td class="nowrap">[AUTO GENERATED] Ticket Closed #20260113-10# (Set up RDP shortcut to
+ access NIKET-HV-01 on NIKET-WK</td></tr><tr><td class="mono muted">2026-04-24T00:21</td><td><span class="badge badge-green">claude</span></td><td><span class="badge badge-blue">noise</span></td><td><span class="badge badge-purple">NIKET</span></td><td class="nowrap">Reset your IBMid password</td></tr><tr><td class="mono muted">2026-04-24T00:21</td><td><span class="badge badge-green">claude</span></td><td><span class="badge badge-blue">noise</span></td><td><span class="badge badge-purple">NIKET</span></td><td class="nowrap">Your receipt from Lumi.new #2371-5407</td></tr><tr><td class="mono muted">2026-04-24T00:20</td><td><span class="badge badge-green">claude</span></td><td><span class="badge badge-blue">noise</span></td><td><span class="badge badge-purple">NIKET</span></td><td class="nowrap">[Software Engineer] Chapter 3 of 5: Engineer Secrets</td></tr><tr><td class="mono muted">2026-04-24T00:20</td><td><span class="badge badge-green">claude</span></td><td><span class="badge badge-blue">noise</span></td><td><span class="badge badge-purple">NIKET</span></td><td class="nowrap">The workflow developers wish they had</td></tr><tr><td class="mono muted">2026-04-24T00:20</td><td><span class="badge badge-green">claude</span></td><td><span class="badge badge-blue">noise</span></td><td><span class="badge badge-purple">NIKET</span></td><td class="nowrap">You have no events scheduled today.</td></tr><tr><td class="mono muted">2026-04-24T00:20</td><td><span class="badge badge-green">claude</span></td><td><span class="badge badge-blue">noise</span></td><td><span class="badge badge-purple">NIKET</span></td><td class="nowrap">Templates to get started and how to stay in the loop</td></tr><tr><td class="mono muted">2026-04-24T00:19</td><td><span class="badge badge-green">claude</span></td><td><span class="badge badge-blue">noise</span></td><td><span class="badge badge-purple">NIKET</span></td><td class="nowrap">AZTW Day 1 Download</td></tr><tr><td class="mono muted">2026-04-24T00:19</td><td><span class="badge badge-green">claude</span></td><td><span class="badge badge-blue">FYI</span></td><td><span class="badge badge-purple">NIKET</span></td><td class="nowrap"></td></tr></tbody></table>
+</div>
+</body></html>
