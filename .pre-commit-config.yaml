@@ -19,4 +19,12 @@ repos:
     rev: 0.25.1
     hooks:
       - id: deptry
-        args: ['--extend-exclude', '.venv,tests,docs,build']
+        args:
+          - '-ee'
+          - '\.venv'
+          - '-ee'
+          - 'tests'
+          - '-ee'
+          - 'docs'
+          - '-ee'
+          - 'build'
