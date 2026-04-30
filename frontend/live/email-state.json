@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-29 17:58:02 UTC",
+  "generated_at": "2026-04-30 01:13:02 UTC",
   "email": {
     "total": 4467,
     "triaged": 4467,
@@ -96,21 +96,11 @@
       {
         "project_id": "PROJ-TEP-ENERGY-VERTICAL",
         "total": 461,
-        "emails_7d": 28
-      },
-      {
-        "project_id": "PROJ-AIRTRONICS-THERMAL-BATTERY",
-        "total": 57,
-        "emails_7d": 16
+        "emails_7d": 10
       },
       {
         "project_id": "PROJ-NIKET-GOVERNANCE",
         "total": 398,
-        "emails_7d": 10
-      },
-      {
-        "project_id": "PROJ-MERCURY-QUANTUM-MATERIALS",
-        "total": 36,
         "emails_7d": 7
       },
       {
@@ -119,58 +109,68 @@
         "emails_7d": 6
       },
       {
-        "project_id": "PROJ-FPS-CII-CMA-MEMBERSHIP",
-        "total": 75,
-        "emails_7d": 5
+        "project_id": "PROJ-MERCURY-QUANTUM-MATERIALS",
+        "total": 36,
+        "emails_7d": 6
+      },
+      {
+        "project_id": "PROJ-AIRTRONICS-THERMAL-BATTERY",
+        "total": 57,
+        "emails_7d": 4
       },
       {
         "project_id": "META-MARKET-WATCH",
         "total": 216,
-        "emails_7d": 4
+        "emails_7d": 3
       },
       {
         "project_id": "DEMO-CAPTURE-STANDING-LIST",
         "total": 185,
-        "emails_7d": 4
-      },
-      {
-        "project_id": "ROLL-MAY6-PHOENIX-SWING",
-        "total": 6,
-        "emails_7d": 4
-      },
-      {
-        "project_id": "PROJ-MICROCHIP-HPIC-SR-LEADERSHIP",
-        "total": 57,
         "emails_7d": 3
       },
       {
-        "project_id": "PROJ-WEXLER-CII-NIKET-ONBOARD",
-        "total": 7,
-        "emails_7d": 3
+        "project_id": "PROJ-FPS-CII-CMA-MEMBERSHIP",
+        "total": 75,
+        "emails_7d": 2
       },
       {
         "project_id": "PROJ-CII-JMTC-WEEKLY-OPS",
         "total": 389,
-        "emails_7d": 2
+        "emails_7d": 1
       },
       {
-        "project_id": "PROJ-BMT-HYDROLITH-WATER",
-        "total": 51,
-        "emails_7d": 2
+        "project_id": "ROLL-MAY6-PHOENIX-SWING",
+        "total": 6,
+        "emails_7d": 1
+      },
+      {
+        "project_id": "DEMO-CENTCOMM-EXTIC-26-2",
+        "total": 248,
+        "emails_7d": 0
       },
       {
         "project_id": "DEMO-JMTC-DOW-WHITE-PAPERS",
         "total": 154,
-        "emails_7d": 1
+        "emails_7d": 0
       },
       {
-        "project_id": "PROJ-INTEL-HPIC-QUANTUM-DEVICES",
-        "total": 9,
-        "emails_7d": 1
+        "project_id": "PROJ-MICROCHIP-HPIC-SR-LEADERSHIP",
+        "total": 57,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "PROJ-UAVC-HEALTHCARE-VERTICAL",
+        "total": 56,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "PROJ-BMT-HYDROLITH-WATER",
+        "total": 51,
+        "emails_7d": 0
       }
     ],
     "open_commits": 7447,
-    "overdue_commits": 2477,
+    "overdue_commits": 2481,
     "commits_by_kind": [
       {
         "k": "deliverable",
@@ -484,7 +484,7 @@
     ]
   },
   "cost_today": {
-    "runs": 72,
+    "runs": 5,
     "total_usd": 0.0
   }
 }

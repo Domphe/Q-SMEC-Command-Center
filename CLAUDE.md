@@ -36,3 +36,20 @@ Full-stack web app (FastAPI + React) serving as NIKET NA LLC's unified operation
 - Spec: Niket-Work-Documents/SPECS/COMMAND_CENTER_APP_SPEC.md
 - Sync: Niket/CLAUDE_SYNC.md
 - Playbook: Q-SMEC-Orchestration-Engine/Playbook/PLAYBOOK.md
+
+
+---
+
+## Standing Rule R57 — Folder Migration Preflight (CROSS-CUTTING, 2026-04-29)
+
+Before any folder operation that triggers per the conditions in [`Q-SMEC-Claude/shared-memory/protocol_folder_migration_preflight.md`](../Q-SMEC-Claude/shared-memory/protocol_folder_migration_preflight.md) (>5 file deletes, >10 file moves crossing folders, top-level dir delete, ANY operation described as "consolidation" / "migration" / "cleanup" / "merge X into Y", crossing repo boundaries, external drives), run:
+
+```bash
+python3 /mnt/e/Data1/Q-SMEC-Claude/agents/folder_migration_preflight_agent.py scan PLAN.json
+```
+
+The agent runs **six universal checks** (SHA256 dup-verify, real-diff stale-verify, canonical-existence proof, junction safety, 30-day quarantine archive, sole-author check) plus **content-class checks** routed by destination class. On verdict `PASS` the agent writes `.preflight_passed.json` (24-hour TTL). The Claude Code `PreToolUse` hook BLOCKS `rm -rf` / `Remove-Item -Recurse` / `fsutil reparsepoint delete` outside the cache/build allowlist unless the marker is current. Per-repo `.githooks/pre-commit` rejects commits with recursive deletes lacking a referenced preflight report.
+
+**Critical:** filename + size + date is **not** proof of duplicate (only SHA256 bit-identity is). Newer-date-wins is **not** proof of stale (only diff-fully-subsumed is). "Doesn't exist in canonical" must be proven by listing canonical roots, not asserted.
+
+Authoritative rule: `Q-SMEC-Claude/CLAUDE.md` §R57. Canonical protocol: `Q-SMEC-Claude/shared-memory/protocol_folder_migration_preflight.md`.
