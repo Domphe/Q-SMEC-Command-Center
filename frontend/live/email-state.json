@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-30 01:13:02 UTC",
+  "generated_at": "2026-05-06 02:23:01 UTC",
   "email": {
     "total": 4467,
     "triaged": 4467,
@@ -33,7 +33,7 @@
     "by_entity_tag": [
       {
         "k": "CII",
-        "n": 1231
+        "n": 1230
       },
       {
         "k": "archived",
@@ -45,15 +45,15 @@
       },
       {
         "k": "NIKET",
-        "n": 768
+        "n": 730
       },
       {
         "k": "NIKET,archived",
-        "n": 564
+        "n": 602
       },
       {
         "k": "CII,archived",
-        "n": 126
+        "n": 127
       },
       {
         "k": "archived,billing",
@@ -96,52 +96,17 @@
       {
         "project_id": "PROJ-TEP-ENERGY-VERTICAL",
         "total": 461,
-        "emails_7d": 10
+        "emails_7d": 0
       },
       {
         "project_id": "PROJ-NIKET-GOVERNANCE",
         "total": 398,
-        "emails_7d": 7
-      },
-      {
-        "project_id": "PROJ-UA-OPSCI-NANOSCRIBE-3D-PRINT",
-        "total": 151,
-        "emails_7d": 6
-      },
-      {
-        "project_id": "PROJ-MERCURY-QUANTUM-MATERIALS",
-        "total": 36,
-        "emails_7d": 6
-      },
-      {
-        "project_id": "PROJ-AIRTRONICS-THERMAL-BATTERY",
-        "total": 57,
-        "emails_7d": 4
-      },
-      {
-        "project_id": "META-MARKET-WATCH",
-        "total": 216,
-        "emails_7d": 3
-      },
-      {
-        "project_id": "DEMO-CAPTURE-STANDING-LIST",
-        "total": 185,
-        "emails_7d": 3
-      },
-      {
-        "project_id": "PROJ-FPS-CII-CMA-MEMBERSHIP",
-        "total": 75,
-        "emails_7d": 2
+        "emails_7d": 0
       },
       {
         "project_id": "PROJ-CII-JMTC-WEEKLY-OPS",
         "total": 389,
-        "emails_7d": 1
-      },
-      {
-        "project_id": "ROLL-MAY6-PHOENIX-SWING",
-        "total": 6,
-        "emails_7d": 1
+        "emails_7d": 0
       },
       {
         "project_id": "DEMO-CENTCOMM-EXTIC-26-2",
@@ -149,8 +114,33 @@
         "emails_7d": 0
       },
       {
+        "project_id": "META-MARKET-WATCH",
+        "total": 216,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "DEMO-CAPTURE-STANDING-LIST",
+        "total": 185,
+        "emails_7d": 0
+      },
+      {
         "project_id": "DEMO-JMTC-DOW-WHITE-PAPERS",
         "total": 154,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "PROJ-UA-OPSCI-NANOSCRIBE-3D-PRINT",
+        "total": 151,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "PROJ-FPS-CII-CMA-MEMBERSHIP",
+        "total": 75,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "PROJ-AIRTRONICS-THERMAL-BATTERY",
+        "total": 57,
         "emails_7d": 0
       },
       {
@@ -167,10 +157,20 @@
         "project_id": "PROJ-BMT-HYDROLITH-WATER",
         "total": 51,
         "emails_7d": 0
+      },
+      {
+        "project_id": "PROJ-MERCURY-QUANTUM-MATERIALS",
+        "total": 36,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "PROJ-HEALTHCARE-VERTICAL",
+        "total": 16,
+        "emails_7d": 0
       }
     ],
     "open_commits": 7447,
-    "overdue_commits": 2481,
+    "overdue_commits": 2507,
     "commits_by_kind": [
       {
         "k": "deliverable",
@@ -484,7 +484,7 @@
     ]
   },
   "cost_today": {
-    "runs": 5,
+    "runs": 9,
     "total_usd": 0.0
   }
 }

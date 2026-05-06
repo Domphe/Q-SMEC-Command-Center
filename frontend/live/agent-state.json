@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-04-30 01:13:02 UTC",
+  "generated_at": "2026-05-06 02:23:01 UTC",
   "agents": {
     "api-key-expiry": {
       "total_24h": 1,
       "ok_24h": 1,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-29T15:17:02.080150+00:00",
+      "last_run": "2026-05-05T15:17:02.116183+00:00",
       "last_summary": "checked=3 invalid=0",
       "last_status": "OK"
     },
@@ -15,7 +15,7 @@
       "ok_24h": 1,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-29T11:13:02.033630+00:00",
+      "last_run": "2026-05-05T11:13:01.989729+00:00",
       "last_summary": "checked=26 corrupt=0",
       "last_status": "OK"
     },
@@ -24,25 +24,25 @@
       "ok_24h": 1,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-29T14:47:02.112128+00:00",
-      "last_summary": "projects_tracked=19 active=15 stale=4 overdue_commits=2317",
+      "last_run": "2026-05-05T14:47:02.050651+00:00",
+      "last_summary": "projects_tracked=19 active=0 stale=19 overdue_commits=2343",
       "last_status": "OK"
     },
     "ci-watchdog-agent": {
-      "total_24h": 143,
+      "total_24h": 144,
       "ok_24h": 0,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-30T01:13:01.617415+00:00",
-      "last_summary": "",
-      "last_status": "RUNNING"
+      "last_run": "2026-05-06T02:13:01.676269+00:00",
+      "last_summary": "classified=17 unknown=3",
+      "last_status": "COMPLETED_WITH_UNKNOWNS"
     },
     "confidence-tag-auditor": {
-      "total_24h": 3,
+      "total_24h": 4,
       "ok_24h": 0,
-      "partial_24h": 3,
+      "partial_24h": 4,
       "failed_24h": 0,
-      "last_run": "2026-04-29T13:41:02.003249+00:00",
+      "last_run": "2026-05-06T01:41:02.001988+00:00",
       "last_summary": "repos=9 violations=1",
       "last_status": "PARTIAL"
     },
@@ -51,25 +51,25 @@
       "ok_24h": 0,
       "partial_24h": 4,
       "failed_24h": 0,
-      "last_run": "2026-04-29T19:29:02.261932+00:00",
-      "last_summary": "drifts=1",
+      "last_run": "2026-05-06T01:29:01.976171+00:00",
+      "last_summary": "drifts=3",
       "last_status": "PARTIAL"
     },
     "container-health-agent": {
-      "total_24h": 141,
-      "ok_24h": 0,
+      "total_24h": 144,
+      "ok_24h": 1,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-30T01:10:41.460482+00:00",
-      "last_summary": "probe: 12 containers, 8 errors",
+      "last_run": "2026-05-06T02:20:41.777973+00:00",
+      "last_summary": "probe: 12 containers, 3 errors",
       "last_status": "COMPLETED_WITH_ERRORS"
     },
     "dashboard-writer": {
-      "total_24h": 285,
-      "ok_24h": 276,
+      "total_24h": 288,
+      "ok_24h": 287,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-30T01:13:02.240260+00:00",
+      "last_run": "2026-05-06T02:23:01.305957+00:00",
       "last_summary": "",
       "last_status": "RUNNING"
     },
@@ -78,25 +78,25 @@
       "ok_24h": 0,
       "partial_24h": 144,
       "failed_24h": 0,
-      "last_run": "2026-04-30T01:05:01.473866+00:00",
+      "last_run": "2026-05-06T02:15:01.561115+00:00",
       "last_summary": "probes=4 fails=1",
       "last_status": "PARTIAL"
     },
     "dependabot-triage": {
-      "total_24h": 2,
-      "ok_24h": 2,
+      "total_24h": 1,
+      "ok_24h": 1,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-29T19:13:05.289027+00:00",
-      "last_summary": "scanned=18 total=343 crit=8 high=101 mod=0 low=24",
+      "last_run": "2026-05-05T14:13:01.989775+00:00",
+      "last_summary": "scanned=18 total=345 crit=3 high=110 mod=0 low=20",
       "last_status": "OK"
     },
     "email-triage": {
-      "total_24h": 95,
-      "ok_24h": 95,
+      "total_24h": 96,
+      "ok_24h": 96,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-30T01:11:01.565275+00:00",
+      "last_run": "2026-05-06T02:11:02.019222+00:00",
       "last_summary": "classified=0 crit=0 commits=0 claude=0 ollama=0 joint=0 cii=0 niket=0 tokens_in=0 tokens_out=0 cache_hit=0 cost_usd=$0.0000",
       "last_status": "OK"
     },
@@ -105,7 +105,7 @@
       "ok_24h": 24,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-30T01:07:02.147922+00:00",
+      "last_run": "2026-05-06T02:07:02.223815+00:00",
       "last_summary": "scan=0 repos/0 files; cleaned=0; hardened=17/17",
       "last_status": "OK"
     },
@@ -114,26 +114,26 @@
       "ok_24h": 2,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-29T19:51:02.165702+00:00",
-      "last_summary": "ucs=27 checks=0 mismatches=0 missing=0",
+      "last_run": "2026-05-05T19:51:02.279415+00:00",
+      "last_summary": "ucs=141 checks=0 mismatches=0 missing=0",
       "last_status": "OK"
     },
     "kb-index-updater": {
       "total_24h": 24,
-      "ok_24h": 20,
+      "ok_24h": 23,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-30T00:19:02.088609+00:00",
-      "last_summary": "repos=18 findings_added=73 dry=False",
-      "last_status": "OK"
+      "last_run": "2026-05-06T02:19:02.178142+00:00",
+      "last_summary": "",
+      "last_status": "RUNNING"
     },
     "literature-sentinel": {
       "total_24h": 1,
       "ok_24h": 1,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-29T13:07:01.994263+00:00",
-      "last_summary": "new=13 dup=479 topics=28 sources=['arxiv', 'openalex', 'pubmed', 'semantic_scholar', 'crossref']",
+      "last_run": "2026-05-05T13:07:01.878250+00:00",
+      "last_summary": "new=19 dup=462 topics=28 sources=['arxiv', 'openalex', 'pubmed', 'semantic_scholar', 'crossref']",
       "last_status": "OK"
     },
     "llm-cost-sentinel": {
@@ -141,8 +141,8 @@
       "ok_24h": 24,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-30T00:23:02.262127+00:00",
-      "last_summary": "day_total=$1409.31 claude_in=54681 claude_out=5565454",
+      "last_run": "2026-05-06T01:23:02.294176+00:00",
+      "last_summary": "day_total=$703.53 claude_in=307184 claude_out=5001244",
       "last_status": "OK"
     },
     "log-rotation": {
@@ -150,17 +150,17 @@
       "ok_24h": 1,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-29T10:43:02.013674+00:00",
+      "last_run": "2026-05-05T10:43:01.954706+00:00",
       "last_summary": "rotated=0 freed=0.0MB tmp_deleted=0",
       "last_status": "OK"
     },
     "master-orchestrator": {
-      "total_24h": 94,
-      "ok_24h": 94,
+      "total_24h": 96,
+      "ok_24h": 96,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-30T01:02:01.413044+00:00",
-      "last_summary": "agents_tracked=27 active_24h=25 silent=7 failing=0 recs=0",
+      "last_run": "2026-05-06T02:17:02.156860+00:00",
+      "last_summary": "agents_tracked=27 active_24h=29 silent=7 failing=0 recs=0",
       "last_status": "OK"
     },
     "materials-autocompute": {
@@ -168,7 +168,7 @@
       "ok_24h": 24,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-30T00:37:02.066292+00:00",
+      "last_run": "2026-05-06T01:37:02.148983+00:00",
       "last_summary": "new=0 skipped=0 errors=0 total_files=0",
       "last_status": "OK"
     },
@@ -177,7 +177,7 @@
       "ok_24h": 4,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-29T19:37:02.363726+00:00",
+      "last_run": "2026-05-06T01:37:02.009202+00:00",
       "last_summary": "projects=19 accounts=11 emails_linked=173 commits_linked=811",
       "last_status": "OK"
     },
@@ -186,7 +186,7 @@
       "ok_24h": 4,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-29T19:53:01.985811+00:00",
+      "last_run": "2026-05-06T01:53:01.917758+00:00",
       "last_summary": "notes=569 broken_links=665",
       "last_status": "OK"
     },
@@ -195,8 +195,44 @@
       "ok_24h": 4,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-29T19:19:02.347025+00:00",
-      "last_summary": "ucs=27 issues=3 crits=0",
+      "last_run": "2026-05-06T01:19:02.068722+00:00",
+      "last_summary": "ucs=141 issues=116 crits=0",
+      "last_status": "OK"
+    },
+    "sct_frepple_agent": {
+      "total_24h": 6,
+      "ok_24h": 6,
+      "partial_24h": 0,
+      "failed_24h": 0,
+      "last_run": "2026-05-06T02:15:41.571237+00:00",
+      "last_summary": "{\"releases\": 0, \"cves\": 0, \"health_ok\": true}",
+      "last_status": "OK"
+    },
+    "sct_odoo_agent": {
+      "total_24h": 5,
+      "ok_24h": 5,
+      "partial_24h": 0,
+      "failed_24h": 0,
+      "last_run": "2026-05-06T02:15:45.308654+00:00",
+      "last_summary": "{\"releases\": 0, \"cves\": 0, \"health_ok\": true}",
+      "last_status": "OK"
+    },
+    "sct_ofbiz_agent": {
+      "total_24h": 6,
+      "ok_24h": 6,
+      "partial_24h": 0,
+      "failed_24h": 0,
+      "last_run": "2026-05-06T02:15:36.844588+00:00",
+      "last_summary": "{\"releases\": 0, \"cves\": 0, \"health_ok\": true}",
+      "last_status": "OK"
+    },
+    "sct_tryton_agent": {
+      "total_24h": 5,
+      "ok_24h": 5,
+      "partial_24h": 0,
+      "failed_24h": 0,
+      "last_run": "2026-05-06T02:15:48.924736+00:00",
+      "last_summary": "{\"releases\": 0, \"cves\": 0, \"health_ok\": true}",
       "last_status": "OK"
     },
     "secret-scan-sentinel": {
@@ -204,8 +240,8 @@
       "ok_24h": 6,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-29T23:47:02.059535+00:00",
-      "last_summary": "scanned=18 findings=100 new=0",
+      "last_run": "2026-05-05T23:47:02.042159+00:00",
+      "last_summary": "scanned=18 findings=108 new=0",
       "last_status": "OK"
     },
     "session-log-autowriter": {
@@ -213,8 +249,8 @@
       "ok_24h": 1,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-29T05:07:02.156688+00:00",
-      "last_summary": "commits=0 repos=0 agent_runs=1082 unresolved=20",
+      "last_run": "2026-05-05T05:07:01.963824+00:00",
+      "last_summary": "commits=0 repos=0 agent_runs=1075 unresolved=20",
       "last_status": "OK"
     },
     "workspace-hygiene": {
@@ -222,14 +258,14 @@
       "ok_24h": 48,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-04-30T00:47:02.200252+00:00",
-      "last_summary": "py_orphans=14 git_locks=1 docker_zombies=18",
+      "last_run": "2026-05-06T02:17:01.544912+00:00",
+      "last_summary": "py_orphans=12 git_locks=2 docker_zombies=20",
       "last_status": "OK"
     }
   },
   "messages": {
-    "CRIT": 12956,
-    "INFO": 475,
-    "WARN": 1268
+    "CRIT": 20730,
+    "INFO": 776,
+    "WARN": 2188
   }
 }
