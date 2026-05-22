@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-22 05:03:01 UTC",
+  "generated_at": "2026-05-22 05:18:01 UTC",
   "agents": {
     "api-key-expiry": {
       "total_24h": 1,
@@ -38,11 +38,11 @@
       "last_status": "COMPLETED"
     },
     "ci-watchdog-agent": {
-      "total_24h": 144,
+      "total_24h": 143,
       "ok_24h": 0,
       "partial_24h": 0,
-      "failed_24h": 144,
-      "last_run": "2026-05-22T05:03:01.388221+00:00",
+      "failed_24h": 143,
+      "last_run": "2026-05-22T05:13:01.373078+00:00",
       "last_summary": "0",
       "last_status": "FAILED"
     },
@@ -69,16 +69,16 @@
       "ok_24h": 0,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-05-22T05:00:42.206402+00:00",
+      "last_run": "2026-05-22T05:10:42.214234+00:00",
       "last_summary": "probe: 25 containers, 5 errors",
       "last_status": "COMPLETED_WITH_ERRORS"
     },
     "dashboard-writer": {
       "total_24h": 287,
-      "ok_24h": 210,
+      "ok_24h": 211,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-05-22T05:03:01.706849+00:00",
+      "last_run": "2026-05-22T05:18:01.722082+00:00",
       "last_summary": "",
       "last_status": "RUNNING"
     },
@@ -87,7 +87,7 @@
       "ok_24h": 0,
       "partial_24h": 144,
       "failed_24h": 0,
-      "last_run": "2026-05-22T04:55:01.978784+00:00",
+      "last_run": "2026-05-22T05:15:02.087450+00:00",
       "last_summary": "probes=4 fails=1",
       "last_status": "PARTIAL"
     },
@@ -128,7 +128,7 @@
       "last_status": "RUNNING"
     },
     "email-triage": {
-      "total_24h": 74,
+      "total_24h": 73,
       "ok_24h": 3,
       "partial_24h": 0,
       "failed_24h": 0,
@@ -141,7 +141,7 @@
       "ok_24h": 0,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-05-22T05:00:02.099912+00:00",
+      "last_run": "2026-05-22T05:15:01.829770+00:00",
       "last_summary": "action=health ok=False",
       "last_status": "error"
     },
@@ -150,7 +150,7 @@
       "ok_24h": 1,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-05-22T05:00:03.666053+00:00",
+      "last_run": "2026-05-22T05:15:02.823334+00:00",
       "last_summary": "FlowFuse /healthcheck \u2192 HTTP 200",
       "last_status": "healthy"
     },
@@ -159,7 +159,7 @@
       "ok_24h": 22,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-05-22T04:07:01.828323+00:00",
+      "last_run": "2026-05-22T05:07:01.885876+00:00",
       "last_summary": "scan=0 repos/0 files; cleaned=0; hardened=17/17",
       "last_status": "OK"
     },
@@ -173,11 +173,11 @@
       "last_status": "OK"
     },
     "inter_crew_dispatcher": {
-      "total_24h": 692,
-      "ok_24h": 691,
+      "total_24h": 691,
+      "ok_24h": 690,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-05-22T05:02:07.601262+00:00",
+      "last_run": "2026-05-22T05:16:08.142526+00:00",
       "last_summary": "{\"loops\": 1, \"before\": 0, \"parallel\": 0, \"after\": 0}",
       "last_status": "OK"
     },
@@ -249,7 +249,7 @@
       "ok_24h": 2841,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-05-22T05:02:01.879539+00:00",
+      "last_run": "2026-05-22T05:17:02.528912+00:00",
       "last_summary": "reclaim: killed 0/25",
       "last_status": "COMPLETED"
     },
@@ -258,7 +258,7 @@
       "ok_24h": 0,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-05-22T05:00:02.748967+00:00",
+      "last_run": "2026-05-22T05:15:02.260137+00:00",
       "last_summary": "TCP :1883 ok; pub roundtrip ok",
       "last_status": "healthy"
     },
@@ -267,7 +267,7 @@
       "ok_24h": 1,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-05-22T05:00:02.157151+00:00",
+      "last_run": "2026-05-22T05:15:01.874879+00:00",
       "last_summary": "Node-RED /red/auth/login \u2192 HTTP 200",
       "last_status": "healthy"
     },
@@ -348,7 +348,7 @@
       "ok_24h": 93,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-05-22T05:00:02.323946+00:00",
+      "last_run": "2026-05-22T05:15:01.948930+00:00",
       "last_summary": "mode=heal",
       "last_status": "COMPLETED"
     },
@@ -357,8 +357,8 @@
       "ok_24h": 1,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-05-21T05:07:01.381700+00:00",
-      "last_summary": "commits=4 repos=1 agent_runs=4945 unresolved=20",
+      "last_run": "2026-05-22T05:07:01.802755+00:00",
+      "last_summary": "commits=17 repos=2 agent_runs=5803 unresolved=20",
       "last_status": "OK"
     },
     "tailnet-drift-monitor": {
@@ -375,14 +375,14 @@
       "ok_24h": 47,
       "partial_24h": 0,
       "failed_24h": 0,
-      "last_run": "2026-05-22T04:47:02.289353+00:00",
-      "last_summary": "py_orphans=24 git_locks=2 docker_zombies=0",
+      "last_run": "2026-05-22T05:17:02.252281+00:00",
+      "last_summary": "py_orphans=24 git_locks=1 docker_zombies=0",
       "last_status": "OK"
     }
   },
   "messages": {
-    "CRIT": 37678,
-    "INFO": 1530,
-    "WARN": 4596
+    "CRIT": 37683,
+    "INFO": 1532,
+    "WARN": 4598
   }
 }
