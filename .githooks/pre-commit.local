@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Per-repo pre-commit hook -- Standing Rule R57 (Folder Migration Preflight).
+# Delegates to canonical Q-SMEC-Claude/hooks/pre-commit-r57-check.sh.
+# To upgrade R57 logic across all repos, edit the canonical script.
+#
+# Reference:
+#   Q-SMEC-Claude/CLAUDE.md S57
+#   Q-SMEC-Claude/shared-memory/protocol_folder_migration_preflight.md
+set -e
+exec /mnt/e/Data1/Q-SMEC-Claude/hooks/pre-commit-r57-check.sh "$@"

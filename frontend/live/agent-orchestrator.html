@@ -71,13 +71,13 @@ tr:hover td { background: rgba(42,53,80,0.2); }
 </style>
 </head><body>
 <h1><span class="pulse"></span>Agent Orchestrator Dashboard</h1>
-<div class="sub">36 agents · generated 2026-05-06 02:23:01 UTC · auto-refresh 30s</div>
+<div class="sub">36 agents · generated 2026-05-22 05:03:01 UTC · auto-refresh 30s</div>
 
 <div class="grid grid-4" style="margin-bottom:16px">
-  <div class="card"><h2>Active (24h)</h2><div class="kpi">25/36</div><div class="kpi-sub">agents that ran at least once</div></div>
-  <div class="card"><h2>Total Runs (24h)</h2><div class="kpi">1113</div><div class="kpi-sub">across all agents</div></div>
-  <div class="card"><h2>Failed Runs (24h)</h2><div class="kpi" style="color:var(--accent-red)">0</div><div class="kpi-sub">requiring attention</div></div>
-  <div class="card"><h2>Pending Messages</h2><div class="kpi"><span style="color:var(--accent-red)">20730</span> <span style="color:var(--accent-yellow);font-size:20px">2188</span> <span style="color:var(--accent-blue);font-size:16px">776</span></div><div class="kpi-sub">CRIT / WARN / INFO</div></div>
+  <div class="card"><h2>Active (24h)</h2><div class="kpi">24/36</div><div class="kpi-sub">agents that ran at least once</div></div>
+  <div class="card"><h2>Total Runs (24h)</h2><div class="kpi">5840</div><div class="kpi-sub">across all agents</div></div>
+  <div class="card"><h2>Failed Runs (24h)</h2><div class="kpi" style="color:var(--accent-red)">145</div><div class="kpi-sub">requiring attention</div></div>
+  <div class="card"><h2>Pending Messages</h2><div class="kpi"><span style="color:var(--accent-red)">37678</span> <span style="color:var(--accent-yellow);font-size:20px">4596</span> <span style="color:var(--accent-blue);font-size:16px">1530</span></div><div class="kpi-sub">CRIT / WARN / INFO</div></div>
 </div>
 
 <div class="card">
@@ -159,62 +159,62 @@ tr:hover td { background: rgba(42,53,80,0.2); }
   <td><span class="led led-green"></span><strong>container-health-agent</strong></td>
   <td><span class="badge badge-green">COMPLETED_WITH_ERRORS</span></td>
   <td class="mono muted">10 min</td>
-  <td class="mono">2026-05-06 02:20</td>
-  <td class="right">144</td>
-  <td class="right" style="color:var(--accent-green)">1</td>
+  <td class="mono">2026-05-22 05:00</td>
+  <td class="right">143</td>
+  <td class="right" style="color:var(--accent-green)">0</td>
   <td class="right" style="color:var(--accent-red)">0</td>
-  <td class="mono nowrap" title="probe: 12 containers, 3 errors">probe: 12 containers, 3 errors</td>
+  <td class="mono nowrap" title="probe: 25 containers, 5 errors">probe: 25 containers, 5 errors</td>
   <td class="muted">COO</td>
 </tr>
 <tr>
   <td><span class="led led-green"></span><strong>git-hygiene</strong></td>
   <td><span class="badge badge-green">OK</span></td>
   <td class="mono muted">60 min</td>
-  <td class="mono">2026-05-06 02:07</td>
-  <td class="right">24</td>
-  <td class="right" style="color:var(--accent-green)">24</td>
+  <td class="mono">2026-05-22 04:07</td>
+  <td class="right">22</td>
+  <td class="right" style="color:var(--accent-green)">22</td>
   <td class="right" style="color:var(--accent-red)">0</td>
   <td class="mono nowrap" title="scan=0 repos/0 files; cleaned=0; hardened=17/17">scan=0 repos/0 files; cleaned=0; hardened=17/17</td>
   <td class="muted">COO</td>
 </tr>
 <tr>
-  <td><span class="led led-green"></span><strong>ci-watchdog-agent</strong></td>
-  <td><span class="badge badge-green">COMPLETED_WITH_UNKNOWNS</span></td>
+  <td><span class="led led-red"></span><strong>ci-watchdog-agent</strong></td>
+  <td><span class="badge badge-red">FAILED</span></td>
   <td class="mono muted">10 min</td>
-  <td class="mono">2026-05-06 02:13</td>
+  <td class="mono">2026-05-22 05:03</td>
   <td class="right">144</td>
   <td class="right" style="color:var(--accent-green)">0</td>
-  <td class="right" style="color:var(--accent-red)">0</td>
-  <td class="mono nowrap" title="classified=17 unknown=3">classified=17 unknown=3</td>
+  <td class="right" style="color:var(--accent-red)">144</td>
+  <td class="mono nowrap" title="0">0</td>
   <td class="muted">CIO</td>
 </tr>
 <tr>
   <td><span class="led led-green"></span><strong>literature-sentinel</strong></td>
-  <td><span class="badge badge-green">OK</span></td>
+  <td><span class="badge badge-green">RUNNING</span></td>
   <td class="mono muted">daily 06:07</td>
-  <td class="mono">2026-05-05 13:07</td>
+  <td class="mono">2026-05-21 13:07</td>
   <td class="right">1</td>
-  <td class="right" style="color:var(--accent-green)">1</td>
+  <td class="right" style="color:var(--accent-green)">0</td>
   <td class="right" style="color:var(--accent-red)">0</td>
-  <td class="mono nowrap" title="new=19 dup=462 topics=28 sources=[&#x27;arxiv&#x27;, &#x27;openalex&#x27;, &#x27;pubmed&#x27;, &#x27;semantic_scholar&#x27;, &#x27;crossref&#x27;]">new=19 dup=462 topics=28 sources=[&#x27;arxiv&#x27;, &#x27;openalex&#x27;, &#x27;pubmed&#x27;, &#x27;semantic_scholar&#x27;, &#x27;crossref&#x27;]</td>
+  <td class="mono nowrap" title="—">—</td>
   <td class="muted">CRO</td>
 </tr>
 <tr>
   <td><span class="led led-green"></span><strong>llm-cost-sentinel</strong></td>
   <td><span class="badge badge-green">OK</span></td>
   <td class="mono muted">hourly</td>
-  <td class="mono">2026-05-06 01:23</td>
+  <td class="mono">2026-05-22 04:23</td>
   <td class="right">24</td>
   <td class="right" style="color:var(--accent-green)">24</td>
   <td class="right" style="color:var(--accent-red)">0</td>
-  <td class="mono nowrap" title="day_total=$703.53 claude_in=307184 claude_out=5001244">day_total=$703.53 claude_in=307184 claude_out=5001244</td>
+  <td class="mono nowrap" title="day_total=$488.67 claude_in=1255070 claude_out=1802600 litellm=$0.0000">day_total=$488.67 claude_in=1255070 claude_out=1802600 litellm=$0.0000</td>
   <td class="muted">COO</td>
 </tr>
 <tr>
   <td><span class="led led-green"></span><strong>materials-autocompute</strong></td>
   <td><span class="badge badge-green">OK</span></td>
   <td class="mono muted">hourly</td>
-  <td class="mono">2026-05-06 01:37</td>
+  <td class="mono">2026-05-22 04:37</td>
   <td class="right">24</td>
   <td class="right" style="color:var(--accent-green)">24</td>
   <td class="right" style="color:var(--accent-red)">0</td>
@@ -222,43 +222,43 @@ tr:hover td { background: rgba(42,53,80,0.2); }
   <td class="muted">CPO</td>
 </tr>
 <tr>
-  <td><span class="led led-green"></span><strong>dependabot-triage</strong></td>
-  <td><span class="badge badge-green">OK</span></td>
+  <td><span class="led led-red"></span><strong>dependabot-triage</strong></td>
+  <td><span class="badge badge-red">FAILED</span></td>
   <td class="mono muted">daily 07:13</td>
-  <td class="mono">2026-05-05 14:13</td>
+  <td class="mono">2026-05-21 14:13</td>
   <td class="right">1</td>
-  <td class="right" style="color:var(--accent-green)">1</td>
-  <td class="right" style="color:var(--accent-red)">0</td>
-  <td class="mono nowrap" title="scanned=18 total=345 crit=3 high=110 mod=0 low=20">scanned=18 total=345 crit=3 high=110 mod=0 low=20</td>
+  <td class="right" style="color:var(--accent-green)">0</td>
+  <td class="right" style="color:var(--accent-red)">1</td>
+  <td class="mono nowrap" title="no_token">no_token</td>
   <td class="muted">CIO</td>
 </tr>
 <tr>
   <td><span class="led led-green"></span><strong>session-log-autowriter</strong></td>
   <td><span class="badge badge-green">OK</span></td>
   <td class="mono muted">daily 22:07</td>
-  <td class="mono">2026-05-05 05:07</td>
+  <td class="mono">2026-05-21 05:07</td>
   <td class="right">1</td>
   <td class="right" style="color:var(--accent-green)">1</td>
   <td class="right" style="color:var(--accent-red)">0</td>
-  <td class="mono nowrap" title="commits=0 repos=0 agent_runs=1075 unresolved=20">commits=0 repos=0 agent_runs=1075 unresolved=20</td>
+  <td class="mono nowrap" title="commits=4 repos=1 agent_runs=4945 unresolved=20">commits=4 repos=1 agent_runs=4945 unresolved=20</td>
   <td class="muted">COO</td>
 </tr>
 <tr>
   <td><span class="led led-green"></span><strong>secret-scan-sentinel</strong></td>
   <td><span class="badge badge-green">OK</span></td>
   <td class="mono muted">every 4h</td>
-  <td class="mono">2026-05-05 23:47</td>
+  <td class="mono">2026-05-22 03:47</td>
   <td class="right">6</td>
   <td class="right" style="color:var(--accent-green)">6</td>
   <td class="right" style="color:var(--accent-red)">0</td>
-  <td class="mono nowrap" title="scanned=18 findings=108 new=0">scanned=18 findings=108 new=0</td>
+  <td class="mono nowrap" title="scanned=18 findings=53 new=0">scanned=18 findings=53 new=0</td>
   <td class="muted">CIO</td>
 </tr>
 <tr>
   <td><span class="led led-yellow"></span><strong>database-health</strong></td>
   <td><span class="badge badge-yellow">PARTIAL</span></td>
   <td class="mono muted">10 min</td>
-  <td class="mono">2026-05-06 02:15</td>
+  <td class="mono">2026-05-22 04:55</td>
   <td class="right">144</td>
   <td class="right" style="color:var(--accent-green)">0</td>
   <td class="right" style="color:var(--accent-red)">0</td>
@@ -269,29 +269,29 @@ tr:hover td { background: rgba(42,53,80,0.2); }
   <td><span class="led led-green"></span><strong>email-triage</strong></td>
   <td><span class="badge badge-green">OK</span></td>
   <td class="mono muted">15 min</td>
-  <td class="mono">2026-05-06 02:11</td>
-  <td class="right">96</td>
-  <td class="right" style="color:var(--accent-green)">96</td>
+  <td class="mono">2026-05-22 01:08</td>
+  <td class="right">74</td>
+  <td class="right" style="color:var(--accent-green)">3</td>
   <td class="right" style="color:var(--accent-red)">0</td>
-  <td class="mono nowrap" title="classified=0 crit=0 commits=0 claude=0 ollama=0 joint=0 cii=0 niket=0 tokens_in=0 tokens_out=0 cache_hit=0 cost_usd=$0.0000">classified=0 crit=0 commits=0 claude=0 ollama=0 joint=0 cii=0 niket=0 tokens_in=0 tokens_out=0 cache_hit=0 cost_usd=$0.0000</td>
+  <td class="mono nowrap" title="classified=50 crit=0 commits=63 claude=0 cerebras=10 groq=9 ollama=31 joint=15 cii=12 niket=13 tokens_in=0 tokens_out=0 cache_hit=0 cost_usd=$0.0000">classified=50 crit=0 commits=63 claude=0 cerebras=10 groq=9 ollama=31 joint=15 cii=12 niket=13 tokens_in=0 tokens_out=0 cache_hit=0 cost_usd=$0.0000</td>
   <td class="muted">CIO</td>
 </tr>
 <tr>
   <td><span class="led led-green"></span><strong>workspace-hygiene</strong></td>
   <td><span class="badge badge-green">OK</span></td>
   <td class="mono muted">30 min</td>
-  <td class="mono">2026-05-06 02:17</td>
-  <td class="right">48</td>
-  <td class="right" style="color:var(--accent-green)">48</td>
+  <td class="mono">2026-05-22 04:47</td>
+  <td class="right">47</td>
+  <td class="right" style="color:var(--accent-green)">47</td>
   <td class="right" style="color:var(--accent-red)">0</td>
-  <td class="mono nowrap" title="py_orphans=12 git_locks=2 docker_zombies=20">py_orphans=12 git_locks=2 docker_zombies=20</td>
+  <td class="mono nowrap" title="py_orphans=24 git_locks=2 docker_zombies=0">py_orphans=24 git_locks=2 docker_zombies=0</td>
   <td class="muted">COO</td>
 </tr>
 <tr>
   <td><span class="led led-green"></span><strong>pipeline-state-auditor</strong></td>
   <td><span class="badge badge-green">OK</span></td>
   <td class="mono muted">6h</td>
-  <td class="mono">2026-05-06 01:19</td>
+  <td class="mono">2026-05-22 01:19</td>
   <td class="right">4</td>
   <td class="right" style="color:var(--accent-green)">4</td>
   <td class="right" style="color:var(--accent-red)">0</td>
@@ -302,18 +302,18 @@ tr:hover td { background: rgba(42,53,80,0.2); }
   <td><span class="led led-yellow"></span><strong>config-drift</strong></td>
   <td><span class="badge badge-yellow">PARTIAL</span></td>
   <td class="mono muted">6h</td>
-  <td class="mono">2026-05-06 01:29</td>
+  <td class="mono">2026-05-22 01:29</td>
   <td class="right">4</td>
   <td class="right" style="color:var(--accent-green)">0</td>
   <td class="right" style="color:var(--accent-red)">0</td>
-  <td class="mono nowrap" title="drifts=3">drifts=3</td>
+  <td class="mono nowrap" title="drifts=1">drifts=1</td>
   <td class="muted">COO</td>
 </tr>
 <tr>
   <td><span class="led led-green"></span><strong>api-key-expiry</strong></td>
   <td><span class="badge badge-green">OK</span></td>
   <td class="mono muted">daily 08:17</td>
-  <td class="mono">2026-05-05 15:17</td>
+  <td class="mono">2026-05-21 15:17</td>
   <td class="right">1</td>
   <td class="right" style="color:var(--accent-green)">1</td>
   <td class="right" style="color:var(--accent-red)">0</td>
@@ -324,7 +324,7 @@ tr:hover td { background: rgba(42,53,80,0.2); }
   <td><span class="led led-yellow"></span><strong>confidence-tag-auditor</strong></td>
   <td><span class="badge badge-yellow">PARTIAL</span></td>
   <td class="mono muted">6h</td>
-  <td class="mono">2026-05-06 01:41</td>
+  <td class="mono">2026-05-22 01:41</td>
   <td class="right">4</td>
   <td class="right" style="color:var(--accent-green)">0</td>
   <td class="right" style="color:var(--accent-red)">0</td>
@@ -335,7 +335,7 @@ tr:hover td { background: rgba(42,53,80,0.2); }
   <td><span class="led led-green"></span><strong>handoff-integrity</strong></td>
   <td><span class="badge badge-green">OK</span></td>
   <td class="mono muted">12h</td>
-  <td class="mono">2026-05-05 19:51</td>
+  <td class="mono">2026-05-21 19:51</td>
   <td class="right">2</td>
   <td class="right" style="color:var(--accent-green)">2</td>
   <td class="right" style="color:var(--accent-red)">0</td>
@@ -346,22 +346,22 @@ tr:hover td { background: rgba(42,53,80,0.2); }
   <td><span class="led led-green"></span><strong>backup-verifier</strong></td>
   <td><span class="badge badge-green">OK</span></td>
   <td class="mono muted">daily 04:13</td>
-  <td class="mono">2026-05-05 11:13</td>
+  <td class="mono">2026-05-21 11:13</td>
   <td class="right">1</td>
   <td class="right" style="color:var(--accent-green)">1</td>
   <td class="right" style="color:var(--accent-red)">0</td>
-  <td class="mono nowrap" title="checked=26 corrupt=0">checked=26 corrupt=0</td>
+  <td class="mono nowrap" title="checked=1 corrupt=0">checked=1 corrupt=0</td>
   <td class="muted">COO</td>
 </tr>
 <tr>
   <td><span class="led led-green"></span><strong>obsidian-sync</strong></td>
   <td><span class="badge badge-green">OK</span></td>
   <td class="mono muted">6h</td>
-  <td class="mono">2026-05-06 01:53</td>
-  <td class="right">4</td>
-  <td class="right" style="color:var(--accent-green)">4</td>
+  <td class="mono">2026-05-22 01:53</td>
+  <td class="right">8</td>
+  <td class="right" style="color:var(--accent-green)">8</td>
   <td class="right" style="color:var(--accent-red)">0</td>
-  <td class="mono nowrap" title="notes=569 broken_links=665">notes=569 broken_links=665</td>
+  <td class="mono nowrap" title="notes=618 broken_links=671">notes=618 broken_links=671</td>
   <td class="muted">COO</td>
 </tr>
 <tr>
@@ -379,7 +379,7 @@ tr:hover td { background: rgba(42,53,80,0.2); }
   <td><span class="led led-green"></span><strong>log-rotation</strong></td>
   <td><span class="badge badge-green">OK</span></td>
   <td class="mono muted">daily 03:43</td>
-  <td class="mono">2026-05-05 10:43</td>
+  <td class="mono">2026-05-21 10:43</td>
   <td class="right">1</td>
   <td class="right" style="color:var(--accent-green)">1</td>
   <td class="right" style="color:var(--accent-red)">0</td>
@@ -387,58 +387,58 @@ tr:hover td { background: rgba(42,53,80,0.2); }
   <td class="muted">-</td>
 </tr>
 <tr>
-  <td><span class="led led-green"></span><strong>master-orchestrator</strong></td>
-  <td><span class="badge badge-green">OK</span></td>
+  <td><span class="led led-gray"></span><strong>master-orchestrator</strong></td>
+  <td><span class="badge badge-gray">idle</span></td>
   <td class="mono muted">15 min</td>
-  <td class="mono">2026-05-06 02:17</td>
-  <td class="right">96</td>
-  <td class="right" style="color:var(--accent-green)">96</td>
+  <td class="mono">—</td>
+  <td class="right">0</td>
+  <td class="right" style="color:var(--accent-green)">0</td>
   <td class="right" style="color:var(--accent-red)">0</td>
-  <td class="mono nowrap" title="agents_tracked=27 active_24h=29 silent=7 failing=0 recs=0">agents_tracked=27 active_24h=29 silent=7 failing=0 recs=0</td>
+  <td class="mono nowrap" title="—">—</td>
   <td class="muted">COO</td>
 </tr>
 <tr>
   <td><span class="led led-green"></span><strong>business-activity</strong></td>
   <td><span class="badge badge-green">OK</span></td>
   <td class="mono muted">daily 07:47</td>
-  <td class="mono">2026-05-05 14:47</td>
+  <td class="mono">2026-05-21 14:47</td>
   <td class="right">1</td>
   <td class="right" style="color:var(--accent-green)">1</td>
   <td class="right" style="color:var(--accent-red)">0</td>
-  <td class="mono nowrap" title="projects_tracked=19 active=0 stale=19 overdue_commits=2343">projects_tracked=19 active=0 stale=19 overdue_commits=2343</td>
+  <td class="mono nowrap" title="projects_tracked=19 active=0 stale=19 overdue_commits=2448">projects_tracked=19 active=0 stale=19 overdue_commits=2448</td>
   <td class="muted">COO</td>
 </tr>
 <tr>
   <td><span class="led led-green"></span><strong>obsidian-project-views</strong></td>
   <td><span class="badge badge-green">OK</span></td>
   <td class="mono muted">every 6h</td>
-  <td class="mono">2026-05-06 01:37</td>
-  <td class="right">4</td>
-  <td class="right" style="color:var(--accent-green)">4</td>
+  <td class="mono">2026-05-22 01:37</td>
+  <td class="right">8</td>
+  <td class="right" style="color:var(--accent-green)">8</td>
   <td class="right" style="color:var(--accent-red)">0</td>
-  <td class="mono nowrap" title="projects=19 accounts=11 emails_linked=173 commits_linked=811">projects=19 accounts=11 emails_linked=173 commits_linked=811</td>
+  <td class="mono nowrap" title="projects=19 accounts=10 emails_linked=177 commits_linked=818">projects=19 accounts=10 emails_linked=177 commits_linked=818</td>
   <td class="muted">-</td>
 </tr>
 <tr>
   <td><span class="led led-green"></span><strong>dashboard-writer</strong></td>
   <td><span class="badge badge-green">RUNNING</span></td>
   <td class="mono muted">5 min</td>
-  <td class="mono">2026-05-06 02:23</td>
-  <td class="right">288</td>
-  <td class="right" style="color:var(--accent-green)">287</td>
+  <td class="mono">2026-05-22 05:03</td>
+  <td class="right">287</td>
+  <td class="right" style="color:var(--accent-green)">210</td>
   <td class="right" style="color:var(--accent-red)">0</td>
   <td class="mono nowrap" title="—">—</td>
   <td class="muted">-</td>
 </tr>
 <tr>
   <td><span class="led led-green"></span><strong>kb-index-updater</strong></td>
-  <td><span class="badge badge-green">RUNNING</span></td>
+  <td><span class="badge badge-green">OK</span></td>
   <td class="mono muted">hourly</td>
-  <td class="mono">2026-05-06 02:19</td>
+  <td class="mono">2026-05-22 04:19</td>
   <td class="right">24</td>
-  <td class="right" style="color:var(--accent-green)">23</td>
+  <td class="right" style="color:var(--accent-green)">22</td>
   <td class="right" style="color:var(--accent-red)">0</td>
-  <td class="mono nowrap" title="—">—</td>
+  <td class="mono nowrap" title="repos=18 findings_added=0 dry=False">repos=18 findings_added=0 dry=False</td>
   <td class="muted">-</td>
 </tr>
 <tr>

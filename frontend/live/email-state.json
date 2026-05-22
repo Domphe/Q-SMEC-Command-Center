@@ -1,29 +1,29 @@
 {
-  "generated_at": "2026-05-06 02:23:01 UTC",
+  "generated_at": "2026-05-22 05:03:01 UTC",
   "email": {
-    "total": 4467,
-    "triaged": 4467,
-    "unclassified": 0,
+    "total": 5127,
+    "triaged": 4767,
+    "unclassified": 360,
     "by_triage_category": [
       {
         "k": "noise",
-        "n": 1426
+        "n": 1498
       },
       {
         "k": "action",
-        "n": 1256
+        "n": 1325
       },
       {
         "k": "FYI",
-        "n": 780
+        "n": 885
       },
       {
         "k": "opportunity",
-        "n": 573
+        "n": 624
       },
       {
         "k": "deal",
-        "n": 236
+        "n": 239
       },
       {
         "k": "risk",
@@ -33,23 +33,23 @@
     "by_entity_tag": [
       {
         "k": "CII",
-        "n": 1230
+        "n": 1290
       },
       {
         "k": "archived",
-        "n": 849
+        "n": 1016
       },
       {
         "k": "Joint",
-        "n": 819
+        "n": 879
       },
       {
         "k": "NIKET",
-        "n": 730
+        "n": 757
       },
       {
         "k": "NIKET,archived",
-        "n": 602
+        "n": 620
       },
       {
         "k": "CII,archived",
@@ -57,7 +57,7 @@
       },
       {
         "k": "archived,billing",
-        "n": 104
+        "n": 117
       },
       {
         "k": "Joint,archived",
@@ -67,19 +67,19 @@
     "by_urgency": [
       {
         "k": "low",
-        "n": 306
+        "n": 415
       },
       {
         "k": "high",
-        "n": 133
+        "n": 198
       },
       {
         "k": "normal",
-        "n": 71
+        "n": 195
       },
       {
         "k": "critical",
-        "n": 3
+        "n": 5
       }
     ],
     "by_triage_engine": [
@@ -89,58 +89,71 @@
       },
       {
         "k": "ollama",
-        "n": 99
+        "n": 350
+      },
+      {
+        "k": "cerebras",
+        "n": 28
+      },
+      {
+        "k": "groq",
+        "n": 21
       }
     ],
     "top_projects": [
       {
         "project_id": "PROJ-TEP-ENERGY-VERTICAL",
-        "total": 461,
+        "total": 484,
         "emails_7d": 0
       },
       {
         "project_id": "PROJ-NIKET-GOVERNANCE",
-        "total": 398,
+        "total": 403,
         "emails_7d": 0
       },
       {
         "project_id": "PROJ-CII-JMTC-WEEKLY-OPS",
-        "total": 389,
+        "total": 394,
         "emails_7d": 0
       },
       {
         "project_id": "DEMO-CENTCOMM-EXTIC-26-2",
-        "total": 248,
+        "total": 252,
         "emails_7d": 0
       },
       {
         "project_id": "META-MARKET-WATCH",
-        "total": 216,
+        "total": 220,
         "emails_7d": 0
       },
       {
         "project_id": "DEMO-CAPTURE-STANDING-LIST",
-        "total": 185,
+        "total": 188,
         "emails_7d": 0
       },
       {
         "project_id": "DEMO-JMTC-DOW-WHITE-PAPERS",
-        "total": 154,
+        "total": 155,
         "emails_7d": 0
       },
       {
         "project_id": "PROJ-UA-OPSCI-NANOSCRIBE-3D-PRINT",
-        "total": 151,
+        "total": 153,
         "emails_7d": 0
       },
       {
         "project_id": "PROJ-FPS-CII-CMA-MEMBERSHIP",
-        "total": 75,
+        "total": 84,
         "emails_7d": 0
       },
       {
         "project_id": "PROJ-AIRTRONICS-THERMAL-BATTERY",
-        "total": 57,
+        "total": 65,
+        "emails_7d": 0
+      },
+      {
+        "project_id": "PROJ-BMT-HYDROLITH-WATER",
+        "total": 59,
         "emails_7d": 0
       },
       {
@@ -154,11 +167,6 @@
         "emails_7d": 0
       },
       {
-        "project_id": "PROJ-BMT-HYDROLITH-WATER",
-        "total": 51,
-        "emails_7d": 0
-      },
-      {
         "project_id": "PROJ-MERCURY-QUANTUM-MATERIALS",
         "total": 36,
         "emails_7d": 0
@@ -169,44 +177,44 @@
         "emails_7d": 0
       }
     ],
-    "open_commits": 7447,
-    "overdue_commits": 2507,
+    "open_commits": 7707,
+    "overdue_commits": 2673,
     "commits_by_kind": [
       {
         "k": "deliverable",
-        "n": 2664
+        "n": 2705
       },
       {
         "k": "meeting",
-        "n": 2569
+        "n": 2676
       },
       {
         "k": "review",
-        "n": 805
+        "n": 833
       },
       {
         "k": "research",
-        "n": 657
+        "n": 686
       },
       {
         "k": "intro",
-        "n": 332
+        "n": 340
       },
       {
         "k": "signature",
-        "n": 192
+        "n": 201
       },
       {
         "k": "payment",
-        "n": 137
+        "n": 144
       },
       {
         "k": "action",
-        "n": 63
+        "n": 69
       },
       {
         "k": "presentation",
-        "n": 9
+        "n": 10
       },
       {
         "k": "coordination",
@@ -314,177 +322,177 @@
       },
       {
         "kind": "meeting",
-        "owner": "Alex",
-        "due": "2023-11-05",
-        "text": "Rescheduled Tiberius DIU Project GI Capture Meeting at Tiberius.",
-        "project_id": "PROJ-UAVC-HEALTHCARE-VERTICAL"
+        "owner": "name or email of who owes the action",
+        "due": "2023-10-XX",
+        "text": "Meeting with Stratasys at their facility to discuss resin solutions and workflows.",
+        "project_id": null
       }
     ],
     "recent_triage": [
       {
-        "at": "2026-04-28T04:11:38.438855+00:00",
-        "engine": "claude",
-        "cat": "risk",
-        "entity": "NIKET",
-        "urgency": "high",
-        "subject": "Your Supabase Project Niket 2026 has been paused."
+        "at": "2026-05-22T01:11:50.260390+00:00",
+        "engine": "ollama",
+        "cat": "noise",
+        "entity": null,
+        "urgency": "low",
+        "subject": "Dealing with pressure during a Coding Interview"
       },
       {
-        "at": "2026-04-28T04:11:34.025529+00:00",
-        "engine": "claude",
+        "at": "2026-05-22T01:11:46.134164+00:00",
+        "engine": "ollama",
         "cat": "FYI",
-        "entity": "archived",
-        "urgency": "low",
-        "subject": "Deprecation notice: upcoming model shutdowns in 2026"
+        "entity": "CII",
+        "urgency": "normal",
+        "subject": "Arizona Technology Council April 2026 TechTalk // There should be\n a slew of CII company announcemen"
       },
       {
-        "at": "2026-04-28T04:11:29.183004+00:00",
-        "engine": "claude",
-        "cat": "noise",
-        "entity": "archived",
-        "urgency": "low",
-        "subject": "Cybersecurity request from David Vincent and other clients are\n available. Show Requests."
-      },
-      {
-        "at": "2026-04-28T04:11:26.883337+00:00",
-        "engine": "claude",
+        "at": "2026-05-22T01:11:38.913312+00:00",
+        "engine": "cerebras",
         "cat": "noise",
         "entity": "NIKET",
         "urgency": "low",
-        "subject": "tyjtdyjty"
+        "subject": "Have you been missing OGJ's unrivaled news and analysis?"
       },
       {
-        "at": "2026-04-28T04:11:24.699371+00:00",
-        "engine": "claude",
-        "cat": "noise",
-        "entity": "NIKET",
-        "urgency": "low",
-        "subject": "Canceled event: Niket meeting -Alex @ Thu Apr 23, 2026 8:30am -\n 9:30am (MST) (Alex Dely)"
+        "at": "2026-05-22T01:11:38.063938+00:00",
+        "engine": "ollama",
+        "cat": "action",
+        "entity": "archived",
+        "urgency": "normal",
+        "subject": "Daily Agenda for sal dely as of 5am"
       },
       {
-        "at": "2026-04-28T04:11:22.093015+00:00",
-        "engine": "claude",
-        "cat": "noise",
-        "entity": "archived,billing",
-        "urgency": "low",
-        "subject": "Your subscription to the Data Services Platform APIs"
+        "at": "2026-05-22T01:11:31.159522+00:00",
+        "engine": "groq",
+        "cat": "opportunity",
+        "entity": "Joint",
+        "urgency": "normal",
+        "subject": "Fw: CIT<>Laser Verify 3D Tag up //AMIGOS  QSMEC Mining Sensor"
       },
       {
-        "at": "2026-04-28T04:11:19.675190+00:00",
-        "engine": "claude",
+        "at": "2026-05-22T01:11:28.997149+00:00",
+        "engine": "ollama",
         "cat": "FYI",
-        "entity": "archived",
+        "entity": null,
         "urgency": "low",
-        "subject": "Welcome to the ITA's New Developer Portal!"
+        "subject": "You\u2019ve graduated from Apollo Enrichment onboarding! \ud83c\udf93"
       },
       {
-        "at": "2026-04-28T04:11:17.301231+00:00",
-        "engine": "claude",
-        "cat": "noise",
-        "entity": "archived",
-        "urgency": "low",
-        "subject": "Turn conversations into outcomes with AI Companion"
+        "at": "2026-05-22T01:11:23.248247+00:00",
+        "engine": "cerebras",
+        "cat": "opportunity",
+        "entity": "CII",
+        "urgency": "normal",
+        "subject": "Minerals Rights Investing are simple, not easy // CII Mining\n Vertical - Mary/Ryan transition"
       },
       {
-        "at": "2026-04-28T04:11:15.385113+00:00",
-        "engine": "claude",
-        "cat": "noise",
-        "entity": "archived",
-        "urgency": "low",
-        "subject": "Scheduling made simple"
-      },
-      {
-        "at": "2026-04-28T04:11:13.151060+00:00",
-        "engine": "claude",
-        "cat": "noise",
-        "entity": "archived",
-        "urgency": "low",
-        "subject": "[Starts tomorrow] Don\u2019t miss the highlights from Next"
-      },
-      {
-        "at": "2026-04-28T04:11:10.250297+00:00",
-        "engine": "claude",
-        "cat": "noise",
-        "entity": "NIKET",
-        "urgency": "low",
-        "subject": "How many hats are you wearing? (Be honest)"
-      },
-      {
-        "at": "2026-04-28T04:11:08.152932+00:00",
-        "engine": "claude",
-        "cat": "noise",
-        "entity": "NIKET",
-        "urgency": "low",
-        "subject": "What links gaming, automotive, and android dev?"
-      },
-      {
-        "at": "2026-04-28T04:11:05.774576+00:00",
-        "engine": "claude",
-        "cat": "noise",
-        "entity": "archived",
-        "urgency": "low",
-        "subject": "Explore what your plan has to offer"
-      },
-      {
-        "at": "2026-04-28T03:59:39.743818+00:00",
-        "engine": "claude",
-        "cat": "noise",
-        "entity": "archived",
-        "urgency": "low",
-        "subject": "Take your meetings to the next level"
-      },
-      {
-        "at": "2026-04-28T03:59:37.566623+00:00",
-        "engine": "claude",
-        "cat": "noise",
-        "entity": "archived",
-        "urgency": "low",
-        "subject": "Expand your reach \ud83d\ude80"
-      },
-      {
-        "at": "2026-04-28T03:59:34.904214+00:00",
-        "engine": "claude",
-        "cat": "noise",
-        "entity": "archived",
-        "urgency": "low",
-        "subject": "Gemini Enterprise webinar: Deploy, Ground and Maximize Your ROI"
-      },
-      {
-        "at": "2026-04-28T03:59:32.467281+00:00",
-        "engine": "claude",
-        "cat": "noise",
-        "entity": "archived",
-        "urgency": "low",
-        "subject": "BB Recorder: 100% Local No-Bot Recorder"
-      },
-      {
-        "at": "2026-04-28T03:59:29.865469+00:00",
-        "engine": "claude",
-        "cat": "noise",
-        "entity": "archived",
-        "urgency": "low",
-        "subject": "Security alert"
-      },
-      {
-        "at": "2026-04-28T03:59:27.358663+00:00",
-        "engine": "claude",
-        "cat": "risk",
-        "entity": "archived",
+        "at": "2026-05-22T01:11:22.169689+00:00",
+        "engine": "ollama",
+        "cat": "opportunity",
+        "entity": "Joint",
         "urgency": "high",
-        "subject": "Security alert"
+        "subject": "URGENT: xTech Phantum Quantum Sensors Competition // Joint\n HES-NIKET 3 Page White Paper Submittal d"
       },
       {
-        "at": "2026-04-28T03:59:23.972506+00:00",
-        "engine": "claude",
+        "at": "2026-05-22T01:11:13.297371+00:00",
+        "engine": "ollama",
+        "cat": "action",
+        "entity": "Joint",
+        "urgency": "normal",
+        "subject": "Meeting with Alex Dely / Airtronics"
+      },
+      {
+        "at": "2026-05-22T01:11:06.221385+00:00",
+        "engine": "groq",
+        "cat": "action",
+        "entity": "Joint",
+        "urgency": "normal",
+        "subject": "Meeting with Alex Dely / Airtronics"
+      },
+      {
+        "at": "2026-05-22T01:11:04.542856+00:00",
+        "engine": "cerebras",
+        "cat": "action",
+        "entity": "Joint",
+        "urgency": "normal",
+        "subject": "Meeting with Alex Dely / Airtronics"
+      },
+      {
+        "at": "2026-05-22T01:11:03.516027+00:00",
+        "engine": "ollama",
+        "cat": "FYI",
+        "entity": "NIKET",
+        "urgency": "normal",
+        "subject": "eBook: How Rad-Hard GaN Is Powering the New Space Race"
+      },
+      {
+        "at": "2026-05-22T01:11:00.366796+00:00",
+        "engine": "ollama",
+        "cat": "FYI",
+        "entity": null,
+        "urgency": "normal",
+        "subject": "Meeting with Alex Dely"
+      },
+      {
+        "at": "2026-05-22T01:10:56.755399+00:00",
+        "engine": "ollama",
+        "cat": "opportunity",
+        "entity": "Joint",
+        "urgency": "high",
+        "subject": "URGENT: xTech Phantum Quantum Sensors Competition // Joint\n HES-NIKET 3 Page White Paper Submittal d"
+      },
+      {
+        "at": "2026-05-22T01:10:51.627421+00:00",
+        "engine": "cerebras",
+        "cat": "opportunity",
+        "entity": "CII",
+        "urgency": "normal",
+        "subject": "Minerals Rights Investing are simple, not easy // CII Mining\n Vertical - Mary/Ryan transition"
+      },
+      {
+        "at": "2026-05-22T01:10:50.733145+00:00",
+        "engine": "ollama",
         "cat": "action",
         "entity": "NIKET",
         "urgency": "high",
-        "subject": "Domain niketllc.com Expires Soon"
+        "subject": "NIKET IRS TIN/EIN Address Change in process"
+      },
+      {
+        "at": "2026-05-22T01:10:46.307116+00:00",
+        "engine": "ollama",
+        "cat": "action",
+        "entity": "Joint",
+        "urgency": "normal",
+        "subject": "HES-NIKET Phantum Submission"
+      },
+      {
+        "at": "2026-05-22T01:10:42.536847+00:00",
+        "engine": "groq",
+        "cat": "opportunity",
+        "entity": "Joint",
+        "urgency": "high",
+        "subject": "URGENT: xTech Phantum Quantum Sensors Competition // Joint HES-NIKET 3 Page White Paper Submittal du"
+      },
+      {
+        "at": "2026-05-22T01:10:40.668085+00:00",
+        "engine": "ollama",
+        "cat": "opportunity",
+        "entity": "Joint",
+        "urgency": "high",
+        "subject": "URGENT: xTech Phantum Quantum Sensors Competition // Joint\n HES-NIKET 3 Page White Paper Submittal d"
+      },
+      {
+        "at": "2026-05-22T01:10:35.445691+00:00",
+        "engine": "ollama",
+        "cat": "opportunity",
+        "entity": "CII",
+        "urgency": "high",
+        "subject": "CII Energy Vertical Capture Pursuits // TEP President Proposal\n Prep // Andy DT Southern Co/Alabama "
       }
     ]
   },
   "cost_today": {
-    "runs": 9,
+    "runs": 2,
     "total_usd": 0.0
   }
 }
